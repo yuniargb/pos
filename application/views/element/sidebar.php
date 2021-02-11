@@ -91,6 +91,13 @@
             <li class="<?php echo is_menu('retur_purchase','create');?>"><a href="<?php echo site_url('retur_purchase/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Retur Purchase</span></a></li>
           </ul>
         </li>
+        <li class="treeview <?php echo is_menu('user_management');?>">
+          <a href="#"><i class="fa fa-share"></i> <span>User Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li class="<?php echo is_menu('user_management');?>"><a href="<?php echo site_url('user_management');?>"><i class="fa fa-share" aria-hidden="true"></i> <span>List User Management</span></a></li>
+            <li class="<?php echo is_menu('user_management','create');?>"><a href="<?php echo site_url('user_management/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add User Management</span></a></li>
+          </ul>
+        </li>
       </ul>
       <br />
       <br />
