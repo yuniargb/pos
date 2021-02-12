@@ -95,6 +95,19 @@ class User_model extends CI_Model {
 		}
 		return $response;
 	}
+
+	public function checkAccess($id)
+	{
+		$query = $this->db->get_where('user_access',array('user_id' => $id));
+		return $query->result_array();
+	}
+
+	public function get_status_access($id, $page)
+	{
+		$query = $this->db->get_where('user_access',array('user_id' => $id, 'page' => $page));
+		return $query->result_array();
+	}
+
 	public function delete($id, $check_id){
 		$this->db->delete('user', array('id' => $id));
 		unlink($check_id[0]['photo_profile']);

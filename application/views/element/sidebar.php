@@ -96,6 +96,7 @@
           <ul class="treeview-menu">
             <li class="<?php echo is_menu('user_management');?>"><a href="<?php echo site_url('user_management');?>"><i class="fa fa-share" aria-hidden="true"></i> <span>List User Management</span></a></li>
             <li class="<?php echo is_menu('user_management','create');?>"><a href="<?php echo site_url('user_management/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add User Management</span></a></li>
+            <li class="<?php echo is_menu('user_management','access');?>"><a href="<?php echo site_url('user_management/access');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Control Access User</span></a></li>
           </ul>
         </li>
       </ul>

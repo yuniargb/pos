@@ -39,6 +39,23 @@ class User_management extends MY_Controller {
         $this->load->view('user/form');
     }
 
+    public function access($id=null){
+
+        $check_id = $this->user_model->get_by_id($id);
+        $data['username'] = $check_id[0]['username']; 
+        $data['id'] = $check_id[0]['id']; 
+
+        $data['check_Access'] = $this->user_model->checkAccess($id);
+        if($data['check_Access'])
+        {
+            $data['Page'] = $data['check_Access'];
+        } else {
+           $data['Page'] = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Retur Penjualan', 'Retur Purhcase', 'User Management'); 
+        }
+        
+        $this->load->view('user/control_access', $data);
+    }
+
     public function check_id(){
         $id = $this->input->post('id');
         $check_id = $this->user_model->get_by_id($id);
@@ -69,6 +86,72 @@ class User_management extends MY_Controller {
         }
         redirect(site_url('User_management'));
     }
+
+    public function save_control($id)
+    {
+        $Page = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Retur Penjualan', 'Retur Purhcase', 'User Management');
+        $chkAccess = $this->input->post('chkAccess',TRUE);
+
+        $check_Access = $this->user_model->checkAccess($id);
+
+        if(!$check_Access)
+        {
+            for($i=0; $i < count($Page); $i++)
+            {
+                $save = array(
+                    'user_id' => $id,
+                    'page' => $Page[$i],
+                    'status_access' => 0 
+                );
+
+                $this->db->insert('user_access', $save);
+            }
+
+            $check_Access = 1;
+
+        } 
+
+        if($check_Access)
+        {
+            for($i=0; $i < count($Page); $i++)
+            {
+                for($a=0; $a < count($chkAccess); $a++)
+                {
+                    if($chkAccess[$a] == $Page[$i])
+                    {
+                        $update = array(
+                            'status_access' => 1
+                        ); 
+
+                        $where = array(
+                            'user_id' => $id,
+                            'page' => $Page[$i],
+                        );
+
+                        $this->db->where($where);
+                        $this->db->update('user_access',$update);
+
+                        $i++;
+                    }
+                }
+
+                $update = array(
+                    'status_access' => 0
+                ); 
+
+                $where = array(
+                    'user_id' => $id,
+                    'page' => $Page[$i],
+                );
+
+                $this->db->where($where);
+                $this->db->update('user_access',$update);
+            }
+        }
+
+        redirect('User_management/access/'.$id);
+    }
+
     public function delete($id){
         $check_id = $this->user_model->get_by_id($id);
         if($check_id){

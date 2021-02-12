@@ -69,6 +69,7 @@
                                             <td>
                                                 <a href="<?php echo site_url('user_management/edit').'/'.$user->id;?>" class="btn btn-xs btn-primary">Edit</a>
                                                 <a onclick="return confirm('Are you sure you want to delete this user?');" href="<?php echo site_url('user_management/delete').'/'.$user->id;?>" class="btn btn-xs btn-danger">Delete</a>
+                                                <a href="<?php echo site_url('user_management/access').'/'.$user->id;?>" class="btn btn-xs btn-info">Access</a>
                                             </td>
                                         </tr>
                                     <?php $no++; } ?>
