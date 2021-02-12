@@ -11,7 +11,7 @@ class Home extends MY_Controller {
 		$this->load->model('kategori_model');
         $this->load->model('penjualan_model');
         $this->load->model('retur_penjualan_model');
-		
+		$this->load->model('user_model');
 		// Check Session Login
 		if(!isset($_SESSION['logged_in'])){
 			redirect(site_url('auth/login'));
@@ -36,6 +36,9 @@ class Home extends MY_Controller {
 		$data['penjualan_harian'] = $this->penjualan_daily();
 		$data['penjualan_bulanan'] = $this->penjualan_daily(true);
 		$data['sales_retur'] = $this->retur_penjualan_model->get_all_not_returned();
+
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
+
 		$this->load->view('home/dashboard',$data);
 	}
 	

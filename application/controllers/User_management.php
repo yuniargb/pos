@@ -11,6 +11,12 @@ class User_management extends MY_Controller {
         if(!isset($_SESSION['logged_in'])){
             redirect(site_url('auth/login'));
         }
+
+        $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'User Management');
+        if($Access_page[0]['status_access'] == "0")
+        {
+            redirect('home');
+        }
     }
 
     public function index(){
@@ -23,20 +29,22 @@ class User_management extends MY_Controller {
             $total_row = $this->user_model->count_total_filter($filter);
 
             $result = $this->user_model->get_filter($filter,url_param());
-            $data['users'] = $result;
+            $data['users_list'] = $result;
         }else{
             $total_row = $this->user_model->count_total();
             
             $result = $this->user_model->get_all(url_param());
-            $data['users'] = $result;
+            $data['users_list'] = $result;
         }
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $data['paggination'] = get_paggination($total_row,get_search());
 
         $this->load->view('user/index',$data);
     }
 
     public function create(){
-        $this->load->view('user/form');
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
+        $this->load->view('user/form', $data);
     }
 
     public function access($id=null){
@@ -52,7 +60,7 @@ class User_management extends MY_Controller {
         } else {
            $data['Page'] = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Retur Penjualan', 'Retur Purhcase', 'User Management'); 
         }
-        
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $this->load->view('user/control_access', $data);
     }
 
@@ -67,12 +75,13 @@ class User_management extends MY_Controller {
     }
 
     public function edit($id = ''){
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $check_id = $this->user_model->get_by_id($id);
         if($check_id){
             $data['user'] = $check_id[0];
             $this->load->view('user/form',$data);
         }else{
-            redirect(site_url('user'));
+            redirect(site_url('user', $data));
         }
     }
 

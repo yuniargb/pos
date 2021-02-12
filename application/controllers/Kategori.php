@@ -6,7 +6,7 @@ class Kategori extends MY_Controller {
         parent::__construct();
         $this->load->model('kategori_model');
         $this->load->library('form_validation');
-
+        $this->load->model('user_model');
         // Check Session Login
         if(!isset($_SESSION['logged_in'])){
             redirect(site_url('auth/login'));
@@ -31,12 +31,14 @@ class Kategori extends MY_Controller {
             $data['kategoris'] = $result;
         }
         $data['paggination'] = get_paggination($total_row,get_search());
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 
         $this->load->view('kategori/index',$data);
     }
 
     public function create(){
-        $this->load->view('kategori/form');
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
+        $this->load->view('kategori/form', $data);
     }
 
     public function check_id(){
@@ -50,12 +52,13 @@ class Kategori extends MY_Controller {
     }
 
     public function edit($id = ''){
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $check_id = $this->kategori_model->get_by_id($id);
         if($check_id){
             $data['kategori'] = $check_id[0];
             $this->load->view('kategori/form',$data);
         }else{
-            redirect(site_url('kategori'));
+            redirect(site_url('kategori', $data));
         }
     }
 

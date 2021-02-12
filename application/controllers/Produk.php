@@ -6,7 +6,7 @@ class Produk extends MY_Controller {
         parent::__construct();
         $this->load->model('produk_model');
         $this->load->library('form_validation');
-
+         $this->load->model('user_model');
         $this->load->model('kategori_model');
         
         // Check Session Login
@@ -28,12 +28,14 @@ class Produk extends MY_Controller {
             $total_row = $this->produk_model->count_total();
             $data['produks'] = $this->produk_model->get_all(url_param());
         }
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $data['paggination'] = get_paggination($total_row,get_search());
         
         $this->load->view('produk/index',$data);
     }
 
     public function create(){
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $data['category'] = $this->kategori_model->get_all();
         $this->load->view('produk/form',$data);
     }
@@ -49,13 +51,14 @@ class Produk extends MY_Controller {
     }
 
     public function edit($id = ''){
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $check_id = $this->produk_model->get_by_id($id);
         if($check_id){
             $data['category'] = $this->kategori_model->get_all();
             $data['produk'] = $check_id[0];
             $this->load->view('produk/form',$data);
         }else{
-            redirect(site_url('produk'));
+            redirect(site_url('produk', $data));
         }
     }
 

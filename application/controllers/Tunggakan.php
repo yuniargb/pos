@@ -9,7 +9,7 @@ class Tunggakan extends MY_Controller
         $this->load->model('penjualan_model');
         $this->load->model('produk_model');
         $this->load->library('form_validation');
-
+        $this->load->model('user_model');
         $this->load->model('kategori_model');
 
         // Check Session Login
@@ -37,15 +37,17 @@ class Tunggakan extends MY_Controller
         $total_row = $this->penjualan_model->count_total_filter_tunggakan($filter);
         $data['tunggakans'] = $this->penjualan_model->get_filter_tunggakan($filter,url_param());
         //var_dump($this->db); exit;
-
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $data['paggination'] = get_paggination($total_row,get_search());
         $this->load->view('tunggakan/index',$data);
     }
     public function detail($id){
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $data['details'] = $this->penjualan_model->get_detail($id);
         $this->load->view('tunggakan/detail',$data);
     }
     public function update_lunas($id){
+        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $details = $this->penjualan_model->get_detail($id);
         if($details){
             $data['is_cash'] = 1;

@@ -10,7 +10,7 @@ class Transaksi extends MY_Controller {
 		$this->load->model('supplier_model');
 		$this->load->model('kategori_model');
 		$this->load->model('produk_model');
-		
+		$this->load->model('user_model');
 		// Check Session Login
 		if(!isset($_SESSION['logged_in'])){
 			redirect(site_url('auth/login'));
@@ -38,6 +38,7 @@ class Transaksi extends MY_Controller {
 			$total_row = $this->transaksi_model->count_total();
 			$data['transaksis'] = $this->transaksi_model->get_all(url_param());
 		}
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['paggination'] = get_paggination($total_row,get_search());
 		$this->load->view('transaksi/index',$data);
 	}
@@ -45,23 +46,26 @@ class Transaksi extends MY_Controller {
 	function create(){
 		// destry cart
 		$this->cart->destroy();
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['suppliers'] = $this->supplier_model->get_all();
 		$data['kategoris'] = $this->kategori_model->get_all();
 		$this->load->view('transaksi/form',$data);
 	}
 	
 	public function detail($id){
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$details = $this->transaksi_model->get_detail($id);
 		if($details){
 			$data['details'] = $details;
 			$this->load->view('transaksi/detail',$data);
 		}else{
-			redirect(site_url('transaksi'));
+			redirect(site_url('transaksi',$data));
 		}
 	}
 	public function edit($id){
 		// destry cart
 		$this->cart->destroy();
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['suppliers'] = $this->supplier_model->get_all();
 		$data['kategoris'] = $this->kategori_model->get_all();
 
@@ -72,7 +76,7 @@ class Transaksi extends MY_Controller {
 			$data['transaksi'] = $transaksi;
 			$this->load->view('transaksi/form',$data);
 		}else{
-			redirect(site_url('transaksi'));
+			redirect(site_url('transaksi', $data));
 		}
 	}
 

@@ -15,8 +15,8 @@ class Retur_penjualan extends MY_Controller {
 		$this->load->model('penjualan_model');
 		$this->load->model('kategori_model');
 		$this->load->model('produk_model');
+		$this->load->model('user_model');
 
-		
 		// Check Session Login
 		if(!isset($_SESSION['logged_in'])){
 			redirect(site_url('auth/login'));
@@ -44,6 +44,7 @@ class Retur_penjualan extends MY_Controller {
 			$total_row = $this->penjualan->count_total();
 			$data['penjualans'] = $this->penjualan->get_all(url_param());
 		}
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['paggination'] = get_paggination($total_row,get_search());
 		$this->load->view('retur_penjualan/index',$data);
 	}
@@ -69,6 +70,7 @@ class Retur_penjualan extends MY_Controller {
 			$total_row = $this->penjualan_model->count_total();
 			$data['penjualans'] = $this->penjualan_model->get_all(url_param());
 		}
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['retur'] = true;
 		$data['paggination'] = get_paggination($total_row,get_search());
 		$this->load->view('retur_penjualan/retur_index',$data);
@@ -84,6 +86,7 @@ class Retur_penjualan extends MY_Controller {
 		}
 		$cart_data = $this->_process_cart($details);
 		//print_r($cart_data); exit;
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['carts'] = $cart_data;
 		$data['code_penjualan'] = $id;
 		$data['code_retur_penjualan'] = "RETS".strtotime(date("Y-m-d H:i:s"));
@@ -94,13 +97,15 @@ class Retur_penjualan extends MY_Controller {
 	}
 	
 	public function detail($id){
+
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$details = $this->penjualan->get_detail_by_id($id);
 		//print_r($details); exit;
 		if($details){
 			$data['details'] = $details;
 			$this->load->view('retur_penjualan/detail',$data);
 		}else{
-			redirect(site_url('retur_penjualan'));
+			redirect(site_url('retur_penjualan', $data));
 		}
 	}
 

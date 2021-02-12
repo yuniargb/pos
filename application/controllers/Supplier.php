@@ -6,7 +6,7 @@ class Supplier extends MY_Controller {
         parent::__construct();
 		$this->load->model('supplier_model');
         $this->load->library('form_validation');
-		
+		 $this->load->model('user_model');
 		// Check Session Login
 		if(!isset($_SESSION['logged_in'])){
 			redirect(site_url('auth/login'));
@@ -26,12 +26,14 @@ class Supplier extends MY_Controller {
 			$total_row = $this->supplier_model->count_total();
 			$data['suppliers'] = $this->supplier_model->get_all(url_param());
 		}
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['paggination'] = get_paggination($total_row,get_search());
 
 		$this->load->view('supplier/index',$data);
 	}
 	
 	public function create(){
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$code_supplier = $this->supplier_model->get_last_id();
 		if($code_supplier){
 			$id = $code_supplier[0]->id;
@@ -44,12 +46,13 @@ class Supplier extends MY_Controller {
 	}
 
 	public function edit($id = ''){
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$check_id = $this->supplier_model->get_by_id($id);
 		if($check_id){
 			$data['supplier'] = $check_id[0];
 			$this->load->view('supplier/form',$data);
 		}else{
-			redirect(site_url('supplier'));
+			redirect(site_url('supplier', $data));
 		}
 	}
 

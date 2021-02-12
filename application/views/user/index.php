@@ -57,8 +57,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php if(isset($users) && is_array($users)){ ?>
-                                    <?php $no=0; foreach($users as $user){ ?>
+                                <?php if(isset($users_list) && is_array($users_list)){ ?>
+                                    <?php $no=0; foreach($users_list as $user){ ?>
                                         <tr>
                                             <td><?php echo $no+1;?></td>
                                             <td>

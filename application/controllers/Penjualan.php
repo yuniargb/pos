@@ -10,7 +10,7 @@ class Penjualan extends MY_Controller {
 		$this->load->model('pelanggan_model');
 		$this->load->model('kategori_model');
 		$this->load->model('produk_model');
-		
+		$this->load->model('user_model');
 		// Check Session Login
 		if(!isset($_SESSION['logged_in'])){
 			redirect(site_url('auth/login'));
@@ -38,6 +38,7 @@ class Penjualan extends MY_Controller {
 			$total_row = $this->penjualan_model->count_total();
 			$data['penjualans'] = $this->penjualan_model->get_all(url_param());
 		}
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['paggination'] = get_paggination($total_row,get_search());
 		$this->load->view('penjualan/index',$data);
 	}
@@ -45,7 +46,7 @@ class Penjualan extends MY_Controller {
 	function create(){
 		// destry cart
 		$this->cart->destroy();
-
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['code_penjualan'] = "OUT".strtotime(date("Y-m-d H:i:s"));
 		$data['customers'] = $this->pelanggan_model->get_all();
 		$data['kategoris'] = $this->kategori_model->get_all();
@@ -53,17 +54,19 @@ class Penjualan extends MY_Controller {
 	}
 	
 	public function detail($id){
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$details = $this->penjualan_model->get_detail($id);
 		if($details){
 			$data['details'] = $details;
 			$this->load->view('penjualan/detail',$data);
 		}else{
-			redirect(site_url('penjualan'));
+			redirect(site_url('penjualan', $data));
 		}
 	}
 	public function edit($id){
 		// destry cart
 		$this->cart->destroy();
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['suppliers'] = $this->supplier_model->get_all();
 		$data['kategoris'] = $this->kategori_model->get_all();
 
@@ -74,7 +77,7 @@ class Penjualan extends MY_Controller {
 			$data['pembelian'] = $transaksi;
 			$this->load->view('penjualan/form',$data);
 		}else{
-			redirect(site_url('penjualan'));
+			redirect(site_url('penjualan', $data));
 		}
 	}
 
