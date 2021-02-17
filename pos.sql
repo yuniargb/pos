@@ -1,0 +1,442 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.0.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 17, 2021 at 08:32 AM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 5.6.36
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pos`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `category_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_desc` text COLLATE utf8_unicode_ci NOT NULL,
+  `date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `category_name`, `category_desc`, `date`) VALUES
+('001', 'Roti', 'Makanan RFingan', '2021-02-11 13:00:57'),
+('002', 'test2', 'testing', '2021-02-11 13:01:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_address` text COLLATE utf8_unicode_ci NOT NULL,
+  `date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id`, `customer_name`, `customer_phone`, `customer_address`, `date`) VALUES
+('CUST0001', 'Yen - Yen', '', 'fsdfdsfsd', '2021-01-18 23:55:16'),
+('CUST0002', 'mail', '082374757575', 'jl. punggawa medan', '2021-02-11 12:59:58'),
+('CUST0003', 'iki', '083747574747', 'jalan master satu medan', '2021-02-11 13:00:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `product_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `product_desc` text COLLATE utf8_unicode_ci NOT NULL,
+  `product_qty` int(11) NOT NULL DEFAULT '0',
+  `sale_price` int(20) NOT NULL,
+  `sale_price_type1` int(20) NOT NULL,
+  `sale_price_type2` int(20) NOT NULL,
+  `sale_price_type3` int(20) NOT NULL,
+  `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`id`, `product_name`, `category_id`, `product_desc`, `product_qty`, `sale_price`, `sale_price_type1`, `sale_price_type2`, `sale_price_type3`, `date`) VALUES
+('001', 'Roti Amba', '001', 'roti ringan makanan anak2', 27, 10000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
+('002', 'COCA COLA', '002', 'COCA COLA', 500, 15000, 7500, 9000, 15000, '2021-02-11 13:02:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_data`
+--
+
+CREATE TABLE `purchase_data` (
+  `id` int(11) NOT NULL,
+  `transaction_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `product_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `price_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `subtotal` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1=Purchase Transaction, 0=Purchase Retur',
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `purchase_data`
+--
+
+INSERT INTO `purchase_data` (`id`, `transaction_id`, `product_id`, `category_id`, `quantity`, `price_item`, `subtotal`, `type`, `date`) VALUES
+(2, '001', '001', '001', '5', '10000', '50000', 1, '2021-02-11 19:06:27'),
+(3, '002', '001', '001', '2', '2000', '4000', 1, '2021-02-11 19:07:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_retur`
+--
+
+CREATE TABLE `purchase_retur` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `sales_retur_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total_price` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `is_return` enum('1','0') COLLATE utf8_unicode_ci NOT NULL,
+  `return_by` enum('1','0') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Retur by 1 = barang, 0 = uang',
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_transaction`
+--
+
+CREATE TABLE `purchase_transaction` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total_price` int(20) NOT NULL,
+  `total_item` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `supplier_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `purchase_transaction`
+--
+
+INSERT INTO `purchase_transaction` (`id`, `total_price`, `total_item`, `date`, `supplier_id`) VALUES
+('001', 50000, 5, '2021-02-11 19:06:27', 'SUP003'),
+('002', 4000, 2, '2021-02-11 19:07:09', 'SUP003');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_data`
+--
+
+CREATE TABLE `sales_data` (
+  `id` int(11) NOT NULL,
+  `sales_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `product_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `price_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `subtotal` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Sales Transaction, 0=Sales Retur',
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `sales_data`
+--
+
+INSERT INTO `sales_data` (`id`, `sales_id`, `product_id`, `category_id`, `quantity`, `price_item`, `subtotal`, `type`, `date`) VALUES
+(1, 'OUT1613070504', '001', '001', '10', '10000', '100000', 1, '2021-02-11 19:08:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_retur`
+--
+
+CREATE TABLE `sales_retur` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `sales_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total_price` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `is_return` enum('1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_transaction`
+--
+
+CREATE TABLE `sales_transaction` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `is_cash` tinyint(1) NOT NULL,
+  `total_price` int(100) NOT NULL,
+  `total_item` int(100) NOT NULL,
+  `pay_deadline_date` date DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `sales_transaction`
+--
+
+INSERT INTO `sales_transaction` (`id`, `customer_id`, `is_cash`, `total_price`, `total_item`, `pay_deadline_date`, `date`) VALUES
+('OUT1613070504', 'CUST0003', 1, 100000, 10, '2021-02-11', '2021-02-11 19:08:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `supplier_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `supplier_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `supplier_address` text COLLATE utf8_unicode_ci NOT NULL,
+  `date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`id`, `supplier_name`, `supplier_phone`, `supplier_address`, `date`) VALUES
+('SUP003', 'PT. Bogasari Four Mils', '', 'ijhhh', '2021-01-18 23:54:25'),
+('SUP004', 'PT. Susu', '082737475755', 'Medan', '2021-02-11 12:58:44'),
+('SUP005', 'PT. Prima Jaya', '082333727373', 'Medan Indonesia', '2021-02-11 12:59:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `photo_profile` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `createdby` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `createdDate` datetime DEFAULT NULL,
+  `updatedby` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `updatedDate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `email`, `photo_profile`, `password`, `createdby`, `createdDate`, `updatedby`, `updatedDate`) VALUES
+(1, 'admin', 'admin@admin.com', 'uploads/8722abf1f1b7e789e267f5d8ea7c251d.png', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, 'admin', '2021-02-11 00:00:00'),
+(11, 'ww', 'aa@aa.com', 'uploads/d351029679cccacb66e7c564a16b3716.png', 'e10adc3949ba59abbe56e057f20f883e', 'admin', '2021-02-11 00:00:00', NULL, NULL),
+(14, 'aaa', 'aaa@aaa.com', 'uploads/f164de0e1ace38a8c4e54946581a1d10.png', 'e10adc3949ba59abbe56e057f20f883e', 'admin', '2021-02-11 00:00:00', 'admin', '2021-02-11 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_access`
+--
+
+CREATE TABLE `user_access` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `page` varchar(100) DEFAULT NULL,
+  `status_access` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_access`
+--
+
+INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
+(11, 14, 'Home', 1),
+(12, 14, 'Supplier', 0),
+(13, 14, 'Pelanggan', 0),
+(14, 14, 'Kategori', 0),
+(15, 14, 'Produk', 0),
+(16, 14, 'Transaksi Penjualan', 1),
+(17, 14, 'Transaksi Pembelian', 0),
+(18, 14, 'Retur Penjualan', 0),
+(19, 14, 'Retur Purhcase', 0),
+(20, 14, 'User Management', 0),
+(21, 1, 'Home', 1),
+(22, 1, 'Supplier', 1),
+(23, 1, 'Pelanggan', 1),
+(24, 1, 'Kategori', 1),
+(25, 1, 'Produk', 1),
+(26, 1, 'Transaksi Penjualan', 1),
+(27, 1, 'Transaksi Pembelian', 1),
+(28, 1, 'Retur Penjualan', 1),
+(29, 1, 'Retur Purhcase', 1),
+(30, 1, 'User Management', 1),
+(31, 11, 'Home', 1),
+(32, 11, 'Supplier', 0),
+(33, 11, 'Pelanggan', 0),
+(34, 11, 'Kategori', 0),
+(35, 11, 'Produk', 0),
+(36, 11, 'Transaksi Penjualan', 0),
+(37, 11, 'Transaksi Pembelian', 1),
+(38, 11, 'Retur Penjualan', 0),
+(39, 11, 'Retur Purhcase', 0),
+(40, 11, 'User Management', 0);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `id_2` (`id`);
+
+--
+-- Indexes for table `purchase_data`
+--
+ALTER TABLE `purchase_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchase_retur`
+--
+ALTER TABLE `purchase_retur`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `id_2` (`id`);
+
+--
+-- Indexes for table `purchase_transaction`
+--
+ALTER TABLE `purchase_transaction`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `id_2` (`id`);
+
+--
+-- Indexes for table `sales_data`
+--
+ALTER TABLE `sales_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales_retur`
+--
+ALTER TABLE `sales_retur`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `sales_transaction`
+--
+ALTER TABLE `sales_transaction`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `user_access`
+--
+ALTER TABLE `user_access`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `purchase_data`
+--
+ALTER TABLE `purchase_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sales_data`
+--
+ALTER TABLE `sales_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `user_access`
+--
+ALTER TABLE `user_access`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
