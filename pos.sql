@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2021 at 08:32 AM
+-- Generation Time: Feb 17, 2021 at 11:00 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -64,7 +64,48 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`id`, `customer_name`, `customer_phone`, `customer_address`, `date`) VALUES
 ('CUST0001', 'Yen - Yen', '', 'fsdfdsfsd', '2021-01-18 23:55:16'),
 ('CUST0002', 'mail', '082374757575', 'jl. punggawa medan', '2021-02-11 12:59:58'),
-('CUST0003', 'iki', '083747574747', 'jalan master satu medan', '2021-02-11 13:00:24');
+('CUST0003', 'iki', '083747574747', 'jalan master satu medan', '2021-02-11 13:00:24'),
+('CUST0004', 'andrew', '082373647333', 'babababab', '2021-02-17 01:40:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expense_account`
+--
+
+CREATE TABLE `expense_account` (
+  `id` int(11) NOT NULL,
+  `code` varchar(20) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `status_akun` int(11) DEFAULT NULL,
+  `createdby` varchar(100) DEFAULT NULL,
+  `createdDate` datetime DEFAULT NULL,
+  `updatedby` varchar(100) DEFAULT NULL,
+  `updatedDate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `expense_account`
+--
+
+INSERT INTO `expense_account` (`id`, `code`, `name`, `status_akun`, `createdby`, `createdDate`, `updatedby`, `updatedDate`) VALUES
+(1, 'code001', 'Pegawai', 0, 'admin', '2021-02-17 00:00:00', NULL, NULL),
+(2, 'code002', 'ADIRA', 0, 'admin', '2021-02-17 00:00:00', NULL, NULL),
+(3, 'code003', 'Satpam', 0, 'admin', '2021-02-17 00:00:00', 'admin', '2021-02-17 09:44:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pengeluaran`
+--
+
+CREATE TABLE `pengeluaran` (
+  `id` int(11) NOT NULL,
+  `akun_id` int(11) DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `keterangan` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -288,16 +329,6 @@ CREATE TABLE `user_access` (
 --
 
 INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
-(11, 14, 'Home', 1),
-(12, 14, 'Supplier', 0),
-(13, 14, 'Pelanggan', 0),
-(14, 14, 'Kategori', 0),
-(15, 14, 'Produk', 0),
-(16, 14, 'Transaksi Penjualan', 1),
-(17, 14, 'Transaksi Pembelian', 0),
-(18, 14, 'Retur Penjualan', 0),
-(19, 14, 'Retur Purhcase', 0),
-(20, 14, 'User Management', 0),
 (21, 1, 'Home', 1),
 (22, 1, 'Supplier', 1),
 (23, 1, 'Pelanggan', 1),
@@ -308,16 +339,7 @@ INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
 (28, 1, 'Retur Penjualan', 1),
 (29, 1, 'Retur Purhcase', 1),
 (30, 1, 'User Management', 1),
-(31, 11, 'Home', 1),
-(32, 11, 'Supplier', 0),
-(33, 11, 'Pelanggan', 0),
-(34, 11, 'Kategori', 0),
-(35, 11, 'Produk', 0),
-(36, 11, 'Transaksi Penjualan', 0),
-(37, 11, 'Transaksi Pembelian', 1),
-(38, 11, 'Retur Penjualan', 0),
-(39, 11, 'Retur Purhcase', 0),
-(40, 11, 'User Management', 0);
+(41, 1, 'Master Biaya', 1);
 
 --
 -- Indexes for dumped tables
@@ -336,6 +358,18 @@ ALTER TABLE `category`
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `expense_account`
+--
+ALTER TABLE `expense_account`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `product`
@@ -413,6 +447,18 @@ ALTER TABLE `user_access`
 --
 
 --
+-- AUTO_INCREMENT for table `expense_account`
+--
+ALTER TABLE `expense_account`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `purchase_data`
 --
 ALTER TABLE `purchase_data`
@@ -434,7 +480,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_access`
 --
 ALTER TABLE `user_access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -138,6 +138,31 @@
                     </li>
                   <?php  } ?>
 
+                  <?php 
+                  $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Master Biaya'); 
+                  if($Access_page[0]['status_access'] == "1")
+                  { ?>
+                    <li class="treeview <?php echo is_menu('master_biaya');?>">
+                      <a href="#"><i class="fa fa-share"></i> <span>Master Biaya</span> <i class="fa fa-angle-left pull-right"></i></a>
+                      <ul class="treeview-menu">
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-share"></i> <span>Akun Biaya</span> <i class="fa fa-angle-left pull-right"></i></a>
+                          <ul class="treeview-menu">
+                            <li class="<?php echo is_menu('master_biaya');?>"><a href="<?php echo site_url('master_biaya');?>"><i class="fa fa-share" aria-hidden="true"></i> <span>List Akun Biaya</span></a></li>
+                            <li class="<?php echo is_menu('master_biaya','create');?>"><a href="<?php echo site_url('master_biaya/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Akun Biaya</span></a></li>
+                          </ul>
+                        </li>
+                        <li class="treeview">
+                          <a href="#"><i class="fa fa-share"></i> <span>Pengeluaran Biaya</span> <i class="fa fa-angle-left pull-right"></i></a>
+                          <ul class="treeview-menu">
+                            <li class="<?php echo is_menu('master_biaya', 'pengeluaran');?>"><a href="<?php echo site_url('master_biaya/pengeluaran');?>"><i class="fa fa-share" aria-hidden="true"></i> <span>List Pengeluaran Biaya</span></a></li>
+                            <li class="<?php echo is_menu('master_biaya','create');?>"><a href="<?php echo site_url('master_biaya/create_pengeluaran');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Pengeluaran Biaya</span></a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  <?php  } ?>
+
                 </ul>
                 <br />
                 <br />
