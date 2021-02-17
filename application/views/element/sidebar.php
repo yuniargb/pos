@@ -143,8 +143,11 @@
 
                 <?php 
                 $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'User Management'); 
-                if(count($Access_page) > 0){
-                if($Access_page[0]['status_access'] == "1" || $this->session->userdata('username') == 'admin')
+                if(count($Access_page) > 0 || $this->session->userdata('username') == 'admin'){
+                  if($this->session->userdata('username') == 'admin'){
+                    $Access_page[0]['status_access'] = 1;
+                  }
+                if($Access_page[0]['status_access'] == "1")
                   { ?>
                     <li class="treeview <?php echo is_menu('user_management');?>">
                       <a href="#"><i class="fa fa-share"></i> <span>User Management</span> <i class="fa fa-angle-left pull-right"></i></a>
