@@ -130,9 +130,15 @@
 						<?php } ?>
 						</tbody>
 					  </table>
+             <?php 
+            $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Tunggakan'); 
+            if(count($Access_page) > 0){
+            if($Access_page[0]['status_access'] == "1")
+              { ?>
 					  <div class="clearfix">
 						<a href="<?php echo site_url('tunggakan');?>" class="btn btn-primary">Tampilkan Semua</a>
 					  </div>
+          <?php  } } ?>
                   </div>
                   <!-- /.chart-responsive -->
                 </div>

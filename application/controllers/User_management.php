@@ -13,10 +13,14 @@ class User_management extends MY_Controller {
         }
 
         $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'User Management');
-        if($Access_page[0]['status_access'] == "0")
+        if($this->session->userdata('username') != 'admin')
         {
-            redirect('home');
+            if($Access_page[0]['status_access'] == "0")
+            {
+                redirect('home');
+            }
         }
+        
     }
 
     public function index(){
@@ -58,7 +62,7 @@ class User_management extends MY_Controller {
         {
             $data['Page'] = $data['check_Access'];
         } else {
-           $data['Page'] = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Retur Penjualan', 'Retur Purhcase', 'User Management', 'Master Biaya'); 
+           $data['Page'] = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Tunggakan', 'Retur Penjualan', 'Retur Purhcase', 'User Management', 'Master Biaya'); 
         }
         $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $this->load->view('user/control_access', $data);
@@ -98,7 +102,7 @@ class User_management extends MY_Controller {
 
     public function save_control($id)
     {
-        $Page = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Retur Penjualan', 'Retur Purhcase', 'User Management', 'Master Biaya');
+        $Page = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Tunggakan','Retur Penjualan', 'Retur Purhcase', 'User Management', 'Master Biaya');
         $chkAccess = $this->input->post('chkAccess',TRUE);
 
         $check_Access = $this->user_model->checkAccess($id);

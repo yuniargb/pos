@@ -14,26 +14,30 @@
     <ul class="sidebar-menu">
       <?php 
       $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Home'); 
+      if(count($Access_page) > 0){
       if($Access_page[0]['status_access'] == "1")
         { ?>
           <li class="<?php echo is_menu('home','dashboard');?>"><a href="<?php echo site_url();?>"><i class="fa fa-dashboard" aria-hidden="true"></i> <span>Dashboard</span></a></li>
-        <?php  } ?>
+        <?php  } } ?>
         
         <?php 
         $Supplier = $this->user_model->get_status_access($this->session->userdata('id'), 'Supplier'); 
-        if($Supplier[0]['status_access'] == "1")
-          { ?>
-            <li class="treeview <?php echo is_menu('supplier');?>">
-              <a href="#"><i class="fa fa-users"></i> <span>Supplier</span> <i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu"> 
-               <li class="<?php echo is_menu('supplier');?>"><a href="<?php echo site_url('supplier');?>"><i class="fa fa-users" aria-hidden="true"></i> <span>List Supplier</span></a></li>
-               <li class="<?php echo is_menu('supplier','create');?>"><a href="<?php echo site_url('supplier/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Supplier</span></a></li>
-             </ul>
-           </li>
-         <?php  } ?>
+        if(count($Supplier) > 0){
+          if($Supplier[0]['status_access'] == "1")
+            { ?>
+              <li class="treeview <?php echo is_menu('supplier');?>">
+                <a href="#"><i class="fa fa-users"></i> <span>Supplier</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu"> 
+                 <li class="<?php echo is_menu('supplier');?>"><a href="<?php echo site_url('supplier');?>"><i class="fa fa-users" aria-hidden="true"></i> <span>List Supplier</span></a></li>
+                 <li class="<?php echo is_menu('supplier','create');?>"><a href="<?php echo site_url('supplier/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Supplier</span></a></li>
+               </ul>
+             </li>
+         <?php  } } ?>
+            
 
          <?php 
-         $Supplier = $this->user_model->get_status_access($this->session->userdata('id'), 'Pelanggan'); 
+         $Supplier = $this->user_model->get_status_access($this->session->userdata('id'), 'Pelanggan');
+         if(count($Supplier) > 0){ 
          if($Supplier[0]['status_access'] == "1")
           { ?>
            <li class="treeview <?php echo is_menu('pelanggan');?>">
@@ -43,10 +47,11 @@
               <li class="<?php echo is_menu('pelanggan','create');?>"><a href="<?php echo site_url('pelanggan/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Pelanggan</span></a></li>
             </ul>
           </li>
-        <?php  } ?>
+        <?php  } } ?>
 
         <?php 
         $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Kategori'); 
+        if(count($Access_page) > 0){
         if($Access_page[0]['status_access'] == "1")
           { ?>
             <li class="treeview <?php echo is_menu('kategori');?>">
@@ -56,10 +61,11 @@
                 <li class="<?php echo is_menu('kategori','create');?>"><a href="<?php echo site_url('kategori/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Kategori</span></a></li>
               </ul>
             </li>
-          <?php  } ?>
+          <?php  } } ?>
 
           <?php 
           $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Produk'); 
+          if(count($Access_page) > 0){
           if($Access_page[0]['status_access'] == "1")
             { ?>
               <li class="treeview <?php echo is_menu('produk');?>">
@@ -69,10 +75,11 @@
                   <li class="<?php echo is_menu('produk','create');?>"><a href="<?php echo site_url('produk/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Produk</span></a></li>
                 </ul>
               </li>
-            <?php  } ?>
+            <?php  } } ?>
 
             <?php 
             $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Transaksi Pembelian'); 
+            if(count($Access_page) > 0){
             if($Access_page[0]['status_access'] == "1")
               { ?>
                 <li class="treeview <?php echo is_menu('transaksi');?>">
@@ -82,10 +89,11 @@
                    <li class="<?php echo is_menu('transaksi','create');?>"><a href="<?php echo site_url('transaksi/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Transaction</span></a></li>
                  </ul>
                </li>
-             <?php  } ?>
+             <?php  } } ?>
 
              <?php 
              $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Transaksi Penjualan'); 
+             if(count($Access_page) > 0){
              if($Access_page[0]['status_access'] == "1")
               { ?>
                <li class="treeview <?php echo is_menu('penjualan');?>">
@@ -95,13 +103,21 @@
                   <li class="<?php echo is_menu('penjualan','create');?>"><a href="<?php echo site_url('penjualan/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Penjualan</span></a></li>
                 </ul>
               </li>
-            <?php  } ?>
+            <?php  } } ?>
 
             <?php 
-            $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Retur Penjualan'); 
+            $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Tunggakan'); 
+            if(count($Access_page) > 0){
             if($Access_page[0]['status_access'] == "1")
               { ?>
                 <li class="<?php echo is_menu('tunggakan');?>"><a href="<?php echo site_url('tunggakan');?>"><i class="fa fa-money" aria-hidden="true"></i> <span>List Tunggakan</span></a></li>
+              <?php  } } ?>
+
+                <?php 
+            $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Retur Penjualan'); 
+            if(count($Access_page) > 0){
+            if($Access_page[0]['status_access'] == "1")
+              { ?>
                 <li class="treeview <?php echo is_menu('retur_penjualan');?>">
                   <a href="#"><i class="fa fa-random"></i> <span>Retur Penjualan</span> <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -109,10 +125,11 @@
                     <li class="<?php echo is_menu('retur_penjualan','create');?>"><a href="<?php echo site_url('retur_penjualan/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Retur Penjualan</span></a></li>
                   </ul>
                 </li>
-              <?php  } ?>
+              <?php  } } ?>
 
               <?php 
               $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Retur Purhcase'); 
+              if(count($Access_page) > 0){
               if($Access_page[0]['status_access'] == "1")
                 { ?>
                   <li class="treeview <?php echo is_menu('retur_purchase');?>">
@@ -122,11 +139,12 @@
                       <li class="<?php echo is_menu('retur_purchase','create');?>"><a href="<?php echo site_url('retur_purchase/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Retur Purchase</span></a></li>
                     </ul>
                   </li>
-                <?php  } ?>
+                <?php  } } ?>
 
                 <?php 
                 $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'User Management'); 
-                if($Access_page[0]['status_access'] == "1")
+                if(count($Access_page) > 0){
+                if($Access_page[0]['status_access'] == "1" || $this->session->userdata('username') == 'admin')
                   { ?>
                     <li class="treeview <?php echo is_menu('user_management');?>">
                       <a href="#"><i class="fa fa-share"></i> <span>User Management</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -136,10 +154,11 @@
                         <li class="<?php echo is_menu('user_management','access');?>"><a href="<?php echo site_url('user_management/access');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Control Access User</span></a></li>
                       </ul>
                     </li>
-                  <?php  } ?>
+                  <?php  } } ?>
 
                   <?php 
                   $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Master Biaya'); 
+                  if(count($Access_page) > 0){
                   if($Access_page[0]['status_access'] == "1")
                   { ?>
                     <li class="treeview <?php echo is_menu('master_biaya');?>">
@@ -161,7 +180,7 @@
                         </li>
                       </ul>
                     </li>
-                  <?php  } ?>
+                  <?php  } } ?>
 
                 </ul>
                 <br />
