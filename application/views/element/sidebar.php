@@ -185,6 +185,19 @@
                     </li>
                   <?php  } } ?>
 
+                  <?php 
+                  $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Stock Opname'); 
+                  if(count($Access_page) > 0){
+                  if($Access_page[0]['status_access'] == "1")
+                    { ?>
+                  <li class="treeview <?php echo is_menu('stock_opname');?>">
+                      <a href="#"><i class="fa fa-share"></i> <span>Stock Opname</span> <i class="fa fa-angle-left pull-right"></i></a>
+                      <ul class="treeview-menu">
+                        <li class="<?php echo is_menu('stock_opname');?>"><a href="<?php echo site_url('stock_opname');?>"><i class="fa fa-share" aria-hidden="true"></i> <span>List Stock Opname</span></a></li>
+                        <li class="<?php echo is_menu('stock_opname','create');?>"><a href="<?php echo site_url('stock_opname/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Stock Opname</span></a></li>
+                      </ul>
+                    </li>
+                    <?php  } } ?>
                 </ul>
                 <br />
                 <br />

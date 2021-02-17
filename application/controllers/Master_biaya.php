@@ -183,7 +183,6 @@ class master_biaya extends MY_Controller {
 
         $arrayName = array();
         for($i=0; $i < count($result); $i++){
-            var_dump($result[$i]->tanggal);
             $data = array(
                 'Tanggal' => $result[$i]->tanggal, 
                 'Nama_Akun' => $result[$i]->name,
