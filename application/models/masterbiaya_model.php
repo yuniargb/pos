@@ -15,22 +15,6 @@ class masterbiaya_model extends CI_Model {
 		}
 		return $query->result();
 	}
-
-	public function get_all_pengeluaran($limit_offset = array()){
-		if(!empty($limit_offset)){
-			$limit = $limit_offset['limit'];
-			$offset = $limit_offset['offset'];
-			$sql = "SELECT a.tanggal, a.jumlah, a.keterangan, b.code, b.name FROM pengeluaran a
-				Inner JOIN expense_account b ON a.akun_id = b.id LIMIT $limit OFFSET $offset ";
-		} else {
-			$sql = "SELECT a.tanggal, a.jumlah, a.keterangan, b.code, b.name
-				FROM pengeluaran a
-				Inner JOIN expense_account b ON a.akun_id = b.id ";
-			
-		}
-		$query = $this->db->query($sql);
-		return $query->result();
-	}
 	
 	public function count_total(){
 		$query = $this->db->get("expense_account");
@@ -103,6 +87,7 @@ class masterbiaya_model extends CI_Model {
 		$this->db->delete('expense_account', array('id' => $id));
 		unlink($check_id[0]['photo_profile']);
 	}
+
 	public function get_filter($filter = '',$limit_offset = array()){
 		if(!empty($filter)){
 			$query = $this->db->get_where("expense_account",$filter,$limit_offset['limit'],$limit_offset['offset']);
@@ -120,20 +105,88 @@ class masterbiaya_model extends CI_Model {
 		return $query->num_rows();
 	}
 
-	public function get_pengeluaran_filter($filter = '',$limit_offset = array()){
-		if(!empty($filter)){
-			$query = $this->db->get_where("pengeluaran",$filter,$limit_offset['limit'],$limit_offset['offset']);
-		}else{
-			$query = $this->db->get("pengeluaran",$limit_offset['limit'],$limit_offset['offset']);
+	public function get_all_pengeluaran($limit_offset = array()){
+		if(!empty($limit_offset)){
+			$limit = $limit_offset['limit'];
+			$offset = $limit_offset['offset'];
+			$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id LIMIT $limit OFFSET $offset ";
+		} else {
+			$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name
+				FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id ";
+			
 		}
+		$query = $this->db->query($sql);
 		return $query->result();
 	}
-	public function count_total_pengeluaran_filter($filter = array()){
-		if(!empty($filter)){
-			$query = $this->db->get_where("pengeluaran",$filter);
+
+	public function get_pengeluaran_filter($from=null, $to=null,$limit_offset = array()){
+		if(!empty($from) && !empty($to)){
+			$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id WHERE (a.tanggal BETWEEN '".$from."' AND '".$to."') ";
 		}else{
-			$query = $this->db->get("pengeluaran");
+			$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name
+				FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id ";
 		}
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	public function count_total_pengeluaran_filter($from=null, $to=null){
+		if(!empty($filter)){
+			$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id WHERE (a.tanggal BETWEEN '".$from."' AND '".$to."') ";
+		}else{
+			$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name
+				FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id ";
+		}
+		$query = $this->db->query($sql);
 		return $query->num_rows();
 	}
+
+	public function insert_pengeluaran($id=null, $check_id =null){
+		$txtTanggal = $this->input->post('txtTanggal',TRUE);
+		$txtAkun = $this->input->post('txtAkun',TRUE);
+		$txtJumlah = $this->input->post('txtJumlah',TRUE);
+		$txtKeterangan = $this->input->post('txtKeterangan',TRUE);
+
+		$insert = array(
+			'akun_id' => htmlspecialchars($txtAkun),
+			'tanggal' => htmlspecialchars($txtTanggal),
+			'jumlah' => htmlspecialchars($txtJumlah),
+			'keterangan' => htmlspecialchars($txtKeterangan),
+		);
+
+    	if($id)
+    	{
+
+    		$where = array(
+				'id' => $id
+			);
+
+			$this->db->where($where);
+			$this->db->update('pengeluaran',$insert);
+
+    	} else {
+    		$this->db->insert('pengeluaran', $insert);
+    	}
+
+	}
+
+	public function check_pengeluaran_by_id($id){
+		$response = false;
+		$query = $this->db->get_where('pengeluaran',array('id' => $id));
+		if($query && $query->num_rows()){
+			$response = $query->result_array();
+		}
+		return $response;
+	}
+
+	public function delete_pengeluaran($id, $check_id){
+		$this->db->delete('pengeluaran', array('id' => $id));
+	}
+
+
 }

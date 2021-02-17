@@ -46,7 +46,10 @@
                     <div class="col-sm-8">
                       <select name="txtAkun" class="form-control">
                         <?php for ($i=0; $i < count($akun_biaya); $i++) { ?>
-                            <option value="<?php echo $akun_biaya[$i]->id; ?>"><?php echo $akun_biaya[$i]->code .' - '. $akun_biaya[$i]->name; ?></option>
+                            <option value="<?php echo $akun_biaya[$i]->id; ?>"
+                              <?php echo ($akun_biaya[$i]->id == $user['akun_id']) ? 'selected' : ''; ?>>
+                              <?php echo $akun_biaya[$i]->code .' - '. $akun_biaya[$i]->name; ?>
+                            </option>
                         <?php } ?>
                       </select>
                     </div>
@@ -63,7 +66,7 @@
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="address">Keterangan</label>
                     <div class="col-sm-10">
-                       <textarea id="txtKeterangan" name="txtKeterangan" class="form-controll" rows="6" cols="100"></textarea>
+                       <textarea id="txtKeterangan" name="txtKeterangan" class="form-controll" rows="6" style="width: 100%;"><?php echo !empty($user) ? $user['keterangan'] : '';?></textarea>
                     </div>
                   </div>
                 </div>
@@ -72,7 +75,7 @@
               <!-- /.box-body -->
               <div class="box-footer">
                 <div class="col-md-4 col-md-offset-4">
-                  <a class="btn btn-default" href="<?php echo site_url('master_biaya');?>">Cancel</a>
+                  <a class="btn btn-default" href="<?php echo site_url('master_biaya/pengeluaran');?>">Cancel</a>
                   <button class="btn btn-info" type="submit">Save</button>
                 </div>
               </div>
