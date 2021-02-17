@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2021 at 11:00 AM
+-- Generation Time: Feb 17, 2021 at 11:11 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -102,10 +102,20 @@ INSERT INTO `expense_account` (`id`, `code`, `name`, `status_akun`, `createdby`,
 CREATE TABLE `pengeluaran` (
   `id` int(11) NOT NULL,
   `akun_id` int(11) DEFAULT NULL,
-  `tanggal` datetime DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
   `jumlah` int(11) DEFAULT NULL,
   `keterangan` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pengeluaran`
+--
+
+INSERT INTO `pengeluaran` (`id`, `akun_id`, `tanggal`, `jumlah`, `keterangan`) VALUES
+(2, 2, '2021-02-17', 100000, 'Adira finance'),
+(3, 1, '2021-02-28', 1000000, 'Gaji Karyawan'),
+(4, 2, '2021-03-02', 300000, 'adira kedua'),
+(5, 3, '2021-02-23', 200000, 'biaya keamanan');
 
 -- --------------------------------------------------------
 
@@ -131,8 +141,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `product_name`, `category_id`, `product_desc`, `product_qty`, `sale_price`, `sale_price_type1`, `sale_price_type2`, `sale_price_type3`, `date`) VALUES
-('001', 'Roti Amba', '001', 'roti ringan makanan anak2', 27, 10000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
-('002', 'COCA COLA', '002', 'COCA COLA', 500, 15000, 7500, 9000, 15000, '2021-02-11 13:02:47');
+('001', 'Roti', '001', 'roti ringan makanan anak2', 27, 10000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
+('002', 'COCA COLA', '002', 'COCA COLA', 450, 15000, 7500, 9000, 15000, '2021-02-11 13:02:47');
 
 -- --------------------------------------------------------
 
@@ -264,6 +274,28 @@ INSERT INTO `sales_transaction` (`id`, `customer_id`, `is_cash`, `total_price`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `stock_opname`
+--
+
+CREATE TABLE `stock_opname` (
+  `id` int(11) NOT NULL,
+  `product_id` varchar(20) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `stock_fisik` int(11) DEFAULT NULL,
+  `selisih_stock` int(11) DEFAULT NULL,
+  `keterangan` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stock_opname`
+--
+
+INSERT INTO `stock_opname` (`id`, `product_id`, `tanggal`, `stock_fisik`, `selisih_stock`, `keterangan`) VALUES
+(1, '002', '2021-02-18', 450, 50, 'barang rusak');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `supplier`
 --
 
@@ -307,9 +339,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `photo_profile`, `password`, `createdby`, `createdDate`, `updatedby`, `updatedDate`) VALUES
-(1, 'admin', 'admin@admin.com', 'uploads/8722abf1f1b7e789e267f5d8ea7c251d.png', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, 'admin', '2021-02-11 00:00:00'),
+(1, 'admin', 'admin@admin.com', 'uploads/3b6322dbc21bd6942277a875d6b8e01b.jpg', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, 'admin', '2021-02-17 00:00:00'),
 (11, 'ww', 'aa@aa.com', 'uploads/d351029679cccacb66e7c564a16b3716.png', 'e10adc3949ba59abbe56e057f20f883e', 'admin', '2021-02-11 00:00:00', NULL, NULL),
-(14, 'aaa', 'aaa@aaa.com', 'uploads/f164de0e1ace38a8c4e54946581a1d10.png', 'e10adc3949ba59abbe56e057f20f883e', 'admin', '2021-02-11 00:00:00', 'admin', '2021-02-11 00:00:00');
+(14, 'aaa', 'aaa@aaa.com', 'uploads/2faee2867e18b1c6d278564957d268fb.png', 'e10adc3949ba59abbe56e057f20f883e', 'admin', '2021-02-11 00:00:00', 'admin', '2021-02-17 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -329,17 +361,19 @@ CREATE TABLE `user_access` (
 --
 
 INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
-(21, 1, 'Home', 1),
-(22, 1, 'Supplier', 1),
-(23, 1, 'Pelanggan', 1),
-(24, 1, 'Kategori', 1),
-(25, 1, 'Produk', 1),
-(26, 1, 'Transaksi Penjualan', 1),
-(27, 1, 'Transaksi Pembelian', 1),
-(28, 1, 'Retur Penjualan', 1),
-(29, 1, 'Retur Purhcase', 1),
-(30, 1, 'User Management', 1),
-(41, 1, 'Master Biaya', 1);
+(112, 1, 'Home', 1),
+(113, 1, 'Supplier', 1),
+(114, 1, 'Pelanggan', 1),
+(115, 1, 'Kategori', 1),
+(116, 1, 'Produk', 1),
+(117, 1, 'Transaksi Penjualan', 1),
+(118, 1, 'Transaksi Pembelian', 1),
+(119, 1, 'Tunggakan', 1),
+(120, 1, 'Retur Penjualan', 1),
+(121, 1, 'Retur Purhcase', 1),
+(122, 1, 'User Management', 1),
+(123, 1, 'Master Biaya', 1),
+(124, 1, 'Stock Opname', 1);
 
 --
 -- Indexes for dumped tables
@@ -422,6 +456,12 @@ ALTER TABLE `sales_transaction`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indexes for table `stock_opname`
+--
+ALTER TABLE `stock_opname`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
@@ -456,7 +496,7 @@ ALTER TABLE `expense_account`
 -- AUTO_INCREMENT for table `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `purchase_data`
@@ -471,6 +511,12 @@ ALTER TABLE `sales_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `stock_opname`
+--
+ALTER TABLE `stock_opname`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -480,7 +526,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_access`
 --
 ALTER TABLE `user_access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
