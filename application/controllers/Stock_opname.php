@@ -75,7 +75,7 @@ class Stock_opname extends MY_Controller {
         if($check_id){
             $this->Stock_opname_model->delete($id);
         }
-        redirect(site_url('pelanggan'));
+        redirect(site_url('Stock_opname'));
     }
     public function export_csv(){
         $filter = false;

@@ -50,7 +50,7 @@
                     <label class="col-sm-4 control-label" for="name">Product Name</label>
                     <div class="col-sm-8">
                       <input type="text" name="txtProductName" placeholder="Product Name" id="txtProductName" class="form-control" value="<?php echo !empty($kategori) ? $kategori[0]->product_name : ''; ?>" disabled />
-                      <input type="text" name="txtProductID" id="txtProductID" class="form-control "
+                      <input type="text" name="txtProductID" id="txtProductID" class="form-control hidden"
                       value="<?php echo !empty($kategori) ? $kategori[0]->product_id : ''; ?>" />
                     </div>
                   </div>
@@ -74,6 +74,16 @@
                   </div>
                 </div>
                 <div class="col-md-6">
+                  <?php if(!empty($kategori)){ ?>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label" for="name">Stock sebelumnya</label>
+                      <div class="col-sm-8">
+                         <input type="text" value="<?php echo ($kategori[0]->stock_fisik + $kategori[0]->selisih_stock); ?>" name="txtStockBefore_disable" placeholder="Stock Fisik" id="txtStockBefore_disable" class="form-control" disabled/>
+                        <input type="text" value="<?php echo ($kategori[0]->stock_fisik + $kategori[0]->selisih_stock); ?>" name="txtStockBefore" placeholder="Stock Fisik" id="txtStockBefore" class="form-control hidden"/>
+                      </div>
+                    </div>
+                  <?php } ?>
+
                   <div class="form-group">
                     <label class="col-sm-4 control-label" for="name">Stock Fisik</label>
                     <div class="col-sm-8">
@@ -83,7 +93,9 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label" for="name">Selisih</label>
                     <div class="col-sm-8">
-                      <input type="text" value="<?php echo !empty($kategori) ? $kategori[0]->selisih_stock : ''; ?>" name="txtSelisih" placeholder="Stock Fisik" id="txtSelisih" class="form-control" required />
+                      <input type="text" value="<?php echo !empty($kategori) ? $kategori[0]->selisih_stock : ''; ?>" name="txtSelisih_disable" placeholder="Selisih" id="txtSelisih_disable" class="form-control" disabled />
+                      <input type="text" value="<?php echo !empty($kategori) ? $kategori[0]->selisih_stock : ''; ?>" name="txtSelisih" placeholder="Selisih" id="txtSelisih" class="form-control hidden" />
+                      <p style="font-size: 10px;"><i>Note : minus (-) bearti barang di gudang melebihi inputan system.</i></p>
                     </div>
                   </div>
                   <div class="form-group">
@@ -172,9 +184,22 @@
   <style type="text/css">.hidden{display: none;}</style>
   <script type="text/javascript">
     function myFunction(val) {
+      var check="<?php if(!empty($kategori)){ echo 'ada'; } else {echo '';} ?>";
       var qty = document.getElementById("txtProductQty").value;
-      var hasil = qty - val;
-      document.getElementById("txtSelisih").value=hasil;
+      if(check == 'ada'){
+        qty = document.getElementById("txtStockBefore").value;
+      }
+
+      console.log(qty);
+
+      if(qty == 0){
+        alert("Silahkan pilih Produk yang akan di Opname terlebih dahulu !");
+        document.getElementById("txtStockFisik").value="";
+      } else {
+        var hasil = qty - val;
+        document.getElementById("txtSelisih").value=hasil;
+        document.getElementById("txtSelisih_disable").value=hasil;
+      }
     }
     $(document).ready(function () {
       jQuery.noConflict();
