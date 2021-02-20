@@ -198,6 +198,16 @@
                       </ul>
                     </li>
                     <?php  } } ?>
+
+                    <li class="treeview <?php echo is_menu('report');?>">
+                      <a href="#"><i class="fa fa-share"></i> <span>Laporan</span> <i class="fa fa-angle-left pull-right"></i></a>
+                      <ul class="treeview-menu">
+                        <li class="<?php echo is_menu('report', 'pendapatan');?>"><a href="<?php echo site_url('report/pendapatan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Pendapatan</span></a></li>
+                        <li class="<?php echo is_menu('report','penjualan');?>"><a href="<?php echo site_url('report/penjualan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Penjualan</span></a></li>
+                        <li class="<?php echo is_menu('report','pengeluaran');?>"><a href="<?php echo site_url('report/pengeluaran');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Pengeluaran</span></a></li>
+                        <li class="<?php echo is_menu('report','laba_rugi');?>"><a href="<?php echo site_url('report/laba_rugi');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Proyeksi Laba dan Rugi</span></a></li>
+                      </ul>
+                    </li>
                 </ul>
                 <br />
                 <br />
