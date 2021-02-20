@@ -87,7 +87,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label" for="name">Stock Fisik</label>
                     <div class="col-sm-8">
-                      <input type="text" value="<?php echo !empty($kategori) ? $kategori[0]->stock_fisik : ''; ?>" name="txtStockFisik" placeholder="Stock Fisik" id="txtStockFisik" class="form-control" onchange="myFunction(this.value)" required />
+                      <input type="number" value="<?php echo !empty($kategori) ? $kategori[0]->stock_fisik : ''; ?>" name="txtStockFisik" placeholder="Stock Fisik" id="txtStockFisik" class="form-control" onchange="myFunction(this.value)" autocomplete="off" required />
                     </div>
                   </div>
                   <div class="form-group">
