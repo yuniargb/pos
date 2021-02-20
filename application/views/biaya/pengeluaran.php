@@ -45,12 +45,12 @@
                                             <input type="submit" value="Cari Pengeluaran Biaya" class="form-control btn btn-primary">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <div class="form-group"><br>
                                             <label for="submit">&nbsp</label>
                                             <a href="<?php echo site_url('master_biaya/export_pengeluaran_csv').get_uri();?>" class="form-control btn btn-default"><i class="fa fa-file-excel-o"></i> Export Excel</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <?php if ($search == true) { ?>
                                         <div class="row">
                                             <div class="col-md-12">
