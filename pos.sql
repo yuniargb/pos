@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2021 at 09:16 AM
+-- Generation Time: Feb 24, 2021 at 09:22 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -394,19 +394,34 @@ CREATE TABLE `user_access` (
 --
 
 INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
-(112, 1, 'Home', 1),
-(113, 1, 'Supplier', 1),
-(114, 1, 'Pelanggan', 1),
-(115, 1, 'Kategori', 1),
-(116, 1, 'Produk', 1),
-(117, 1, 'Transaksi Penjualan', 1),
-(118, 1, 'Transaksi Pembelian', 1),
-(119, 1, 'Tunggakan', 1),
-(120, 1, 'Retur Penjualan', 1),
-(121, 1, 'Retur Purhcase', 1),
-(122, 1, 'User Management', 1),
-(123, 1, 'Master Biaya', 1),
-(124, 1, 'Stock Opname', 1);
+(125, 1, 'Home', 1),
+(126, 1, 'Supplier', 1),
+(127, 1, 'Pelanggan', 1),
+(128, 1, 'Kategori', 1),
+(129, 1, 'Produk', 1),
+(130, 1, 'Transaksi Penjualan', 1),
+(131, 1, 'Transaksi Pembelian', 1),
+(132, 1, 'Tunggakan', 1),
+(133, 1, 'Retur Penjualan', 1),
+(134, 1, 'Retur Purhcase', 1),
+(135, 1, 'User Management', 1),
+(136, 1, 'Master Biaya', 1),
+(137, 1, 'Stock Opname', 1),
+(138, 1, 'Laporan', 1),
+(139, 11, 'Home', 1),
+(140, 11, 'Supplier', 0),
+(141, 11, 'Pelanggan', 0),
+(142, 11, 'Kategori', 0),
+(143, 11, 'Produk', 0),
+(144, 11, 'Transaksi Penjualan', 0),
+(145, 11, 'Transaksi Pembelian', 0),
+(146, 11, 'Tunggakan', 0),
+(147, 11, 'Retur Penjualan', 0),
+(148, 11, 'Retur Purhcase', 0),
+(149, 11, 'User Management', 0),
+(150, 11, 'Master Biaya', 0),
+(151, 11, 'Stock Opname', 0),
+(152, 11, 'Laporan', 1);
 
 --
 -- Indexes for dumped tables
@@ -571,7 +586,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_access`
 --
 ALTER TABLE `user_access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

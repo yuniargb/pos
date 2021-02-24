@@ -16,6 +16,15 @@ class Report extends MY_Controller {
 		if(!isset($_SESSION['logged_in'])){
 			redirect(site_url('auth/login'));
 		}
+
+		$Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Laporan');
+        if($this->session->userdata('username') != 'admin')
+        {
+            if($Access_page[0]['status_access'] == "0")
+            {
+                redirect('home');
+            }
+        }
 	}
 	
 	public function penjualan(){
