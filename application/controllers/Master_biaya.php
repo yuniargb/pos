@@ -81,10 +81,7 @@ class master_biaya extends MY_Controller {
     }
 
     public function delete_akun($id){
-        $check_id = $this->masterbiaya_model->get_by_id($id);
-        if($check_id){
-            $this->masterbiaya_model->delete($id, $check_id);
-        }
+        $this->masterbiaya_model->delete($id);
         redirect(site_url('master_biaya'));
     }
     public function export_csv(){
@@ -196,10 +193,7 @@ class master_biaya extends MY_Controller {
     }
 
     public function delete_pengeluaran($id){
-        $check_id = $this->masterbiaya_model->get_by_id($id);
-        if($check_id){
-            $this->masterbiaya_model->delete_pengeluaran($id, $check_id);
-        }
+        $this->masterbiaya_model->delete_pengeluaran($id);
         redirect(site_url('master_biaya/pengeluaran'));
     }
 }

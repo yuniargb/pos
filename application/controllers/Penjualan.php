@@ -63,6 +63,12 @@ class Penjualan extends MY_Controller {
 			redirect(site_url('penjualan', $data));
 		}
 	}
+
+	public function update_status_product($id)
+	{
+		$details = $this->penjualan_model->update_status_product($id);
+		redirect(site_url('penjualan/detail/'.$id));
+	}
 	public function edit($id){
 		// destry cart
 		$this->cart->destroy();
@@ -170,6 +176,7 @@ class Penjualan extends MY_Controller {
 			$data['id'] = escape($this->input->post('sales_id'));
 			$data['customer_id'] = escape($this->input->post('customer_id'));
 			$data['is_cash'] = escape($this->input->post('is_cash'));
+			$data['status_product'] = escape($this->input->post('status_product'));
 			$data['total_price'] = $this->cart->total();
 			$data['total_item'] = $this->cart->total_items();
 

@@ -79,6 +79,19 @@
                       </select>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="category_id">Status Barang</label>
+                    <div class="col-sm-8">
+                      <select class="form-control" id="status_product" name="status_product">
+                        <option value="1" <?php if(!empty($penjualan) && $penjualan[0]->status_product == true) echo 'selected="selected"';?>>
+                          Langsung di ambil
+                        </option>
+                        <option value="0" <?php if(!empty($penjualan) && $penjualan[0]->status_product == false) echo 'selected="selected"';?>>
+                          Nanti
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-11 col-md-offset-1">
                   <h3 class="content-title">Informasi Barang</h3>

@@ -24,7 +24,7 @@
           </div>
 
           <div class="box-body">
-            <form action="<?php echo site_url('report/pendapatan?search=true');?>" method="GET">
+            <form action="<?php echo site_url('report/laba_rugi?search=true');?>" method="GET">
               <input type="hidden" class="form-control" name="search" value="true"/>
               <div class="box-body pad">
                 <div class="col-md-4">
@@ -35,18 +35,18 @@
                         <div class="col-md-6">
                           <select name="txtBulan_from" id="txtBulan_from" class="form-control">
                             <option value="">Select Bulan</option>
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
+                            <option value="1" <?php echo ($search==true) ? ($Bulan_from == 1) ? 'selected' : '' : ''; ?>>Januari</option>
+                            <option value="2" <?php echo ($search==true) ? ($Bulan_from == 2) ? 'selected' : '' : ''; ?>>Februari</option>
+                            <option value="3" <?php echo ($search==true) ? ($Bulan_from == 3) ? 'selected' : '' : ''; ?>>Maret</option>
+                            <option value="4" <?php echo ($search==true) ? ($Bulan_from == 4) ? 'selected' : '' : ''; ?>>April</option>
+                            <option value="5" <?php echo ($search==true) ? ($Bulan_from == 5) ? 'selected' : '' : ''; ?>>May</option>
+                            <option value="6" <?php echo ($search==true) ? ($Bulan_from == 6) ? 'selected' : '' : ''; ?>>Juni</option>
+                            <option value="7" <?php echo ($search==true) ? ($Bulan_from == 7) ? 'selected' : '' : ''; ?>>Juli</option>
+                            <option value="8" <?php echo ($search==true) ? ($Bulan_from == 8) ? 'selected' : '' : ''; ?>>Agustus</option>
+                            <option value="9" <?php echo ($search==true) ? ($Bulan_from == 9) ? 'selected' : '' : ''; ?>>September</option>
+                            <option value="10" <?php echo ($search==true) ? ($Bulan_from == 10) ? 'selected' : '' : ''; ?>>Oktober</option>
+                            <option value="11" <?php echo ($search==true) ? ($Bulan_from == 11) ? 'selected' : '' : ''; ?>>November</option>
+                            <option value="12" <?php echo ($search==true) ? ($Bulan_from == 12) ? 'selected' : '' : ''; ?>>Desember</option>
                           </select>
                         </div>
                         <div class="col-md-6">
@@ -55,9 +55,9 @@
                             <?php
                             $now=date('Y');
                             for ($a=2015; $a<=$now; $a++)
-                            {
-                              echo "<option value='$a'>$a</option>";
-                            }
+                            { ?>
+                              <option value="<?php echo $a; ?>" <?php echo ($search==true) ? ($Tahun_from == $a) ? 'selected' : '' : ''; ?>><?php echo $a; ?></option>
+                            <?php }
                             ?>
                           </select>
                         </div>
@@ -73,18 +73,18 @@
                         <div class="col-md-6">
                           <select name="txtBulan_to" id="txtBulan_to" class="form-control">
                             <option value="">Select Bulan</option>
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
+                            <option value="1" <?php echo ($search==true) ? ($Bulan_to == 1) ? 'selected' : '' : ''; ?>>Januari</option>
+                            <option value="2" <?php echo ($search==true) ? ($Bulan_to == 2) ? 'selected' : '' : ''; ?>>Februari</option>
+                            <option value="3" <?php echo ($search==true) ? ($Bulan_to == 3) ? 'selected' : '' : ''; ?>>Maret</option>
+                            <option value="4" <?php echo ($search==true) ? ($Bulan_to == 4) ? 'selected' : '' : ''; ?>>April</option>
+                            <option value="5" <?php echo ($search==true) ? ($Bulan_to == 5) ? 'selected' : '' : ''; ?>>May</option>
+                            <option value="6" <?php echo ($search==true) ? ($Bulan_to == 6) ? 'selected' : '' : ''; ?>>Juni</option>
+                            <option value="7" <?php echo ($search==true) ? ($Bulan_to == 7) ? 'selected' : '' : ''; ?>>Juli</option>
+                            <option value="8" <?php echo ($search==true) ? ($Bulan_to == 8) ? 'selected' : '' : ''; ?>>Agustus</option>
+                            <option value="9" <?php echo ($search==true) ? ($Bulan_to == 9) ? 'selected' : '' : ''; ?>>September</option>
+                            <option value="10" <?php echo ($search==true) ? ($Bulan_to == 10) ? 'selected' : '' : ''; ?>>Oktober</option>
+                            <option value="11" <?php echo ($search==true) ? ($Bulan_to == 11) ? 'selected' : '' : ''; ?>>November</option>
+                            <option value="12" <?php echo ($search==true) ? ($Bulan_to == 12) ? 'selected' : '' : ''; ?>>Desember</option>
                           </select>
                         </div>
                         <div class="col-md-6">
@@ -93,9 +93,9 @@
                             <?php
                             $now=date('Y');
                             for ($a=2015; $a<=$now; $a++)
-                            {
-                              echo "<option value='$a'>$a</option>";
-                            }
+                            { ?>
+                              <option value="<?php echo $a; ?>" <?php echo ($search==true) ? ($Tahun_to == $a) ? 'selected' : '' : ''; ?>><?php echo $a; ?></option>
+                            <?php }
                             ?>
                           </select>
                         </div>
@@ -109,14 +109,17 @@
                     <input type="submit" value="Cari" class="form-control btn btn-primary">
                   </div>
                 </div>
-                <?php if(isset($penjualans) && is_array($penjualans)){ ?>
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="submit">&nbsp</label>
-                      <span><a href="<?php echo site_url('report/print_pendapatan/'.$from.'/'.$to);?>" class="form-control btn btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>
+                      <?php if ($search==true) { ?>
+                        <span><a href="<?php echo site_url('report/print_laporan_laba_rugi/'.$Bulan_from.'/'.$Tahun_from.'/'.$Bulan_to.'/'.$Tahun_to);?>" class="form-control btn btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>
+                      <?php } else { ?>
+                        <span><a href="<?php echo site_url('report/print_laporan_laba_rugi');?>" class="form-control btn btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>
+                      <?php } ?>
+                      
                     </div>
                   </div>
-                <?php } ?>
               </div>
             </form>
             <table id="example1" class="table table-bordered table-striped">
@@ -166,7 +169,7 @@
                           echo "November";
                         } else if($penjualan->month == 12) {
                           echo "Desember";
-                        } $no++;?>
+                        } ?>
                       </td>
                       <td><?php echo $penjualan->year;?></td>
                       <td>Rp. <?php echo number_format($penjualan->tot_pendapatan,2,',','.'); ?></td>
@@ -177,10 +180,10 @@
                       <td style="<?php echo ($penjualan->keterangan == 'Rugi') ? 'color: red;' : 'color:green;'; ?>"><?php echo $penjualan->keterangan; ?></td>
                       <td>
                         <a href="<?php echo site_url('report/edit_proyeksi').'/'.$penjualan->id;?>" class="btn btn-xs btn-primary">Edit</a>
-                        <a onclick="return confirm('Are you sure you want to delete this Stock Opname?');" href="<?php echo site_url('report/delete_proyeksi').'/'.$penjualan->id;?>" class="btn btn-xs btn-danger">Delete</a>
+                        <a onclick="return confirm('Are you sure you want to delete this Proyeksi?');" href="<?php echo site_url('report/delete_proyeksi').'/'.$penjualan->id;?>" class="btn btn-xs btn-danger">Delete</a>
                       </td>
                     </tr>
-                  <?php } ?>
+                  <?php $no++; } ?>
                 <?php } ?>
               </tbody>
             </table>

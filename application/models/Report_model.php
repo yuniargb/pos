@@ -47,15 +47,27 @@ class Report_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function get_detail_laba_rugi($id=null)
+	public function get_detail_laba_rugi($id=null, $filter=null)
 	{	
 		if($id)
 		{
 			$sql = "SELECT * from proyeksi_laba where id='".$id."'";
 		} else {
-			$sql = "SELECT * from proyeksi_laba";
+			if($filter){
+				$sql = "SELECT * from proyeksi_laba where (month BETWEEN '".$filter['txtBulan_from']."' AND '".$filter['txtBulan_to']."') 
+				and (year BETWEEN '".$filter['txtTahun_from']."' AND '".$filter['txtTahun_to']."')";
+			} else {
+				$sql = "SELECT * from proyeksi_laba";
+			}
 		}
-		
+
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
+	public function check_data_proyeksi($bulan=null, $tahun=null)
+	{
+		$sql = "SELECT * from proyeksi_laba where month='".$bulan."' and year='".$tahun."'";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -100,6 +112,11 @@ class Report_model extends CI_Model {
     	} else {
     		$this->db->insert('proyeksi_laba', $save);
     	}
+	}
+
+	public function delete_proyeksi($id)
+	{
+		$this->db->delete('proyeksi_laba', array('id' => $id));
 	}
 
 }

@@ -100,20 +100,37 @@ class Report extends MY_Controller {
 	{
 		if(isset($_GET['search'])){
 			$filter = '';
-			if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
-				$filter['from'] = $_GET['date_from'];
+			if(!empty($_GET['txtBulan_from']) && $_GET['txtBulan_from'] != ''){
+				$filter['txtBulan_from'] = $_GET['txtBulan_from'];
 			}
 
-			if(!empty($_GET['date_end']) && $_GET['date_end'] != ''){
-				$filter['to'] = $_GET['date_end'];
+			if(!empty($_GET['txtTahun_from']) && $_GET['txtTahun_from'] != ''){
+				$filter['txtTahun_from'] = $_GET['txtTahun_from'];
 			}
 
-			$data['from'] = $filter['from'];
-			$data['to'] = $filter['to'];
-			$data['pengeluarans'] = $this->Report_model->get_detail_pengeluaran($filter,url_param());
-			$total_row = count($data['pengeluarans']);
-			$data['paggination'] = get_paggination($total_row,get_search());
+			if(!empty($_GET['txtBulan_to']) && $_GET['txtBulan_to'] != ''){
+				$filter['txtBulan_to'] = $_GET['txtBulan_to'];
+			}
+			
+			if(!empty($_GET['txtTahun_to']) && $_GET['txtTahun_to'] != ''){
+				$filter['txtTahun_to'] = $_GET['txtTahun_to'];
+			}
+
+			if($filter['txtBulan_from'] != '' && $filter['txtTahun_from'] != '' && $filter['txtBulan_to'] != '' && $filter['txtTahun_to'] != '') {
+				$data['Bulan_from'] = $filter['txtBulan_from'];
+				$data['Tahun_from'] = $filter['txtTahun_from'];
+				$data['Bulan_to'] = $filter['txtBulan_to'];
+				$data['Tahun_to'] = $filter['txtTahun_to'];
+
+				$data['search'] =true;
+				$data['labas'] = $this->Report_model->get_detail_laba_rugi(null, $filter);
+				$total_row = count($data['labas']);
+				$data['paggination'] = get_paggination($total_row,get_search());
+			} else {
+				redirect(site_url('report/laba_rugi'));
+			}
 		} else {
+			$data['search'] =false;
 			$data['labas'] = $this->Report_model->get_detail_laba_rugi();
 			$total_row = count($data['labas']);
 			$data['paggination'] = get_paggination($total_row,get_search());
@@ -155,31 +172,41 @@ class Report extends MY_Controller {
 			$bulan = '0'.$bulan;
 		}
 
-		// get pendapatan
-		$pendapatan = $this->Report_model->get_pendapatan($bulan, $tahun,url_param());
-		$biaya = $this->Report_model->get_biaya($bulan, $tahun,url_param());
+		//cek data 
+		$check_data = $this->Report_model->check_data_proyeksi($bulan, $tahun);
+		if(count($check_data) > 0) {
+			$data = array(
+				'info' => 1,
+			);
+		} else {
+			// get pendapatan
+			$pendapatan = $this->Report_model->get_pendapatan($bulan, $tahun,url_param());
+			$biaya = $this->Report_model->get_biaya($bulan, $tahun,url_param());
 
-		// count pendapatan
-		$count_pendapatan=0;
-		if(count($pendapatan) > 0){
-			for($i=0; $i < count($pendapatan); $i++){
-				$count_pendapatan = $count_pendapatan + $pendapatan[$i]->subtotal;
+			// count pendapatan
+			$count_pendapatan=0;
+			if(count($pendapatan) > 0){
+				for($i=0; $i < count($pendapatan); $i++){
+					$count_pendapatan = $count_pendapatan + $pendapatan[$i]->subtotal;
+				}
 			}
-		}
 
-		//count biaya
-		$count_biaya=0;
-		if(count($biaya) > 0){
-			for($i=0; $i < count($biaya); $i++){
-				$count_biaya = $count_biaya + $biaya[$i]->jumlah;
+			//count biaya
+			$count_biaya=0;
+			if(count($biaya) > 0){
+				for($i=0; $i < count($biaya); $i++){
+					$count_biaya = $count_biaya + $biaya[$i]->jumlah;
+				}
 			}
-		}
 
-		$data = array(
-			'pendapatan' => $count_pendapatan, 
-			'biaya' => $count_biaya,
-			'biaya_detail' => $biaya,
-		);
+			$data = array(
+				'info' => 0,
+				'pendapatan' => $count_pendapatan, 
+				'biaya' => $count_biaya,
+				'biaya_detail' => $biaya,
+			);
+		}
+		
 		echo json_encode($data);
 	}
 
@@ -267,6 +294,36 @@ class Report extends MY_Controller {
         } else {
             $save = $this->Report_model->insert_proyeksi($id);
         }
+        redirect(site_url('report/laba_rugi'));
+	}
+
+	public function print_laporan_laba_rugi($bulan_from = null, $tahun_from=null, $bulan_to = null, $tahun_to=null)
+	{
+		if($bulan_from != '' && $tahun_from != '' && $bulan_to != '' && $tahun_to != ''){
+			$filter['txtBulan_from'] = $bulan_from;
+			$filter['txtTahun_from'] = $tahun_from;
+			$filter['txtBulan_to'] = $bulan_to;
+			$filter['txtTahun_to'] = $tahun_to;
+
+			$data['Bulan_from'] = $bulan_from;
+			$data['Tahun_from'] = $tahun_from;
+			$data['Bulan_to'] = $bulan_to;
+			$data['Tahun_to'] = $tahun_to;
+
+			$data['search'] =true;
+			$details = $this->Report_model->get_detail_laba_rugi(null, $filter);
+		} else {
+			$data['search'] =false;
+			$details = $this->Report_model->get_detail_laba_rugi();
+		}
+
+		$data['details'] = $details;
+		$this->load->view("laporan/print/print_laba_rugi",$data);
+	}
+
+	public function delete_proyeksi($id)
+	{
+		$this->Report_model->delete_proyeksi($id);
         redirect(site_url('report/laba_rugi'));
 	}
 

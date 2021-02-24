@@ -57,6 +57,20 @@ class Penjualan_model extends CI_Model {
 	public function delete($id){
 		$this->db->delete($this->table, array('id' => $id));
 	}
+
+	public function update_status_product($id)
+	{
+		$save = array(
+			'status_product' => 1,
+		);
+
+		$where = array(
+			'id' => $id
+		);
+
+		$this->db->where($where);
+		$this->db->update('sales_transaction',$save);
+	}
 	public function get_detail($id){
 		$sql = "SELECT *, sales_transaction.id AS id, product.id as product_id, sales_transaction.date as date 
 				FROM sales_transaction 

@@ -193,27 +193,34 @@
         success: function(data)
         {
           console.log(data);
-          document.getElementById("txtPendapatan").value = data['pendapatan'];
-          document.getElementById("txtPendapatan_disabled").value = 'Rp. ' + (parseInt(data['pendapatan'])).formatMoney(2, ".", ",");
-          document.getElementById("txtTotalBiaya").value = data['biaya'];
-          document.getElementById("txtTotalBiaya_disabled").value = 'Rp. ' + (parseInt(data['biaya'])).formatMoney(2, ".", ",");
+          if(data['info'] == 1){
+            var message = "Data untuk Bulan "+bulan+" Dan Tahun "+tahun+" Sudah di lakukan perhitungan proyeksi Laba dan Rugi !";
+            alert(message);
+            location.reload();
+          } else {
+            document.getElementById("txtPendapatan").value = data['pendapatan'];
+            document.getElementById("txtPendapatan_disabled").value = 'Rp. ' + (parseInt(data['pendapatan'])).formatMoney(2, ".", ",");
+            document.getElementById("txtTotalBiaya").value = data['biaya'];
+            document.getElementById("txtTotalBiaya_disabled").value = 'Rp. ' + (parseInt(data['biaya'])).formatMoney(2, ".", ",");
 
-          var biaya = data['biaya_detail'].length;
-          var html="";
-          if(biaya > 0){
-            for(var i=0; i < biaya; i++){
-              html += "<div class='form-group'>";
-              html += "<label class='col-sm-8 ' for='kode'>"+data['biaya_detail'][i]['keterangan']+"</label>";
-              html += "<div class='col-sm-4'>";
-              html += "<input type='text' name='txtHPP' id='txtHPP' value='Rp. "+(parseInt(data['biaya_detail'][i]['jumlah'])).formatMoney(2, ".", ",")+"' class='form-control' disabled/>";
-              html += "</div>";
-              html += "</div>";      
-            }
-            document.getElementById("display_biaya").innerHTML=html;
-          } 
+            var biaya = data['biaya_detail'].length;
+            var html="";
+            if(biaya > 0){
+              for(var i=0; i < biaya; i++){
+                html += "<div class='form-group'>";
+                html += "<label class='col-sm-8 ' for='kode'>"+data['biaya_detail'][i]['keterangan']+"</label>";
+                html += "<div class='col-sm-4'>";
+                html += "<input type='text' name='txtHPP' id='txtHPP' value='Rp. "+(parseInt(data['biaya_detail'][i]['jumlah'])).formatMoney(2, ".", ",")+"' class='form-control' disabled/>";
+                html += "</div>";
+                html += "</div>";      
+              }
+              document.getElementById("display_biaya").innerHTML=html;
+            } 
 
-          document.getElementById("txtHPP").classList.remove("hidden");
-          document.getElementById("hpp").classList.add("hidden");
+            document.getElementById("txtHPP").classList.remove("hidden");
+            document.getElementById("hpp").classList.add("hidden");
+          }
+          
         }
       });
     } else {
