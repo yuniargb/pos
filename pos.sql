@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2021 at 11:55 PM
+-- Generation Time: Feb 24, 2021 at 09:16 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -113,9 +113,7 @@ CREATE TABLE `pengeluaran` (
 
 INSERT INTO `pengeluaran` (`id`, `akun_id`, `tanggal`, `jumlah`, `keterangan`) VALUES
 (2, 2, '2021-02-17', 100000, 'Adira finance'),
-(3, 1, '2021-02-28', 1000000, 'Gaji Karyawan'),
-(4, 2, '2021-03-02', 300000, 'adira kedua'),
-(5, 3, '2021-02-23', 200000, 'biaya keamanan');
+(6, 3, '2021-01-06', 50000, 'bayar rokok satpam');
 
 -- --------------------------------------------------------
 
@@ -141,8 +139,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `product_name`, `category_id`, `product_desc`, `product_qty`, `sale_price`, `sale_price_type1`, `sale_price_type2`, `sale_price_type3`, `date`) VALUES
-('001', 'Roti', '001', 'roti ringan makanan anak2', 20, 10000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
-('002', 'COCA COLA', '002', 'COCA COLA', 400, 15000, 7500, 9000, 15000, '2021-02-11 13:02:47');
+('001', 'Roti', '001', 'roti ringan makanan anak2', 10, 10000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
+('002', 'COCA COLA', '002', 'COCA COLA', 350, 15000, 7500, 9000, 15000, '2021-02-11 13:02:47');
 
 -- --------------------------------------------------------
 
@@ -167,7 +165,7 @@ CREATE TABLE `proyeksi_laba` (
 --
 
 INSERT INTO `proyeksi_laba` (`id`, `month`, `year`, `tot_pendapatan`, `hpp`, `tot_biaya`, `keterangan`, `tot_laba_rugi`, `tot_laba_rugi_kotor`) VALUES
-(3, 2, '2021', '226500', '500', '200000', 'Rugi', '-1074000', '226000');
+(4, 2, '2021', '226500', '100000', '100000', 'Untung', '26500', '126500');
 
 -- --------------------------------------------------------
 
@@ -259,7 +257,9 @@ INSERT INTO `sales_data` (`id`, `sales_id`, `product_id`, `category_id`, `quanti
 (1, 'OUT1613070504', '001', '001', '10', '10000', '100000', 1, '2021-02-11 19:08:47'),
 (2, 'OUT1613754601', '001', '001', '10', '10000', '100000', 1, '2021-02-19 17:10:54'),
 (3, 'OUT1613755700', '001', '001', '2', '2000', '4000', 1, '2021-02-19 17:28:40'),
-(4, 'OUT1613755700', '002', '002', '3', '7500', '22500', 1, '2021-02-19 17:28:40');
+(4, 'OUT1613755700', '002', '002', '3', '7500', '22500', 1, '2021-02-19 17:28:40'),
+(5, 'OUT1614143474', '001', '001', '10', '3000', '30000', 1, '2021-02-24 05:11:57'),
+(6, 'OUT1614143474', '002', '002', '50', '9000', '450000', 1, '2021-02-24 05:11:57');
 
 -- --------------------------------------------------------
 
@@ -289,17 +289,19 @@ CREATE TABLE `sales_transaction` (
   `total_price` int(100) NOT NULL,
   `total_item` int(100) NOT NULL,
   `pay_deadline_date` date DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status_product` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `sales_transaction`
 --
 
-INSERT INTO `sales_transaction` (`id`, `customer_id`, `is_cash`, `total_price`, `total_item`, `pay_deadline_date`, `date`) VALUES
-('OUT1613070504', 'CUST0003', 1, 100000, 10, '2021-02-11', '2021-02-11 19:08:47'),
-('OUT1613754601', 'CUST0002', 1, 100000, 10, '2021-02-19', '2021-02-19 17:10:54'),
-('OUT1613755700', 'CUST0001', 1, 26500, 5, '2021-02-19', '2021-02-19 17:28:40');
+INSERT INTO `sales_transaction` (`id`, `customer_id`, `is_cash`, `total_price`, `total_item`, `pay_deadline_date`, `date`, `status_product`) VALUES
+('OUT1613070504', 'CUST0003', 1, 100000, 10, '2021-02-11', '2021-02-24 05:03:57', 1),
+('OUT1613754601', 'CUST0002', 1, 100000, 10, '2021-02-19', '2021-02-24 05:04:01', 1),
+('OUT1613755700', 'CUST0001', 1, 26500, 5, '2021-02-19', '2021-02-24 05:04:06', 1),
+('OUT1614143474', 'CUST0004', 0, 480000, 60, '2021-03-26', '2021-02-24 07:16:04', 0);
 
 -- --------------------------------------------------------
 
@@ -533,13 +535,13 @@ ALTER TABLE `expense_account`
 -- AUTO_INCREMENT for table `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `proyeksi_laba`
 --
 ALTER TABLE `proyeksi_laba`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `purchase_data`
@@ -551,7 +553,7 @@ ALTER TABLE `purchase_data`
 -- AUTO_INCREMENT for table `sales_data`
 --
 ALTER TABLE `sales_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `stock_opname`

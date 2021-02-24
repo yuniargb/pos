@@ -24,7 +24,7 @@
                                 <span><a href="<?php echo site_url('penjualan');?>" class="btn btn-sm btn-default">Back</a></span>
                                 <?php if($details[0]->status_product == 0) { ?>
                                     <a onclick="return confirm('do you want to change the status of this product to be taken ?');" href="<?php echo site_url('penjualan/update_status_product').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary"><i class="fa fa-newspaper-o"></i>  Update Status Product</a>
-                                    <span><a href="<?php echo site_url('penjualan/cetak_surat_jalan').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary"><i class="fa fa-newspaper-o"></i>  Cetak Surat Jalan</a></span>
+                                    <span><a href="<?php echo site_url('penjualan/cetak_surat_jalan').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary btnPrint"><i class="fa fa-newspaper-o"></i>  Cetak Surat Jalan</a></span>
 
                                 <?php } ?>
                                 <span><a href="<?php echo site_url('penjualan/print_now').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>

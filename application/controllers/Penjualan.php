@@ -265,6 +265,17 @@ class Penjualan extends MY_Controller {
 			redirect(site_url('penjualan'));
 		}
 	}
+
+	public function cetak_surat_jalan($id="")
+	{
+		$details = $this->penjualan_model->get_detail($id);
+		if($details){
+			$data['details'] = $details;
+			$this->load->view("penjualan/print_surat_jalan",$data);
+		}else{
+			redirect(site_url('penjualan'));
+		}
+	}
 	
 	private function _set_csv_format($datas){
 		$result = false;
