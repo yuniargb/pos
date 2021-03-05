@@ -40,6 +40,12 @@
   <link rel="stylesheet" href="<?php echo base_url('public');?>/plugins/ie/respond.min.js">
   <![endif]-->
   <base url="<?php echo site_url();?>" class-attr="<?php echo $this->router->fetch_class();?>"/>
+  <style>
+  .background-custom{
+    background: rgb(25,105,122);
+    background: linear-gradient(90deg, rgba(25,105,122,1) 4%, rgba(38,117,129,1) 31%, rgba(0,212,255,1) 65%); 
+  }
+  </style>
 </head>
 <?php if($this->is_login){?>
 	<?php $this->load->view('element/header');?>

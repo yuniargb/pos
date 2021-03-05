@@ -1,10 +1,10 @@
 <?php $this->load->view('element/head');?>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>POS</a>
-  </div>
+<body class="hold-transition login-page background-custom">
+<div class="login-box rounded">
   <!-- /.login-logo -->
+  <div class="login-logo ">
+    <a href="../../index2.html" class="text-white"><b>Admin</b>POS</a>
+  </div>
   <div class="login-box-body">
     <p class="login-box-msg">Sign in untuk memulai aplikasi Point of Sale</p>
 	
@@ -42,6 +42,7 @@
         <!-- /.col -->
       </div>
     </form>
+    <marquee behavior="" direction="">selamat datang di aplikasi point of sales, silahkan login terlebih dahulu</marquee>
 
    <!-- <a href="#">I forgot my password</a><br>
     <a href="register.html" class="text-center">Register a new membership</a>-->

@@ -4,8 +4,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Transaksi Penjualan Form
-        <small>List Penjualan</small>
+        Transaksi Surat Jalan Form
+        <small>List Surat Jalan</small>
       </h1>
     </section>
 
@@ -15,12 +15,13 @@
       <div class="row">
         <div class="col-xs-12">
           <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="<?php echo site_url('penjualan/create');?>">Input Penjualan</a></li>
-            <li role="presentation"><a href="<?php echo site_url('penjualan');?>">List Penjualan</a></li>
+            <li role="presentation" class="active"><a href="<?php echo site_url('stok_konsumen/create');?>">Input Surat Jalan</a></li>
+            <li role="presentation"><a href="<?php echo site_url('stok_konsumen');?>">List Stok Konsumen</a></li>
+            <li role="presentation" ><a href="<?php echo site_url('stok_konsumen/surat_jalan');?>">List Surat Jalan</a></li>
           </ul>
 		  <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Penjualan</h3>
+              <h3 class="box-title">Stok Konsumen</h3>
               <?php if($this->session->flashdata('form_false')){?>
                 <div class="alert alert-danger text-center">
                   <strong><?php echo $this->session->flashdata('form_false');?></strong>
@@ -30,17 +31,17 @@
             <!-- /.box-header -->
             <!-- form start -->
             <?php if(!empty($penjualan)){?>
-            <form id="transaction-form" class="form-horizontal" method="POST" action="<?php echo site_url('penjualan/update').'/'.$penjualan[0]->id;?>">
+            <form id="transaction-form" class="form-horizontal" method="POST" action="<?php echo site_url('stok_konsumen/update').'/'.$penjualan[0]->id;?>">
             <?php }else{?>
-            <form id="transaction-form" class="form-horizontal" method="POST" action="<?php echo site_url('penjualan/add_process');?>">
+            <form id="transaction-form" class="form-horizontal" method="POST" action="<?php echo site_url('stok_konsumen/add_process');?>">
             <?php } ?>
               <div class="box-body">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="col-sm-4 control-label" for="kode">Kode Penjualan</label>
+                    <label class="col-sm-4 control-label" for="kode">Kode Surat Jalan</label>
                     <div class="col-sm-8">
                       <input type="text" name="id" value="<?php echo !empty($code_penjualan) ? $code_penjualan : '';?>" class="form-control" disabled/>
-                      <input type="hidden" name="penjualan_id" id="penjualan_id" value="<?php echo !empty($code_penjualan) ? $code_penjualan : '';?>"/>
+                      <input type="hidden" name="pengiriman_id" id="pengiriman_id" value="<?php echo !empty($code_penjualan) ? $code_penjualan : '';?>"/>
                     </div>
                   </div>
                   <div class="form-group">
@@ -60,36 +61,15 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="col-sm-4 control-label" for="date">Tanggal</label>
+                    <label class="col-sm-4 control-label" for="date">Tanggal Kirim</label>
                     <div class="col-sm-8">
-                      <input type="text" value="<?php echo date('Y-m-d H:i:s');?>" id="date" class="form-control" disabled/>
-                      <input type="hidden" name="supplier_date" value="<?php echo date('Y-m-d H:i:s');?>" id="supplier_date" class="form-control"/>
+                      <input type="date"  id="tanggal_kirim" class="form-control" name="tanggal_kirim"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-4 control-label" for="category_id">Metode Pembayaran</label>
+                    <label class="col-sm-4 control-label" for="date">Nomor Polisi / Plat</label>
                     <div class="col-sm-8">
-                      <select class="form-control" id="is_cash" name="is_cash">
-                        <option value="1" <?php if(!empty($penjualan) && $penjualan[0]->is_cash == true) echo 'selected="selected"';?>>
-                          Cash
-                        </option>
-                        <option value="0" <?php if(!empty($penjualan) && $penjualan[0]->is_cash == false) echo 'selected="selected"';?>>
-                          Bayar Nanti
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4 control-label" for="category_id">Status Barang</label>
-                    <div class="col-sm-8">
-                      <select class="form-control" id="status_product" name="status_product">
-                        <option value="1" <?php if(!empty($penjualan) && $penjualan[0]->status_product == true) echo 'selected="selected"';?>>
-                          Langsung di ambil
-                        </option>
-                        <option value="0" <?php if(!empty($penjualan) && $penjualan[0]->status_product == false) echo 'selected="selected"';?>>
-                          Nanti
-                        </option>
-                      </select>
+                      <input type="text"  id="plat" class="form-control" name="plat"/>
                     </div>
                   </div>
                 </div>
@@ -99,12 +79,10 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <td>Kategori</td>
+                          <td>Satuan</td>
                           <td>Nama Barang</td>
                           <td>Qty</td>
                           <td>Jumlah</td>
-                          <td>Reserv</td>
-                          <td>Harga Beli Satuan</td>
                           <td>Input Barang</td>
                         </tr>
                       </thead>
@@ -126,22 +104,16 @@
                           </td>
                           <!--  -->
                           <td>
-                            <select class="form-control" id="transaksi_product_id" name="product_id"></select>
+                            <select class="form-control" id="sj_product_id" name="product_id"></select>
                           </td>
                           <td>
                             <input type="number" id="qty" class="form-control" name="qty" min="0" value="0" readonly/>
                           </td>
                           <td>
-                            <input type="number" id="jumlah" class="form-control" name="jumlah" min="1" value="0"/>
+                            <input type="number" id="jumlah_kirim" class="form-control" name="jumlah" min="1" value="0"/>
                           </td>
                           <td>
-                            <input type="number" id="reserv" class="form-control" name="reserv" min="0" value="0" readonly/>
-                          </td>
-                          <td>
-                            <select class="form-control" id="sale_price" name="sale_price"></select>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-primary" id="tambah-barang">Input Barang</a>
+                            <a href="#" class="btn btn-primary" id="tambah-barang-sj">Input Barang</a>
                           </td>
                         </tr>
                         <?php if(!empty($carts) && is_array($carts)){?>
@@ -158,8 +130,8 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td>Total Penjualan</td>
-                          <td id="total-pembelian"><?php echo !empty($carts) ? 'Rp'.number_format($carts['total_price']) : '';?></td>
+                          <td>Total Dikirim</td>
+                          <td id="total-pembelian"><?php echo !empty($carts) ? $carts['total_price'] : '';?></td>
                         </tr>
                       </tfoot>
                     </table>

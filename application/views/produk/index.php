@@ -48,6 +48,7 @@
                                     <th>Nama Produk</th>
                                     <th>Deskripsi</th>
                                     <th>QTY</th>
+                                    <th>Buy Price</th>
                                     <th>Price</th>
                                     <th>Price 1</th>
                                     <th>Price 2</th>
@@ -63,6 +64,7 @@
                                             <td><?php echo $produk->product_name;?></td>
                                             <td><?php echo $produk->product_desc;?></td>
                                             <td><?php echo $produk->product_qty;?></td>
+                                            <td><?php echo $produk->buy_price;?></td>
                                             <td><?php echo $produk->sale_price;?></td>
                                             <td><?php echo $produk->sale_price_type1;?></td>
                                             <td><?php echo $produk->sale_price_type2;?></td>

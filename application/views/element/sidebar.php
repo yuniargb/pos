@@ -106,6 +106,21 @@
             <?php  } } ?>
 
             <?php 
+             $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Stok Konsumen'); 
+             if(count($Access_page) > 0){
+             if($Access_page[0]['status_access'] == "1")
+              { ?>
+               <li class="treeview <?php echo is_menu('stok_konsumen');?>">
+                <a href="#"><i class="fa fa-cart-plus"></i> <span>Stok Konsumen</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li class="<?php echo is_menu('stok_konsumen');?>"><a href="<?php echo site_url('stok_konsumen');?>"><i class="fa fa-area-chart" aria-hidden="true"></i> <span>List Stok Konsumen</span></a></li>
+                  <li class="<?php echo is_menu('stok_konsumen','surat_jalan');?>"><a href="<?php echo site_url('stok_konsumen/surat_jalan');?>"><i class="fa fa-area-chart" aria-hidden="true"></i> <span>List Surat Jalan</span></a></li>
+                  <li class="<?php echo is_menu('stok_konsumen','create');?>"><a href="<?php echo site_url('stok_konsumen/create');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add Surat Jalan</span></a></li>
+                </ul>
+              </li>
+            <?php  } } ?>
+
+            <?php 
             $Access_page = $this->user_model->get_status_access($this->session->userdata('id'), 'Tunggakan'); 
             if(count($Access_page) > 0){
             if($Access_page[0]['status_access'] == "1")
@@ -207,6 +222,7 @@
                     <li class="treeview <?php echo is_menu('report');?>">
                       <a href="#"><i class="fa fa-share"></i> <span>Laporan</span> <i class="fa fa-angle-left pull-right"></i></a>
                       <ul class="treeview-menu">
+                        <li class="<?php echo is_menu('report', 'perincian_stok');?>"><a href="<?php echo site_url('report/stok');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Perincian Stok</span></a></li>
                         <li class="<?php echo is_menu('report', 'pendapatan');?>"><a href="<?php echo site_url('report/pendapatan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Pendapatan</span></a></li>
                         <li class="<?php echo is_menu('report','penjualan');?>"><a href="<?php echo site_url('report/penjualan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Penjualan</span></a></li>
                         <li class="<?php echo is_menu('report','pengeluaran');?>"><a href="<?php echo site_url('report/pengeluaran');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Pengeluaran</span></a></li>

@@ -332,7 +332,8 @@ class Retur_penjualan extends MY_Controller {
 				'category_id' => $cart['category_id'],
 				'quantity' => $cart['qty'],
 				'price_item' => $cart['price'],
-				'subtotal' => $cart['subtotal']
+				'subtotal' => $cart['subtotal'],
+				'type' => 0
 			);
 			$this->penjualan_model->insert_purchase_data($purchase_data);
 

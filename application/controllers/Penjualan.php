@@ -69,6 +69,33 @@ class Penjualan extends MY_Controller {
 		$details = $this->penjualan_model->update_status_product($id);
 		redirect(site_url('penjualan/detail/'.$id));
 	}
+	public function updatepesanan($id)
+	{
+		$quantity = $this->input->post('jumlah');
+		$item = $this->input->post('item_id');
+		$data = array(
+			'id' => $item,
+			'qty' => $quantity
+		);
+		if($this->_check_qty_db($data)){
+			redirect(site_url('penjualan/detail/'.$id));
+			exit;
+		}
+		
+		$details = $this->penjualan_model->update_qty($id,$quantity,$item);
+		$kurang = $this->produk_model->update_qty_min($item,array('product_qty' => $quantity));
+		redirect(site_url('penjualan/detail/'.$id));
+	}
+
+	private function _check_qty_db($carts){
+		
+		$status = false;
+		$product = $this->produk_model->get_by_id($carts['id']);
+		if($carts['qty'] > $product[0]['product_qty']){
+			$status = true;
+		}
+		return $status;
+	}
 	public function edit($id){
 		// destry cart
 		$this->cart->destroy();
@@ -167,10 +194,10 @@ class Penjualan extends MY_Controller {
 		$this->form_validation->set_rules('is_cash', 'is_cash', 'required');
 
 		$carts =  $this->cart->contents();
-		if($this->_check_qty($carts)){
-			echo json_encode(array('status' => 'limit'));
-			exit;
-		}
+		// if($this->_check_qty($carts)){
+		// 	echo json_encode(array('status' => 'limit'));
+		// 	exit;
+		// }
 		
 		if($this->form_validation->run() != FALSE && !empty($carts) && is_array($carts)){
 			$data['id'] = escape($this->input->post('sales_id'));
@@ -213,13 +240,14 @@ class Penjualan extends MY_Controller {
 				'sales_id' => $sales_id,
 				'product_id' => $cart['id'],
 				'category_id' => $cart['category_id'],
-				'quantity' => $cart['qty'],
+				'quantity' => $cart['jumlah'],
+				'reserv' => $cart['reserv'],
 				'price_item' => $cart['price'],
 				'subtotal' => $cart['subtotal']
 			);
 			$this->penjualan_model->insert_purchase_data($purchase_data);
 
-			$this->produk_model->update_qty_min($cart['id'],array('product_qty' => $cart['qty']));
+			$this->produk_model->update_qty_min($cart['id'],array('product_qty' => $cart['jumlah']));
 		}
 		$this->cart->destroy();
 	}

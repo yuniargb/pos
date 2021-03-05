@@ -62,7 +62,7 @@ class User_management extends MY_Controller {
         {
             $data['Page'] = $data['check_Access'];
         } else {
-           $data['Page'] = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Tunggakan', 'Retur Penjualan', 'Retur Purhcase', 'User Management', 'Master Biaya', 'Stock Opname', 'Laporan'); 
+           $data['Page'] = array('Home', 'Supplier', 'Pelanggan', 'Kategori', 'Produk', 'Transaksi Penjualan', 'Transaksi Pembelian', 'Tunggakan', 'Retur Penjualan', 'Retur Purhcase', 'User Management', 'Master Biaya', 'Stock Opname', 'Laporan','Stok Konsumen'); 
         }
         $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $this->load->view('user/control_access', $data);

@@ -87,6 +87,12 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label class="col-sm-2 control-label" for="address">Harga Beli</label>
+                    <div class="col-sm-10">
+                      <input type="text" value="<?php echo !empty($produk) ? $produk['buy_price'] : '';?>" name="buy_price" placeholder="Product Buy" id="buy" class="form-control" required/>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="address">Harga Jual</label>
                     <div class="col-sm-10">
                       <input type="text" value="<?php echo !empty($produk) ? $produk['sale_price'] : '';?>" name="sale_price" placeholder="Product Sale" id="sale" class="form-control" required/>

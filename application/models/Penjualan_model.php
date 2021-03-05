@@ -42,9 +42,12 @@ class Penjualan_model extends CI_Model {
 	public function insert($data){
 		$this->db->insert($this->table, $data);
 	}
-	public function update($id,$data){
-		$this->db->where('id', $id);
+	public function update($id,$data,$where){
+		$this->db->where($where);
 		$this->db->update($this->table, $data);
+	}
+	public function update_qty($id,$qty,$item){
+		$this->db->query('update sales_data set quantity = quantity + '.$qty.', reserv = reserv - '.$qty.' where sales_id="'.$id.'" and product_id = '. $item);
 	}
 	public function get_by_id($id){
 		$response = false;

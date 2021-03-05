@@ -22,7 +22,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form action="<?php echo site_url('report/penjualan?search=true');?>" method="GET">
+              <form action="<?php echo site_url('report/stok?search=true');?>" method="GET">
                 <input type="hidden" class="form-control" name="search" value="true"/>
                 <div class="box-body pad">
                   <div class="col-md-2">
@@ -45,16 +45,15 @@
                     <div class="form-group">
                       <label>Product</label>
                       
-                      <select class="form-control" id="item" name="item">
-                              <option value="">
-                                Pilih Produk
-                              </option>
+                      <div class="input-group date">
+                        <select class="form-control" id="item" name="item">
                           <?php foreach($produk as $item){?>
                               <option value="<?php echo $item->id;?>" <?php if(!empty($_GET['item']) && $item->id == $_GET['item']) echo 'selected="selected"';?>>
                                 <?php echo $item->product_name;?>
                               </option>
                             <?php }?>
                         </select>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-2">
@@ -63,11 +62,11 @@
                       <input type="submit" value="Cari" class="form-control btn btn-primary">
                     </div>
                   </div>
-                  <?php if(isset($penjualans) && is_array($penjualans)){ ?>
+                  <?php if(isset($stok) && is_array($stok)){ ?>
                     <div class="col-md-2">
                       <div class="form-group">
                         <label for="submit">&nbsp</label>
-                        <span><a href="<?php echo site_url('report/print_now/'.$from.'/'.$to);?>" class="form-control btn btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>
+                        <span><a href="<?php echo site_url('report/print_stok/'.$from.'/'.$to.'/'.$items);?>" class="form-control btn btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>
                       </div>
                     </div>
                   <?php } ?>
@@ -77,28 +76,33 @@
                 <thead>
                   <tr>
                     <th>Transaksi ID</th>
+                    <th>Cust/Supl</th>
                     <th>Tanggal Transaksi</th>
+                    <th>Keterangan</th>
                     <th>Nama Produk</th>
-                    <th>Qty</th>
-                    <th>Buy Price</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Keuntungan</th>
+                    <th>Masuk</th>
+                    <th>Keluar</th>
+                    <th>Sisa</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php if(isset($penjualans) && is_array($penjualans)){ ?>
-                    <?php foreach($penjualans as $penjualan){
+                  <?php 
+                    if(isset($stok) && is_array($stok)){ 
+                      $sisa = 0;
+                  ?>
+                    <?php 
+                      foreach($stok as $s){
+                      $sisa = $sisa + $s->stok_masuk + $s->stok_keluar;
                     ?>
                       <tr>
-                        <td><?php echo $penjualan->id;?></td>
-                        <td><?php echo $penjualan->date;?></td>
-                        <td><?php echo $penjualan->product_name;?></td>
-                        <td><?php echo $penjualan->quantity;?></td>
-                        <td>Rp. <?php echo number_format($penjualan->buy_price,2,',','.'); ?></td>
-                        <td>Rp. <?php echo number_format($penjualan->price_item,2,',','.'); ?></td>
-                        <td>Rp. <?php echo number_format($penjualan->subtotal,2,',','.'); ?></td>
-                        <td>Rp. <?php echo number_format(($penjualan->subtotal - ($penjualan->buy_price * $penjualan->quantity)),2,',','.'); ?></td>
+                        <td><?php echo $s->transaksi_id;?></td>
+                        <td><?php echo $s->customer;?></td>
+                        <td><?php echo $s->tgl_transaksi;?></td>
+                        <td><?php echo $s->keterangan;?></td>
+                        <td><?php echo $s->nama_product;?></td>
+                        <td><?php echo $s->stok_masuk;?></td>
+                        <td><?php echo $s->stok_keluar;?></td>
+                        <td><?php echo $sisa;?></td>
                       </tr>
                     <?php } ?>
                   <?php } ?>
@@ -107,9 +111,9 @@
             </div>
             <!-- /.box-body -->
             <div class="text-center">
-              <?php if(isset($penjualans) && is_array($penjualans)){ 
+              <!-- <?php if(isset($stok) && is_array($stok)){ 
                 echo $paggination;
-              } ?>
+              } ?> -->
             </div>
           </div>
           <!-- /.box -->

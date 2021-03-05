@@ -26,10 +26,36 @@ class Report extends MY_Controller {
             }
         }
 	}
-	
+	public function stok(){
+		if(isset($_GET['search'])){
+			$filter = [];
+			if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
+				$filter['from'] = $_GET['date_from'];
+			}
+
+			if(!empty($_GET['date_end']) && $_GET['date_end'] != ''){
+				$filter['to'] = $_GET['date_end'];
+			}
+			if(!empty($_GET['item']) && $_GET['item'] != ''){
+				$filter['item'] = $_GET['item'];
+			}
+
+			$data['from'] = $filter['from'];
+			$data['to'] = $filter['to'];
+			$data['items'] = $filter['item'];
+			$data['stok'] = $this->Report_model->get_detail_stok($filter,url_param());
+			// var_dump($data['stok']);
+			// $total_row = count($data['stok']);
+			// $data['paggination'] = get_paggination($total_row,get_search());
+		}
+		$data['produk'] = $this->produk_model->get_all();
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
+		$data['title'] = 'Laporan Stok'; 
+		$this->load->view('laporan/stok',$data);
+	}
 	public function penjualan(){
 		if(isset($_GET['search'])){
-			$filter = '';
+			$filter = [];
 			if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
 				$filter['from'] = $_GET['date_from'];
 			}
@@ -38,13 +64,20 @@ class Report extends MY_Controller {
 				$filter['to'] = $_GET['date_end'];
 			}
 
+			if(!empty($_GET['item']) && $_GET['item'] != ''){
+				$filter['item'] = $_GET['item'];
+				$data['items'] = $filter['item'];
+			}
+
 			$data['from'] = $filter['from'];
 			$data['to'] = $filter['to'];
+			
+			$data['produk'] = $this->produk_model->get_all();
 			$data['penjualans'] = $this->Report_model->get_detail_penjualan($filter,url_param());
 			$total_row = count($data['penjualans']);
 			$data['paggination'] = get_paggination($total_row,get_search());
 		}
-
+		
 		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$data['title'] = 'Laporan Penjualan'; 
 		$this->load->view('laporan/penjualan',$data);
@@ -219,12 +252,37 @@ class Report extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	public function print_stok($from = null, $to=null,$item=null)
+	{
+		if($from != '' && $to != '' && $item != ''){
+			$filter['from'] = $from;
+			$filter['to'] = $to;
+			$filter['item'] = $item;
+			$details = $this->Report_model->get_detail_stok($filter,url_param());
+			$total_row = count($details);
+			$data['paggination'] = get_paggination($total_row,get_search());
+
+			if($details){
+				$data['from'] = $from;
+				$data['to'] = $to;
+				$data['item'] = $item;
+				$data['details'] = $details;
+				$this->load->view("laporan/print/print_stok",$data);
+			}else{
+				redirect(site_url('report/stok'));
+			}
+		} else{
+			redirect(site_url('report/stok'));
+		}
+	}
 	public function print_now($from = null, $to=null)
 	{
 		if($from != '' && $to != ''){
 			$filter['from'] = $from;
 			$filter['to'] = $to;
-
+			if(!empty($_GET['item']) && $_GET['item'] != ''){
+				$filter['item'] = $_GET['item'];
+			}
 			$details = $this->Report_model->get_detail_penjualan($filter,url_param());
 			$total_row = count($details);
 			$data['paggination'] = get_paggination($total_row,get_search());

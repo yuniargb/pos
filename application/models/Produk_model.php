@@ -45,7 +45,11 @@ class Produk_model extends CI_Model {
 	}
 	public function get_by_id($id){
 		$response = false;
-		$query = $this->db->get_where('product',array('id' => $id));
+		$this->db->order_by("p.date", "desc");
+		// $this->db->group_by('p.id','p.product_name');
+		$this->db->select('p.*,p.product_qty as qtyData');
+		// $this->db->join('sales_data sd', 'p.id = sd.product_id', 'left');
+		$query = $this->db->get_where('product p',array('p.id' => $id));
 		if($query && $query->num_rows()){
 			$response = $query->result_array();
 		}
@@ -72,7 +76,8 @@ class Produk_model extends CI_Model {
 	}
 	public function get_by_category($category_id){
 		$response = false;
-		$query = $this->db->order_by("date", "desc")->get_where('product',array('category_id' => $category_id));
+		$this->db->order_by("p.date", "desc");
+		$query = $this->db->get_where('product p',array('p.category_id' => $category_id));
 		if($query && $query->num_rows()){
 			$response = $query->result_array();
 		}

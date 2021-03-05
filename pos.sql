@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2021 at 09:22 AM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 5.6.36
+-- Waktu pembuatan: 05 Mar 2021 pada 14.33
+-- Versi server: 10.4.8-MariaDB
+-- Versi PHP: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Struktur dari tabel `category`
 --
 
 CREATE TABLE `category` (
@@ -36,7 +36,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `category`
+-- Dumping data untuk tabel `category`
 --
 
 INSERT INTO `category` (`id`, `category_name`, `category_desc`, `date`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `category` (`id`, `category_name`, `category_desc`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Struktur dari tabel `customer`
 --
 
 CREATE TABLE `customer` (
@@ -58,7 +58,7 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `customer`
+-- Dumping data untuk tabel `customer`
 --
 
 INSERT INTO `customer` (`id`, `customer_name`, `customer_phone`, `customer_address`, `date`) VALUES
@@ -70,7 +70,7 @@ INSERT INTO `customer` (`id`, `customer_name`, `customer_phone`, `customer_addre
 -- --------------------------------------------------------
 
 --
--- Table structure for table `expense_account`
+-- Struktur dari tabel `expense_account`
 --
 
 CREATE TABLE `expense_account` (
@@ -85,7 +85,7 @@ CREATE TABLE `expense_account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `expense_account`
+-- Dumping data untuk tabel `expense_account`
 --
 
 INSERT INTO `expense_account` (`id`, `code`, `name`, `status_akun`, `createdby`, `createdDate`, `updatedby`, `updatedDate`) VALUES
@@ -96,7 +96,7 @@ INSERT INTO `expense_account` (`id`, `code`, `name`, `status_akun`, `createdby`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengeluaran`
+-- Struktur dari tabel `pengeluaran`
 --
 
 CREATE TABLE `pengeluaran` (
@@ -108,7 +108,7 @@ CREATE TABLE `pengeluaran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pengeluaran`
+-- Dumping data untuk tabel `pengeluaran`
 --
 
 INSERT INTO `pengeluaran` (`id`, `akun_id`, `tanggal`, `jumlah`, `keterangan`) VALUES
@@ -118,7 +118,7 @@ INSERT INTO `pengeluaran` (`id`, `akun_id`, `tanggal`, `jumlah`, `keterangan`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Struktur dari tabel `product`
 --
 
 CREATE TABLE `product` (
@@ -126,26 +126,28 @@ CREATE TABLE `product` (
   `product_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `category_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `product_desc` text COLLATE utf8_unicode_ci NOT NULL,
-  `product_qty` int(11) NOT NULL DEFAULT '0',
+  `product_qty` int(11) NOT NULL DEFAULT 0,
   `sale_price` int(20) NOT NULL,
+  `buy_price` int(11) NOT NULL,
   `sale_price_type1` int(20) NOT NULL,
   `sale_price_type2` int(20) NOT NULL,
   `sale_price_type3` int(20) NOT NULL,
-  `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `date` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `product`
+-- Dumping data untuk tabel `product`
 --
 
-INSERT INTO `product` (`id`, `product_name`, `category_id`, `product_desc`, `product_qty`, `sale_price`, `sale_price_type1`, `sale_price_type2`, `sale_price_type3`, `date`) VALUES
-('001', 'Roti', '001', 'roti ringan makanan anak2', 10, 10000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
-('002', 'COCA COLA', '002', 'COCA COLA', 350, 15000, 7500, 9000, 15000, '2021-02-11 13:02:47');
+INSERT INTO `product` (`id`, `product_name`, `category_id`, `product_desc`, `product_qty`, `sale_price`, `buy_price`, `sale_price_type1`, `sale_price_type2`, `sale_price_type3`, `date`) VALUES
+('001', 'Roti', '001', 'roti ringan makanan anak2', 1, 10000, 5000, 2000, 3000, 5000, '2021-02-11 13:01:52'),
+('002', 'COCA COLA', '002', 'COCA COLA', 289, 15000, 10000, 7500, 9000, 15000, '2021-02-11 13:02:47'),
+('123', '123', '002', '123', 1, 200, 100, 200, 200, 300, '2021-03-03 08:28:25');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyeksi_laba`
+-- Struktur dari tabel `proyeksi_laba`
 --
 
 CREATE TABLE `proyeksi_laba` (
@@ -161,7 +163,7 @@ CREATE TABLE `proyeksi_laba` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `proyeksi_laba`
+-- Dumping data untuk tabel `proyeksi_laba`
 --
 
 INSERT INTO `proyeksi_laba` (`id`, `month`, `year`, `tot_pendapatan`, `hpp`, `tot_biaya`, `keterangan`, `tot_laba_rugi`, `tot_laba_rugi_kotor`) VALUES
@@ -170,7 +172,7 @@ INSERT INTO `proyeksi_laba` (`id`, `month`, `year`, `tot_pendapatan`, `hpp`, `to
 -- --------------------------------------------------------
 
 --
--- Table structure for table `purchase_data`
+-- Struktur dari tabel `purchase_data`
 --
 
 CREATE TABLE `purchase_data` (
@@ -181,22 +183,26 @@ CREATE TABLE `purchase_data` (
   `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `price_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `subtotal` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1=Purchase Transaction, 0=Purchase Retur',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Purchase Transaction, 0=Purchase Retur',
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `purchase_data`
+-- Dumping data untuk tabel `purchase_data`
 --
 
 INSERT INTO `purchase_data` (`id`, `transaction_id`, `product_id`, `category_id`, `quantity`, `price_item`, `subtotal`, `type`, `date`) VALUES
 (2, '001', '001', '001', '5', '10000', '50000', 1, '2021-02-11 19:06:27'),
-(3, '002', '001', '001', '2', '2000', '4000', 1, '2021-02-11 19:07:10');
+(3, '002', '001', '001', '2', '2000', '4000', 1, '2021-02-11 19:07:10'),
+(4, 'XXX', '001', '001', '35', '200000', '7000000', 1, '2021-03-03 08:58:49'),
+(5, '004', '002', '002', '100', '300000', '30000000', 1, '2021-03-03 13:20:21'),
+(6, 'S', '123', '002', '2', '100', '200', 1, '2021-03-03 14:33:48'),
+(7, 'RETP1614821155', '123', '002', '1', '100', '100', 1, '2021-03-04 01:25:58');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `purchase_retur`
+-- Struktur dari tabel `purchase_retur`
 --
 
 CREATE TABLE `purchase_retur` (
@@ -206,35 +212,45 @@ CREATE TABLE `purchase_retur` (
   `total_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_return` enum('1','0') COLLATE utf8_unicode_ci NOT NULL,
   `return_by` enum('1','0') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Retur by 1 = barang, 0 = uang',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data untuk tabel `purchase_retur`
+--
+
+INSERT INTO `purchase_retur` (`id`, `sales_retur_id`, `total_price`, `total_item`, `is_return`, `return_by`, `date`) VALUES
+('RETP1614821155', 'S', '100', '1', '0', '1', '2021-03-03 19:25:55');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `purchase_transaction`
+-- Struktur dari tabel `purchase_transaction`
 --
 
 CREATE TABLE `purchase_transaction` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `total_price` int(20) NOT NULL,
   `total_item` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `supplier_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `purchase_transaction`
+-- Dumping data untuk tabel `purchase_transaction`
 --
 
 INSERT INTO `purchase_transaction` (`id`, `total_price`, `total_item`, `date`, `supplier_id`) VALUES
 ('001', 50000, 5, '2021-02-11 19:06:27', 'SUP003'),
-('002', 4000, 2, '2021-02-11 19:07:09', 'SUP003');
+('002', 4000, 2, '2021-02-11 19:07:09', 'SUP003'),
+('004', 30000000, 100, '2021-03-03 13:20:21', 'SUP003'),
+('S', 200, 2, '2021-03-03 14:33:48', 'SUP003'),
+('XXX', 7000000, 35, '2021-03-03 08:58:48', 'SUP004');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_data`
+-- Struktur dari tabel `sales_data`
 --
 
 CREATE TABLE `sales_data` (
@@ -243,28 +259,37 @@ CREATE TABLE `sales_data` (
   `product_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `category_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `reserv` int(11) NOT NULL,
   `price_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `subtotal` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Sales Transaction, 0=Sales Retur',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=Sales Transaction, 0=Sales Retur',
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `sales_data`
+-- Dumping data untuk tabel `sales_data`
 --
 
-INSERT INTO `sales_data` (`id`, `sales_id`, `product_id`, `category_id`, `quantity`, `price_item`, `subtotal`, `type`, `date`) VALUES
-(1, 'OUT1613070504', '001', '001', '10', '10000', '100000', 1, '2021-02-11 19:08:47'),
-(2, 'OUT1613754601', '001', '001', '10', '10000', '100000', 1, '2021-02-19 17:10:54'),
-(3, 'OUT1613755700', '001', '001', '2', '2000', '4000', 1, '2021-02-19 17:28:40'),
-(4, 'OUT1613755700', '002', '002', '3', '7500', '22500', 1, '2021-02-19 17:28:40'),
-(5, 'OUT1614143474', '001', '001', '10', '3000', '30000', 1, '2021-02-24 05:11:57'),
-(6, 'OUT1614143474', '002', '002', '50', '9000', '450000', 1, '2021-02-24 05:11:57');
+INSERT INTO `sales_data` (`id`, `sales_id`, `product_id`, `category_id`, `quantity`, `reserv`, `price_item`, `subtotal`, `type`, `date`) VALUES
+(1, 'OUT1613070504', '001', '001', '10', 0, '10000', '100000', 1, '2021-02-11 19:08:47'),
+(2, 'OUT1613754601', '001', '001', '10', 0, '10000', '100000', 1, '2021-02-19 17:10:54'),
+(3, 'OUT1613755700', '001', '001', '2', 0, '2000', '4000', 1, '2021-02-19 17:28:40'),
+(4, 'OUT1613755700', '002', '002', '3', 0, '7500', '22500', 1, '2021-02-19 17:28:40'),
+(5, 'OUT1614143474', '001', '001', '10', 0, '3000', '30000', 1, '2021-02-24 05:11:57'),
+(6, 'OUT1614143474', '002', '002', '50', 0, '9000', '450000', 1, '2021-02-24 05:11:57'),
+(7, 'OUT1614747340', '001', '001', '0', 22, '10000', '220000', 1, '2021-03-03 04:55:46'),
+(8, 'OUT1614747418', '001', '001', '13', 9, '10000', '220000', 1, '2021-03-03 05:44:01'),
+(9, 'OUT1614760899', '002', '002', '12', 0, '15000', '180000', 1, '2021-03-03 08:49:22'),
+(10, 'OUT1614760899', '001', '001', '1', 0, '10000', '10000', 1, '2021-03-03 13:55:02'),
+(11, 'OUT1614761370', '001', '001', '1', 0, '10000', '10000', 1, '2021-03-03 13:49:45'),
+(12, 'OUT1614777541', '002', '002', '400', 0, '15000', '6000000', 1, '2021-03-03 13:49:02'),
+(13, 'OUT1614781747', '123', '002', '2', 0, '200', '400', 1, '2021-03-03 14:34:07'),
+(16, 'RETS1614821142', '123', '002', '2', 0, '200', '400', 0, '2021-03-04 01:53:04');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_retur`
+-- Struktur dari tabel `sales_retur`
 --
 
 CREATE TABLE `sales_retur` (
@@ -273,13 +298,20 @@ CREATE TABLE `sales_retur` (
   `total_price` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `total_item` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_return` enum('1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data untuk tabel `sales_retur`
+--
+
+INSERT INTO `sales_retur` (`id`, `sales_id`, `total_price`, `total_item`, `is_return`, `date`) VALUES
+('RETS1614821142', 'OUT1614781747', '400', '2', '0', '2021-03-03 19:25:42');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_transaction`
+-- Struktur dari tabel `sales_transaction`
 --
 
 CREATE TABLE `sales_transaction` (
@@ -289,24 +321,30 @@ CREATE TABLE `sales_transaction` (
   `total_price` int(100) NOT NULL,
   `total_item` int(100) NOT NULL,
   `pay_deadline_date` date DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status_product` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `sales_transaction`
+-- Dumping data untuk tabel `sales_transaction`
 --
 
 INSERT INTO `sales_transaction` (`id`, `customer_id`, `is_cash`, `total_price`, `total_item`, `pay_deadline_date`, `date`, `status_product`) VALUES
 ('OUT1613070504', 'CUST0003', 1, 100000, 10, '2021-02-11', '2021-02-24 05:03:57', 1),
 ('OUT1613754601', 'CUST0002', 1, 100000, 10, '2021-02-19', '2021-02-24 05:04:01', 1),
 ('OUT1613755700', 'CUST0001', 1, 26500, 5, '2021-02-19', '2021-02-24 05:04:06', 1),
-('OUT1614143474', 'CUST0004', 0, 480000, 60, '2021-03-26', '2021-02-24 07:16:04', 0);
+('OUT1614143474', 'CUST0004', 0, 480000, 60, '2021-03-26', '2021-02-24 07:16:04', 0),
+('OUT1614747340', 'CUST0001', 1, 220000, 22, '2021-03-03', '2021-03-03 04:56:41', 1),
+('OUT1614747418', 'CUST0001', 1, 220000, 22, '2021-03-03', '2021-03-03 04:57:19', NULL),
+('OUT1614760899', 'CUST0001', 1, 190000, 13, '2021-03-03', '2021-03-03 08:49:21', NULL),
+('OUT1614761370', 'CUST0001', 1, 10000, 1, '2021-03-03', '2021-03-03 08:56:13', NULL),
+('OUT1614777541', 'CUST0001', 1, 6000000, 400, '2021-03-03', '2021-03-03 13:19:30', NULL),
+('OUT1614781747', 'CUST0003', 1, 400, 2, '2021-03-03', '2021-03-04 01:25:32', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stock_opname`
+-- Struktur dari tabel `stock_opname`
 --
 
 CREATE TABLE `stock_opname` (
@@ -319,7 +357,7 @@ CREATE TABLE `stock_opname` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `stock_opname`
+-- Dumping data untuk tabel `stock_opname`
 --
 
 INSERT INTO `stock_opname` (`id`, `product_id`, `tanggal`, `stock_fisik`, `selisih_stock`, `keterangan`) VALUES
@@ -329,7 +367,7 @@ INSERT INTO `stock_opname` (`id`, `product_id`, `tanggal`, `stock_fisik`, `selis
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supplier`
+-- Struktur dari tabel `supplier`
 --
 
 CREATE TABLE `supplier` (
@@ -341,7 +379,7 @@ CREATE TABLE `supplier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `supplier`
+-- Dumping data untuk tabel `supplier`
 --
 
 INSERT INTO `supplier` (`id`, `supplier_name`, `supplier_phone`, `supplier_address`, `date`) VALUES
@@ -352,7 +390,50 @@ INSERT INTO `supplier` (`id`, `supplier_name`, `supplier_phone`, `supplier_addre
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `surat_jalan`
+--
+
+CREATE TABLE `surat_jalan` (
+  `id` varchar(255) NOT NULL,
+  `customer_id` varchar(255) NOT NULL,
+  `tanggal_terima` date NOT NULL,
+  `tanggal_kirim` date NOT NULL,
+  `no_plot_truk` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `surat_jalan`
+--
+
+INSERT INTO `surat_jalan` (`id`, `customer_id`, `tanggal_terima`, `tanggal_kirim`, `no_plot_truk`) VALUES
+('SJ1614844818', 'CUST0001', '0000-00-00', '2021-03-05', 'asd'),
+('SJ1614848960', 'CUST0003', '0000-00-00', '2021-03-05', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `surat_jalan_detail`
+--
+
+CREATE TABLE `surat_jalan_detail` (
+  `id` int(11) NOT NULL,
+  `surat_jalan_id` varchar(255) NOT NULL,
+  `product_id` varchar(255) NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `surat_jalan_detail`
+--
+
+INSERT INTO `surat_jalan_detail` (`id`, `surat_jalan_id`, `product_id`, `qty`) VALUES
+(2, 'SJ1614844818', '001', 1),
+(3, 'SJ1614848960', '123', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
@@ -368,7 +449,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `photo_profile`, `password`, `createdby`, `createdDate`, `updatedby`, `updatedDate`) VALUES
@@ -379,7 +460,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `photo_profile`, `password`, `cre
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_access`
+-- Struktur dari tabel `user_access`
 --
 
 CREATE TABLE `user_access` (
@@ -390,7 +471,7 @@ CREATE TABLE `user_access` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user_access`
+-- Dumping data untuk tabel `user_access`
 --
 
 INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
@@ -421,40 +502,41 @@ INSERT INTO `user_access` (`id`, `user_id`, `page`, `status_access`) VALUES
 (149, 11, 'User Management', 0),
 (150, 11, 'Master Biaya', 0),
 (151, 11, 'Stock Opname', 0),
-(152, 11, 'Laporan', 1);
+(152, 11, 'Laporan', 1),
+(154, 1, 'Stok Konsumen', 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `category`
+-- Indeks untuk tabel `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `customer`
+-- Indeks untuk tabel `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `expense_account`
+-- Indeks untuk tabel `expense_account`
 --
 ALTER TABLE `expense_account`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pengeluaran`
+-- Indeks untuk tabel `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `product`
+-- Indeks untuk tabel `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
@@ -462,19 +544,19 @@ ALTER TABLE `product`
   ADD KEY `id_2` (`id`);
 
 --
--- Indexes for table `proyeksi_laba`
+-- Indeks untuk tabel `proyeksi_laba`
 --
 ALTER TABLE `proyeksi_laba`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `purchase_data`
+-- Indeks untuk tabel `purchase_data`
 --
 ALTER TABLE `purchase_data`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `purchase_retur`
+-- Indeks untuk tabel `purchase_retur`
 --
 ALTER TABLE `purchase_retur`
   ADD PRIMARY KEY (`id`),
@@ -482,7 +564,7 @@ ALTER TABLE `purchase_retur`
   ADD KEY `id_2` (`id`);
 
 --
--- Indexes for table `purchase_transaction`
+-- Indeks untuk tabel `purchase_transaction`
 --
 ALTER TABLE `purchase_transaction`
   ADD PRIMARY KEY (`id`),
@@ -490,40 +572,52 @@ ALTER TABLE `purchase_transaction`
   ADD KEY `id_2` (`id`);
 
 --
--- Indexes for table `sales_data`
+-- Indeks untuk tabel `sales_data`
 --
 ALTER TABLE `sales_data`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sales_retur`
+-- Indeks untuk tabel `sales_retur`
 --
 ALTER TABLE `sales_retur`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `sales_transaction`
+-- Indeks untuk tabel `sales_transaction`
 --
 ALTER TABLE `sales_transaction`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `stock_opname`
+-- Indeks untuk tabel `stock_opname`
 --
 ALTER TABLE `stock_opname`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `supplier`
+-- Indeks untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `surat_jalan`
+--
+ALTER TABLE `surat_jalan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `surat_jalan_detail`
+--
+ALTER TABLE `surat_jalan_detail`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
@@ -531,62 +625,68 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `user_access`
+-- Indeks untuk tabel `user_access`
 --
 ALTER TABLE `user_access`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `expense_account`
+-- AUTO_INCREMENT untuk tabel `expense_account`
 --
 ALTER TABLE `expense_account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `pengeluaran`
+-- AUTO_INCREMENT untuk tabel `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `proyeksi_laba`
+-- AUTO_INCREMENT untuk tabel `proyeksi_laba`
 --
 ALTER TABLE `proyeksi_laba`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `purchase_data`
+-- AUTO_INCREMENT untuk tabel `purchase_data`
 --
 ALTER TABLE `purchase_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `sales_data`
+-- AUTO_INCREMENT untuk tabel `sales_data`
 --
 ALTER TABLE `sales_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `stock_opname`
+-- AUTO_INCREMENT untuk tabel `stock_opname`
 --
 ALTER TABLE `stock_opname`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `surat_jalan_detail`
+--
+ALTER TABLE `surat_jalan_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `user_access`
+-- AUTO_INCREMENT untuk tabel `user_access`
 --
 ALTER TABLE `user_access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

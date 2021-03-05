@@ -66,6 +66,7 @@ class Produk extends MY_Controller {
         $this->form_validation->set_rules('product_id', 'ID', 'required');
         $this->form_validation->set_rules('product_name', 'Nama', 'required');
         $this->form_validation->set_rules('category_id', 'Kategori', 'required');
+        $this->form_validation->set_rules('buy_price', 'Harga Beli', 'required');
         $this->form_validation->set_rules('sale_price', 'Harga', 'required');
         $this->form_validation->set_rules('product_date', 'Tanggal', 'required');
 
@@ -74,6 +75,7 @@ class Produk extends MY_Controller {
         $data['product_qty'] = escape($this->input->post('product_qty'));
         $data['category_id'] = escape($this->input->post('category_id'));
         $data['product_desc'] = escape($this->input->post('product_desc'));
+        $data['buy_price'] = escape($this->input->post('buy_price'));
         $data['sale_price'] = escape($this->input->post('sale_price'));
         $data['sale_price_type1'] = escape($this->input->post('sale_price_type1'));
         $data['sale_price_type2'] = escape($this->input->post('sale_price_type2'));

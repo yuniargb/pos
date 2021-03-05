@@ -81,6 +81,30 @@ var $el = $("body");
                 });
             }
         });
+        // 
+        $("#jumlah").on("keyup",function(e){
+            const qty = $('#qty').val();
+            const jumlah = $('#jumlah').val();
+            const reserv = jumlah - qty;
+            // if(jumlah < qty){
+            //     $('#jumlah').val(0);
+            // }
+
+            if(reserv < 0){
+                $('#reserv').val(0);
+            }else{
+                if(qty < 0) $('#reserv').val(jumlah);
+                else $('#reserv').val(reserv);
+                
+            }
+        });
+        $("#jumlah_kirim").on("keyup",function(e){
+            const qty = +$('#qty').val();
+            const jumlah = +$('#jumlah_kirim').val();
+
+            if(jumlah > qty) $(this).val(qty);
+            // else $(this).val(jumlah);
+        });
         $("#transaksi_category_id").on("change",function(e){
             e.preventDefault();
             var url =  $("base").attr("url") + 'transaksi/check_category_id/' + this.value;
@@ -88,14 +112,20 @@ var $el = $("body");
                 if(status == 'success'){
                     var arr = $.parseJSON(data);
                     $("#transaksi_product_id").text("");
+                    $("#sj_product_id").text("");
                     $("#sale_price").text("");
+                    $('#qty').val(0);
+                    $('#jumlah').val(0);
+                    $('#jumlah_kirim').val(0);
+                    $('#reserv').val(0);
                     $.each(arr, function(key,value){
                         var default_value = '';
                         if(key == 0){
                             var default_value = '<option value="0">Silahkan pilih produk</option>';
                         }
-                        var opt_value = '<option value="'+value.id+'">'+value.product_name+'</option>';
+                        var opt_value = '<option value="'+value.id+'" data-qty="' + value.qty + '">'+value.product_name+'</option>';
                         $('#transaksi_product_id').append(default_value+opt_value);
+                        $('#sj_product_id').append(default_value+opt_value);
                     });
                 }
             });
@@ -111,6 +141,7 @@ var $el = $("body");
                 if(status == 'success' && data != 'false') {
                     var value = $.parseJSON(data);
                     var val = value[0];
+                    $('#qty').val(val.qtyData);
                     var sale_value = '<option value="' + val.sale_price + '">' + price(parseInt(val.sale_price)) + ' Default</option>';
                     if(val.sale_price_type1 != "0"){
                         var type1 = '<option value="' + val.sale_price_type1 + '">' + price(parseInt(val.sale_price_type1)) + ' Type 1 </option>';
@@ -125,12 +156,86 @@ var $el = $("body");
                 }
             });
         });
+        $("#sj_product_id").on("change",function(e){
+            e.preventDefault();
+            const cust = $('#customer_id').val();
+            var url =  $("base").attr("url") + 'stok_konsumen/check_product_id/' + this.value + `/${cust}`;
+            var type1 = '';
+            var type2 = '';
+            var type3 = '';
+            $("#sale_price").text("");
+            $.get(url, function(data, status) {
+                var value = $.parseJSON(data);
+                if(status == 'success' && value[0]) {
+                    
+                    var val = value[0];
+                    $('#qty').val(val.qtyData);
+                    $('#jumlah_kirim').val(0);
+                }else{
+                    $('#qty').val(0);
+                    $('#jumlah_kirim').val(0);
+                }
+            });
+        });
+    });
+    $("#tambah-barang-sj").on("click",function(e){
+        e.preventDefault();
+
+        var product_id = $("#sj_product_id").val();
+        var quantity = $("#qty").val();
+        var jumlah = $("#jumlah_kirim").val();
+        // var sale_price = $("#sale_price").val();
+        // if($('#harga_satuan_net').length){
+        //     sale_price = $('#harga_satuan_net').unmask();
+        // }
+        if(product_id !== null && jumlah !== null ){
+            $.ajax({
+                url: $("base").attr("url") + 'stok_konsumen/add_item',
+                data: {
+                    'product_id' : product_id,
+                    'quantity' : quantity,
+                    'jumlah' : jumlah
+                },
+                type: 'POST',
+                beforeSend : function(){
+                    $el.faLoading();
+                },
+                success: function(data){
+                    var res = $.parseJSON(data);
+                    $(".cart-value").remove();
+                    $.each(res.data, function(key,value) {
+                        var row_2 = "";
+                        if($('#harga_satuan_net').length){
+                            //row_2 = "colspan='2'";
+                        }
+                        var display = '<tr class="cart-value" id="'+ key +'">' +
+                                    '<td>'+ value.category_name +'</td>' +
+                                    '<td>'+ value.name +'</td>' +
+                                    '<td>'+ value.jumlah +'</td>' +
+                                    '<td>'+ value.qty +'</td>' +
+                                    '<td><span class="btn btn-danger btn-sm transaksi-delete-item" data-cart="'+ key +'">x</span></td>' +
+                                    '</tr>';
+                        $("#transaksi-item tr:last").after(display);
+                    });
+                    $("#total-pembelian").text(res.total_price);
+                    $("#transaksi-item").find("input[type=text], input[type=number]").val("0");
+                    $el.faLoading(false);
+                    console.log(res);
+                },
+                error: function(){
+                    alert('Something Error');
+                }
+            });
+        }else{
+            alert("Silahkan isi semua box");
+        }
     });
     $("#tambah-barang").on("click",function(e){
         e.preventDefault();
 
         var product_id = $("#transaksi_product_id").val();
         var quantity = $("#jumlah").val();
+        var reserv = $("#reserv").val();
         var sale_price = $("#sale_price").val();
         if($('#harga_satuan_net').length){
             sale_price = $('#harga_satuan_net').unmask();
@@ -141,6 +246,7 @@ var $el = $("body");
                 data: {
                     'product_id' : product_id,
                     'quantity' : quantity,
+                    'reserv' : reserv,
                     'sale_price' : sale_price
                 },
                 type: 'POST',
@@ -159,6 +265,8 @@ var $el = $("body");
                                     '<td>'+ value.category_name +'</td>' +
                                     '<td>'+ value.name +'</td>' +
                                     '<td>'+ value.qty +'</td>' +
+                                    '<td>'+ value.jumlah +'</td>' +
+                                    '<td>'+ value.reserv +'</td>' +
                                     '<th '+row_2+'>Rp'+ price(value.subtotal) +'</th>' +
                                     '<td><span class="btn btn-danger btn-sm transaksi-delete-item" data-cart="'+ key +'">x</span></td>' +
                                     '</tr>';
@@ -191,6 +299,21 @@ var $el = $("body");
             }
         );
     });
+    $(document).on("click",".btn-update",function(e){
+        var id = $(this).attr("data-id");
+        var reserv = +$(this).attr("data-quantity");
+        $("#jumlah-quanty").val(reserv);
+        $("#item_id").val(id);
+
+        $("#jumlah-quanty").on("keyup",function(e){
+            const qty = +$(this).val();
+    
+            if(reserv < 0)  $(this).val(0);
+            if(qty < 0) $(this).val(0);
+            if(qty > reserv)   $(this).val(reserv);
+        });
+    });
+    
     $("#submit-transaksi").on('click',function(e){
         e.preventDefault();
         var status = false;
@@ -225,6 +348,15 @@ var $el = $("body");
             method = retur_penjualan[1];
             arr = retur_penjualan[2];
         }
+        
+        // Surat Jalan
+        var surat_jalan = surat_jalan_status();
+        console.log(surat_jalan)
+        if(surat_jalan[0] == true){
+            status = surat_jalan[0];
+            method = surat_jalan[1];
+            arr = surat_jalan[2];
+        }
 
         if(status == true) {
             $.ajax({
@@ -251,6 +383,7 @@ var $el = $("body");
             alert("Silahkan periksa kode transaksi atau supplier anda!");
         }
     });
+
     $('.datepicker-transaksi').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true
@@ -313,6 +446,25 @@ var $el = $("body");
                 'sales_id': sales_id,
                 'customer_id': customer_id,
                 'is_cash' : is_cash
+            };
+            data = [status,method,arr];
+        }
+        return data;
+    }
+    function surat_jalan_status(){
+        var data = false;
+        var pengiriman_id = $("#pengiriman_id").val();
+        var customer_id = $("#customer_id").val();
+        var tanggal_kirim = $("#tanggal_kirim").val();
+        var plat = $("#plat").val();
+        if(typeof pengiriman_id !== "undefined" && pengiriman_id != ""){
+            var status = true;
+            var method = "stok_konsumen";
+            var arr = {
+                'pengiriman_id': pengiriman_id,
+                'customer_id': customer_id,
+                'tanggal_kirim' : tanggal_kirim,
+                'plat' : plat,
             };
             data = [status,method,arr];
         }

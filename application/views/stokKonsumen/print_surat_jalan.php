@@ -96,25 +96,20 @@
             <thead>
                 <tr>
                     <td style="width:350px;">Kepada Yth:</td>
-                    <td style="width:200px;">Kode Transaksi</td>
+                    <td style="width:200px;">Kode Surat Jalan</td>
                     <td style="width:200px;">: <?php echo $details[0]->id;?></td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><?php echo $details[0]->customer_name;?></td>
-                    <td>Tgl Pembelian</td>
-                    <td>: <?php echo date("d-m-Y H:i:s",strtotime($details[0]->date));?></td>
+                    <td>Tgl Kirim</td>
+                    <td>: <?php echo date("d-m-Y",strtotime($details[0]->tanggal_kirim));?></td>
                 </tr>
                 <tr>
                     <td><?php echo $details[0]->customer_address;?> </td>
-                    <td valign="top">Pembayaran</td>
-                    <td valign="top">: <?php echo $details[0]->is_cash == 1 ? "Cash" : "Credit";?></td>
-                </tr>
-                <tr>
-                    <td>Phone: <?php echo $details[0]->customer_phone;?></td>
-                    <td valign="top">Jatuh Tempo</td>
-                    <td valign="top">: <?php echo $details[0]->is_cash == 1 ? "-" : $details[0]->pay_deadline_date;?></td>
+                    <td valign="top">Nomor Plat</td>
+                    <td valign="top">: <?php echo $details[0]->no_plot_truk ;?></td>
                 </tr>
             </tbody>
         </table>
@@ -125,7 +120,6 @@
                     <th style="width: 5%;">No</th>
                     <th style="width: 40%;">Name Product</th>
                     <th style="width: 10%;">QTY</th>
-                    <th style="width: 10%;">Reserv</th>
                 </tr>
             </thead>
             <tbody>
@@ -136,9 +130,8 @@
                         <tr>
                             <td style="width:5%; text-align: center;"><?php echo $no;?></td>
                             <td style="width:40%; text-align: left;"><?php echo $transaksi->product_name;?></td>
-                            <td style="width:10%; text-align: left;"><?php echo number_format($transaksi->quantity);?></td>
-                            <td style="width:10%; text-align: left;"><?php echo number_format($transaksi->reserv);?></td>
-                        </tr>
+                            <td style="width:10%; text-align: left;"><?php echo number_format($transaksi->qty);?></td>
+                            </tr>
                     <?php $no++; } ?>
                 <?php } ?>
             </tbody>

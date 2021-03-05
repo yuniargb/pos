@@ -23,11 +23,11 @@
                             <div class="pull-right">
                                 <span><a href="<?php echo site_url('penjualan');?>" class="btn btn-sm btn-default">Back</a></span>
                                 <?php if($details[0]->status_product == 0) { ?>
-                                    <a onclick="return confirm('do you want to change the status of this product to be taken ?');" href="<?php echo site_url('penjualan/update_status_product').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary"><i class="fa fa-newspaper-o"></i>  Update Status Product</a>
-                                    <span><a href="<?php echo site_url('penjualan/cetak_surat_jalan').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary btnPrint"><i class="fa fa-newspaper-o"></i>  Cetak Surat Jalan</a></span>
+                                    <!-- <a onclick="return confirm('do you want to change the status of this product to be taken ?');" href="<?php echo site_url('penjualan/update_status_product').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary"><i class="fa fa-newspaper-o"></i>  Update Status Product</a> -->
+                                    <!-- <span><a href="<?php echo site_url('penjualan/cetak_surat_jalan').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary btnPrint"><i class="fa fa-newspaper-o"></i>  Cetak Surat Jalan</a></span> -->
 
                                 <?php } ?>
-                                <span><a href="<?php echo site_url('penjualan/print_now').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span>
+                                <!-- <span><a href="<?php echo site_url('penjualan/print_now').'/'.$details[0]->id;?>" class="btn btn-sm btn-primary btnPrint"><i class="fa fa-print"></i> Print</a></span> -->
                             </div>
                         </div>
                         <!-- /.box-header -->
@@ -64,8 +64,10 @@
                                         <th>Product Name</th>
                                         <th>Category</th>
                                         <th>Quantity</th>
+                                        <th>Reserv</th>
                                         <th>Price/item</th>
                                         <th>Subtotal</th>
+                                        <!-- <th>Aksi</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,8 +77,15 @@
                                             <td><?php echo $transaksi->product_name;?></td>
                                             <td><?php echo $transaksi->category_name;?></td>
                                             <td><?php echo $transaksi->quantity;?></td>
+                                            <td><?php echo $transaksi->reserv;?></td>
                                             <td>Rp<?php echo number_format($transaksi->price_item);?></td>
                                             <td>Rp<?php echo number_format($transaksi->subtotal);?></td>
+                                            <!-- <td>
+                                                <?php if($transaksi->reserv > 0) :  ?>
+                                                <button type="button" class="btn btn-primary btn-sm btn-update" data-id="<?= $transaksi->product_id ?>" data-quantity="<?= $transaksi->reserv ?>" data-toggle="modal" data-target="#exampleModal">
+                                                Update
+                                                </button></td>
+                                                <?php endif; ?> -->
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
@@ -100,4 +109,33 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Jumlah Yang Dikirim</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="transaction-form" class="form-horizontal" method="POST" action="<?php echo site_url('penjualan/updatepesanan').'/'.$details[0]->id;?>">
+            <div class="modal-body">
+                <div class="container-fluid">
+                <div class="form-group">
+                    <label class="control-label" for="jumlah">Jumlah</label>
+                    <input type="number" id="jumlah-quanty" class="form-control" name="jumlah" min="1" value="0"/>
+                    <input type="hidden" name="item_id"  id="item_id" class="form-control"/>
+                </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
 <?php $this->load->view('element/footer');?>

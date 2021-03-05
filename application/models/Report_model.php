@@ -9,15 +9,20 @@ class Report_model extends CI_Model {
 	}
 	
 	public function get_detail_penjualan($filter){
-		$sql = "SELECT sales_transaction.id, sales_transaction.date, product.product_name, sales_data.quantity, customer.customer_name, sales_data.subtotal, sales_data.price_item FROM sales_transaction 
+		$sql = "SELECT sales_transaction.id, sales_transaction.date, product.product_name, sales_data.quantity, customer.customer_name, sales_data.subtotal, sales_data.price_item,  product.buy_price
+		FROM sales_transaction 
 				JOIN sales_data ON sales_transaction.id = sales_data.sales_id 
 				JOIN product ON product.id = sales_data.product_id 
 				JOIN customer ON customer.id = sales_transaction.customer_id 
 				JOIN category ON category.id = sales_data.category_id 
 				WHERE (sales_transaction.date BETWEEN '".$filter['from']."' AND '".$filter['to']."')";
+		if(!empty($filter['item'])){
+			$sql .= ' AND product.id = "'.$filter['item'].'"';
+		}
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
+	
 
 	public function get_detail_pengeluaran($filter)
 	{
@@ -117,6 +122,55 @@ class Report_model extends CI_Model {
 	public function delete_proyeksi($id)
 	{
 		$this->db->delete('proyeksi_laba', array('id' => $id));
+	}
+
+	public function get_detail_stok($filter){
+		$sql = "SELECT * FROM (
+					SELECT '-' transaksi_id, '-' tgl_transaksi,'-' customer, 'Saldo Awal' keterangan,p.product_name nama_product, ((p.product_qty -  NVL(SUM(j.quantity),0)) + NVL(SUM(x.quantity),0) ) as stok_masuk, 0 stok_keluar
+					FROM product p
+					LEFT JOIN (
+						SELECT SUM(sd.quantity) quantity,sd.product_id 
+						FROM sales_transaction st
+						INNER JOIN sales_data sd ON sd.sales_id = st.id
+						WHERE DATE(st.date) <= '".$filter['from']."'
+						AND sd.type <> 0
+						GROUP BY sd.product_id
+					) x ON p.id = x.product_id
+					LEFT JOIN (
+						SELECT SUM(sd.quantity) quantity,sd.product_id 
+						FROM purchase_transaction st
+						INNER JOIN purchase_data sd ON sd.transaction_id = st.id
+						WHERE DATE(st.date) <= '".$filter['from']."'
+						
+						GROUP BY sd.product_id
+					) j ON p.id = j.product_id
+					WHERE p.id = '".$filter['item']."'
+					GROUP BY p.id
+				) y
+				UNION ALL
+				SELECT * FROM ( 
+				SELECT st.id transaksi_id, DATE(st.date) tgl_transaksi,c.customer_name,'Penjualan' keterangan, p.product_name nama_product , 0 stok_masuk, (sd.quantity * -1) stok_keluar
+					FROM product p
+					INNER JOIN sales_data sd ON sd.product_id = p.id
+					INNER JOIN sales_transaction st ON sd.sales_id = st.id
+					INNER JOIN customer c ON st.customer_id = c.id
+					WHERE sd.quantity <> 0
+					AND DATE(st.date) >= '".$filter['from']."' AND DATE(st.date) <=  '".$filter['to']."'
+					AND p.id = '".$filter['item']."'
+					AND sd.type <> 0
+					UNION ALL
+					SELECT st.id transaksi_id, DATE(st.date) tgl_transaksi,s.supplier_name,'Pembelian' keterangan, p1.product_name nama_product , sd.quantity stok_masuk, 0 stok_keluar
+					FROM product p1
+					INNER JOIN purchase_data sd ON sd.product_id = p1.id
+					INNER JOIN purchase_transaction st ON sd.transaction_id = st.id
+					INNER JOIN supplier s ON st.supplier_id = s.id
+					WHERE sd.quantity <> 0
+					AND DATE(st.date) >= '".$filter['from']."' AND DATE(st.date) <=  '".$filter['to']."'
+					AND p1.id = '".$filter['item']."'
+					ORDER BY DATE(tgl_transaksi) ASC
+				) t";
+		$query = $this->db->query($sql);
+		return $query->result();
 	}
 
 }

@@ -75,32 +75,32 @@
 </head>
 <body>
     <div class="box-body">
-        <center><h1><b>LAPORAN PENJUALAN <br>DARI <span style="color: red;"><?php echo $from; ?></span> SAMPAI <span style="color: red;"><?php echo $to; ?></span></b></h1></center><br>
+        <center><h1><b>LAPORAN STOK <br>DARI <span style="color: red;"><?php echo $from; ?></span> SAMPAI <span style="color: red;"><?php echo $to; ?></span></b></h1></center><br>
         <table style="width: 100%;" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th style="width: 14%;">Transaksi ID</th>
+                    <th style="width: 14%;">Cust/Supl</th>
                     <th style="width: 14%;">Tanggal Transaksi</th>
+                    <th style="width: 14%;">Keterangan</th>
                     <th style="width: 14%;">Nama Produk</th>
-                    <th style="width: 14%;">Qty</th>
-                    <th  style="width: 14%;">Buy Price</th>
-                    <th style="width: 14%;">Price</th>
-                    <th style="width: 14%;">Total</th>
-                    <th style="width: 14%;">Keuntungan</th>
-                </tr>
+                    <th style="width: 14%;">Masuk</th>
+                    <th style="width: 14%;">Keluar</th>
+                    <th style="width: 14%;">Sisa</th>
+                  </tr>
             </thead>
             <tbody>
-                <?php if(isset($details) && is_array($details)){ ?>
-                    <?php foreach($details as $penjualan){?>
+                <?php if(isset($details) && is_array($details)){  $sisa = 0;?>
+                    <?php foreach($details as $s){ $sisa = $sisa + $s->stok_masuk + $s->stok_keluar;?>
                       <tr>
-                        <td style="width: 14%;"><?php echo $penjualan->id;?></td>
-                        <td style="width: 14%;"><?php echo $penjualan->date;?></td>
-                        <td style="width: 14%;"><?php echo $penjualan->product_name;?></td>
-                        <td style="width: 14%;"><?php echo $penjualan->quantity;?></td>
-                        <td style="width: 14%;">Rp. <?php echo number_format($penjualan->buy_price,2,',','.'); ?></td>
-                        <td style="width: 14%;">Rp. <?php echo number_format($penjualan->price_item,2,',','.'); ?></td>
-                        <td style="width: 14%;">Rp. <?php echo number_format($penjualan->subtotal,2,',','.'); ?></td>
-                        <td style="width: 14%;">Rp. <?php echo number_format(($penjualan->subtotal - ($penjualan->buy_price * $penjualan->quantity)),2,',','.'); ?></td>
+                        <td style="width: 14%;"><?php echo $s->transaksi_id;?></td>
+                        <td style="width: 14%;"><?php echo $s->customer;?></td>
+                        <td style="width: 14%;"><?php echo $s->tgl_transaksi;?></td>
+                        <td style="width: 14%;"><?php echo $s->keterangan;?></td>
+                        <td style="width: 14%;"><?php echo $s->nama_product;?></td>
+                        <td style="width: 14%;"><?php echo $s->stok_masuk;?></td>
+                        <td style="width: 14%;"><?php echo $s->stok_keluar;?></td>
+                        <td style="width: 14%;"><?php echo $sisa;?></td>
                       </tr>
                     <?php } ?>
                   <?php } ?>
