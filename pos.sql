@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Mar 2021 pada 14.33
+-- Waktu pembuatan: 08 Mar 2021 pada 04.32
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.11
 
@@ -394,11 +394,11 @@ INSERT INTO `supplier` (`id`, `supplier_name`, `supplier_phone`, `supplier_addre
 --
 
 CREATE TABLE `surat_jalan` (
-  `id` varchar(255) NOT NULL,
-  `customer_id` varchar(255) NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `customer_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `tanggal_terima` date NOT NULL,
   `tanggal_kirim` date NOT NULL,
-  `no_plot_truk` varchar(50) NOT NULL
+  `no_plot_truk` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -417,8 +417,8 @@ INSERT INTO `surat_jalan` (`id`, `customer_id`, `tanggal_terima`, `tanggal_kirim
 
 CREATE TABLE `surat_jalan_detail` (
   `id` int(11) NOT NULL,
-  `surat_jalan_id` varchar(255) NOT NULL,
-  `product_id` varchar(255) NOT NULL,
+  `surat_jalan_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `product_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
