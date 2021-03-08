@@ -158,7 +158,7 @@ class Stok_konsumen_model extends CI_Model {
     
     public function produk_get_by_id($id,$customer){
 		$response = false;
-        $this->db->select('p.id,p.product_name,(NVL(SUM(sd.quantity),0) - NVL(SUM(sjd.qty),0)) qtyData');
+        $this->db->select('p.id,p.product_name,(IFNULL(SUM(sd.quantity),0) - IFNULL(SUM(sjd.qty),0)) qtyData');
 		$this->db->join('sales_data sd', 'st.id = sd.sales_id', 'left');
 		$this->db->join('surat_jalan sj', 'st.customer_id = sj.customer_id', 'left');
 		$this->db->join('surat_jalan_detail sjd', 'sj.id = sjd.surat_jalan_id', 'left');
@@ -172,7 +172,7 @@ class Stok_konsumen_model extends CI_Model {
 		return $response;
     }
     public function get_all($customer = null){
-		$this->db->select('c.id AS id, customer_name, customer_phone, SUM(total_price) total_price, SUM(total_item) total_item,NVL((
+		$this->db->select('c.id AS id, customer_name, customer_phone, SUM(total_price) total_price, SUM(total_item) total_item,IFNULL((
             SELECT SUM(sjd.qty)
             FROM `surat_jalan` `sj`
             INNER JOIN `surat_jalan_detail` `sjd` ON `sj`.`id` = `sjd`.`surat_jalan_id`
@@ -193,7 +193,7 @@ class Stok_konsumen_model extends CI_Model {
 	}
 
 	public function get_detail($where){
-		$this->db->select('c.id AS id, customer_name, customer_phone, SUM(total_price) total_price, SUM(total_item) total_item,NVL((
+		$this->db->select('c.id AS id, customer_name, customer_phone, SUM(total_price) total_price, SUM(total_item) total_item,IFNULL((
             SELECT SUM(sjd.qty)
             FROM `surat_jalan` `sj`
             INNER JOIN `surat_jalan_detail` `sjd` ON `sj`.`id` = `sjd`.`surat_jalan_id`

@@ -126,7 +126,7 @@ class Report_model extends CI_Model {
 
 	public function get_detail_stok($filter){
 		$sql = "SELECT * FROM (
-					SELECT '-' transaksi_id, '-' tgl_transaksi,'-' customer, 'Saldo Awal' keterangan,p.product_name nama_product, ((p.product_qty -  NVL(SUM(j.quantity),0)) + NVL(SUM(x.quantity),0) ) as stok_masuk, 0 stok_keluar
+					SELECT '-' transaksi_id, '-' tgl_transaksi,'-' customer, 'Saldo Awal' keterangan,p.product_name nama_product, ((p.product_qty -  IFNULL(SUM(j.quantity),0)) + IFNULL(SUM(x.quantity),0) ) as stok_masuk, 0 stok_keluar
 					FROM product p
 					LEFT JOIN (
 						SELECT SUM(sd.quantity) quantity,sd.product_id 
