@@ -79,7 +79,13 @@
                       </select>
                     </div>
                   </div>
-                  
+                  <div id="dates"></div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="kode">Pajak</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="pajak" id="pajak" value="10" class="form-control"/>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-11 col-md-offset-1">
                   <h3 class="content-title">Informasi Barang</h3>

@@ -158,14 +158,24 @@ class Transaksi extends MY_Controller {
 	public function add_process(){
 		$this->form_validation->set_rules('transaction_id', 'transaction_id', 'required');
 		$this->form_validation->set_rules('supplier_id', 'supplier_id', 'required');
+		$this->form_validation->set_rules('is_cash', 'is_cash', 'required');
+		$this->form_validation->set_rules('pajak', 'pajak', 'required');
 
 		$carts =  $this->cart->contents();
 		if($this->form_validation->run() != FALSE && !empty($carts) && is_array($carts)){
 			$data['id'] = escape($this->input->post('transaction_id'));
 			$data['supplier_id'] = escape($this->input->post('supplier_id'));
 			$data['total_price'] = $this->cart->total();
+			$data['is_cash'] = escape($this->input->post('is_cash'));
+			$data['pajak'] = escape($this->input->post('pajak'));
 			$data['total_item'] = $this->cart->total_items();
-
+			
+			if($data['is_cash'] == 0){
+				$data['pay_deadline_date'] = escape($this->input->post('jatuh_tempo'));
+			}else{
+				$data['pay_deadline_date'] = date('Y-m-d');
+			}
+			
 			$this->transaksi_model->insert($data);
 			if($data['id']){
 				$this->_insert_purchase_data($data['id'],$carts);

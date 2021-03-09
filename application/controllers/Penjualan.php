@@ -192,6 +192,7 @@ class Penjualan extends MY_Controller {
 		$this->form_validation->set_rules('sales_id', 'sales_id', 'required');
 		$this->form_validation->set_rules('customer_id', 'customer_id', 'required');
 		$this->form_validation->set_rules('is_cash', 'is_cash', 'required');
+		$this->form_validation->set_rules('pajak', 'pajak', 'required');
 
 		$carts =  $this->cart->contents();
 		// if($this->_check_qty($carts)){
@@ -204,11 +205,12 @@ class Penjualan extends MY_Controller {
 			$data['customer_id'] = escape($this->input->post('customer_id'));
 			$data['is_cash'] = escape($this->input->post('is_cash'));
 			$data['status_product'] = escape($this->input->post('status_product'));
+			$data['pajak'] = escape($this->input->post('pajak'));
 			$data['total_price'] = $this->cart->total();
 			$data['total_item'] = $this->cart->total_items();
 
 			if($data['is_cash'] == 0){
-				$data['pay_deadline_date'] = date('Y-m-d', strtotime("+30 days"));
+				$data['pay_deadline_date'] = escape($this->input->post('jatuh_tempo'));
 			}else{
 				$data['pay_deadline_date'] = date('Y-m-d');
 			}

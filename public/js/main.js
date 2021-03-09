@@ -286,6 +286,20 @@ var $el = $("body");
             }
         );
     });
+    $('#is_cash').on("change", function(){
+        const vals = $(this).val();
+        var html = '';
+        if(vals == 0 )
+            html += `
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="date">Jatuh Tempo</label>
+                <div class="col-sm-8">
+                <input type="date" id="jatuh_tempo" class="form-control" name="jatuh_tempo"/>
+                </div>
+            </div>
+            `;
+        $('#dates').html(html);
+    });
     $(document).on("click",".btn-update",function(e){
         var id = $(this).attr("data-id");
         var reserv = +$(this).attr("data-quantity");
@@ -310,12 +324,20 @@ var $el = $("body");
         var transaction_id = $("#kode_transaksi").val();
         var supplier_id = $("#supplier_id").val();
         var status_id = $("#kode_transaksi").attr("data-attr");
+
+        var pajak = $("#pajak").val();
+        var is_cash = $("#is_cash").val();
+        var jatuh_tempo = $("#jatuh_tempo").val();
+        
         if(typeof transaction_id !== "undefined" && transaction_id != ""){
             status = true;
             method = "transaksi";
             arr = {
                 'transaction_id': transaction_id,
-                'supplier_id': supplier_id
+                'supplier_id': supplier_id,
+                'pajak': pajak,
+                'jatuh_tempo': jatuh_tempo,
+                'is_cash' : is_cash
             };
             console.log(arr);
         }
@@ -425,13 +447,17 @@ var $el = $("body");
         var data = false;
         var sales_id = $("#penjualan_id").val();
         var customer_id = $("#customer_id").val();
+        var pajak = $("#pajak").val();
         var is_cash = $("#is_cash").val();
+        var jatuh_tempo = $("#jatuh_tempo").val();
         if(typeof sales_id !== "undefined" && sales_id != ""){
             var status = true;
             var method = "penjualan";
             var arr = {
                 'sales_id': sales_id,
                 'customer_id': customer_id,
+                'pajak': pajak,
+                'jatuh_tempo': jatuh_tempo,
                 'is_cash' : is_cash
             };
             data = [status,method,arr];

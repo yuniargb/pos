@@ -70,6 +70,26 @@
                       <input type="hidden" name="supplier_date" value="<?php echo date('Y-m-d H:i:s');?>" id="supplier_date" class="form-control"/>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="category_id">Metode Pembayaran</label>
+                    <div class="col-sm-8">
+                      <select class="form-control" id="is_cash" name="is_cash">
+                        <option value="1" <?php if(!empty($penjualan) && $penjualan[0]->is_cash == true) echo 'selected="selected"';?>>
+                          Cash
+                        </option>
+                        <option value="0" <?php if(!empty($penjualan) && $penjualan[0]->is_cash == false) echo 'selected="selected"';?>>
+                          Bayar Nanti
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div id="dates"></div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label" for="kode">Pajak</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="pajak" id="pajak" value="10" class="form-control"/>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-12">
                   <h3 class="content-title">Informasi Barang</h3>
