@@ -20,7 +20,7 @@ class Tunggakan extends MY_Controller
 
     public function index()
     {
-        $filter = '';
+        $filter = [];
         if(!empty($_GET['id']) && $_GET['id'] != ''){
             $filter['sales_transaction.id LIKE'] = "%".$_GET['id']."%";
         }

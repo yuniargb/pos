@@ -172,7 +172,7 @@ class Stok_konsumen_model extends CI_Model {
 		return $response;
     }
     public function get_all($customer = null){
-		$this->db->select('c.id AS id, customer_name, customer_phone, SUM(total_price) total_price, SUM(total_item) total_item,IFNULL((
+		$this->db->select('c.id AS id, customer_name, customer_phone, total_price, total_item,IFNULL((
             SELECT SUM(sjd.qty)
             FROM `surat_jalan` `sj`
             INNER JOIN `surat_jalan_detail` `sjd` ON `sj`.`id` = `sjd`.`surat_jalan_id`
@@ -193,7 +193,7 @@ class Stok_konsumen_model extends CI_Model {
 	}
 
 	public function get_detail($where){
-		$this->db->select('c.id AS id, customer_name, customer_phone, SUM(total_price) total_price, SUM(total_item) total_item,IFNULL((
+		$this->db->select('c.id AS id, customer_name, customer_phone, total_price , SUM(quantity) total_item,IFNULL((
             SELECT SUM(sjd.qty)
             FROM `surat_jalan` `sj`
             INNER JOIN `surat_jalan_detail` `sjd` ON `sj`.`id` = `sjd`.`surat_jalan_id`
@@ -220,10 +220,11 @@ class Stok_konsumen_model extends CI_Model {
 		return $query->result();
 	}
 	public function get_detail_sj($where = null){
-		$this->db->select('sj.*,p.product_name,sjd.qty,c.customer_name,c.customer_address,c.customer_phone');
+		$this->db->select('sj.*,p.product_name,sjd.qty,c.customer_name,c.customer_address,c.customer_phone,ct.category_name');
 		$this->db->join('surat_jalan_detail sjd', 'sj.id = sjd.surat_jalan_id');
 		$this->db->join('customer c', 'c.id = sj.customer_id');
 		$this->db->join('product p', 'p.id = sjd.product_id');
+		$this->db->join('category ct', 'p.category_id = ct.id');
 		if(!empty($where)){
 			$query = $this->db->get_where("surat_jalan sj",$where);
 		}else{

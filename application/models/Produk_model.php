@@ -30,6 +30,15 @@ class Produk_model extends CI_Model {
 		}
 		return $query->result_array();
 	}
+	public function get_all_like($filter){
+		if($filter){
+			$this->db->or_like($filter); 
+			$query = $this->db->order_by("date", "desc")->get("product");
+		}else{
+			$query = $this->db->order_by("date", "desc")->get("product");
+		}
+		return $query->result_array();
+	}
 	public function get_last_id(){
 		$this->db->order_by('id', 'DESC');
 

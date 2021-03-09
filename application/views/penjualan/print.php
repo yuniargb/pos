@@ -83,6 +83,7 @@
                 <td style="width:160px;">Name</td>
                 <td style="width:100px;">Category</td>
                 <td style="width:100px;">Quantity</td>
+                <td style="width:200px;">Kg Price</td>
                 <td style="width:200px;">Price/item</td>
                 <td style="width:100px;text-align: right;">Subtotal</td>
             </tr>
@@ -97,6 +98,7 @@
                         <td style="width:160px;"><?php echo $transaksi->product_name;?></td>
                         <td style="width:100px; text-align: left;"><?php echo $transaksi->category_name;?></td>
                         <td style="width:100px; text-align: left;"><?php echo $transaksi->quantity;?></td>
+                        <td style="width:200px; text-align: left;">Rp<?php echo number_format($transaksi->kilo_price);?></td>
                         <td style="width:200px; text-align: left;">Rp<?php echo number_format($transaksi->price_item);?></td>
                         <td style="width:100px; text-align: right;">Rp<?php echo number_format($transaksi->subtotal);?></td>
                     </tr>
@@ -105,6 +107,7 @@
                 for($a =1; $a <= $total; $a++){ ?>
                     <tr style="height:10px;font-size:14px;">
                         <td style="width:160px;">&nbsp;</td>
+                        <td style="width:100px;"></td>
                         <td style="width:100px;"></td>
                         <td style="width:100px;"></td>
                         <td style="width:200px;"></td>
@@ -119,6 +122,7 @@
             <thead>
             <tr>
                 <td style="width:160px;"></td>
+                <td style="width:100px;"></td>
                 <td style="width:100px;"></td>
                 <td style="width:100px;"></td>
                 <td style="width:200px;">Total</td>

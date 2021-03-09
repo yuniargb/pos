@@ -17,6 +17,7 @@
     <section class="content">
 		<div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
+          <a class="stretched-link" href="<?php echo site_url('supplier');?>">
           <div class="info-box">
             <span class="info-box-icon"><i class="fa fa-cart-arrow-down"></i></span>
             <div class="info-box-content">
@@ -25,10 +26,12 @@
             </div>
             <!-- /.info-box-content -->
           </div>
+          </a>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
+          <a class="stretched-link" href="<?php echo site_url('pelanggan');?>">
           <div class="info-box">
             <span class="info-box-icon bg-red"><i class="fa fa-users"></i></span>
 
@@ -39,12 +42,13 @@
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
+          </a>
         </div>
         <!-- /.col -->
 
         <!-- fix for small devices only -->
         <div class="clearfix visible-sm-block"></div>
-
+        <a class="stretched-link" href="<?php echo site_url('produk');?>">
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-green"><i class="fa fa-file"></i></span>
@@ -56,9 +60,11 @@
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
+          </a>
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
+        <a class="stretched-link" href="<?php echo site_url('kategori');?>">
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="fa fa-bars"></i></span>
 
@@ -69,8 +75,10 @@
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
+          </a>
         </div>
         <!-- /.col -->
+
       </div>
 	  <div class="row">
         <div class="col-md-12">
@@ -99,10 +107,31 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-8">
+                  <form action="" method="GET">
+                    <div class="form-group">
+                      <div class="col-sm-10">
+                        <input type="text" name="value" placeholder="cari jumlah produk stok" value="" class="form-control" />
+                      </div>
+                      <button type="submit" class="col-sm-2 btn btn-info pull-right">Cari</button>
+                    </div>
+                  </form>
+                  <br />
+                  <br />
+                  <br />
+                  <?php if(!empty($_GET['value'])) {?>
+                    <ul class="list-group">
+                    <?php foreach($produk as $p){?>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <?= $p['product_name'] ?>
+                        <span class="badge badge-primary badge-pill"><?= $p['product_qty'] ?></span>
+                      </li>
+                    <?php } ?>
+                  </ul>
+                  <?php } ?>
                   <p class="text-center">
                     <!-- strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong -->
                   </p>
-
+                  <hr />
                   <div class="chart">
 					  <table id="example1" class="table table-bordered table-striped">
 						<thead>

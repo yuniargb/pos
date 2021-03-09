@@ -47,7 +47,7 @@ class Penjualan_model extends CI_Model {
 		$this->db->update($this->table, $data);
 	}
 	public function update_qty($id,$qty,$item){
-		$this->db->query('update sales_data set quantity = quantity + '.$qty.', reserv = reserv - '.$qty.' where sales_id="'.$id.'" and product_id = '. $item);
+		$this->db->query('update sales_data set quantity = quantity + '.$qty.' where sales_id="'.$id.'" and product_id = '. $item);
 	}
 	public function get_by_id($id){
 		$response = false;
@@ -146,7 +146,7 @@ class Penjualan_model extends CI_Model {
 	/*
 	 * Tunggakan Disini
 	 */
-	public function count_total_filter_tunggakan($filter = array()){
+	public function count_total_filter_tunggakan($filter = []){
 		$filter['is_cash'] = 0;
 		$query = $this->db->order_by("date", "desc")->get_where($this->table,$filter);
 		return $query->num_rows();

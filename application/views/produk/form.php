@@ -98,6 +98,12 @@
                       <input type="text" value="<?php echo !empty($produk) ? $produk['sale_price'] : '';?>" name="sale_price" placeholder="Product Sale" id="sale" class="form-control" required/>
                     </div>
                   </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label" for="address">Harga Per Kg</label>
+                      <div class="col-sm-10">
+                        <input type="text" value="<?php echo !empty($produk) ? $produk['kilo_price'] : '';?>" name="kilo_price" placeholder="Product Price Per Kg" id="product_sale_type3" class="form-control"/>
+                      </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
@@ -115,14 +121,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="col-sm-4 control-label" for="address">Harga Type 3</label>
-                    <div class="col-sm-8">
-                      <input type="text" value="<?php echo !empty($produk) ? $produk['sale_price_type3'] : '';?>" name="sale_price_type3" placeholder="Product Sale type 3" id="product_sale_type3" class="form-control"/>
-                    </div>
-                  </div>
-                </div>
+                
               </div>
               <!-- /.box-body -->
               <div class="box-footer">

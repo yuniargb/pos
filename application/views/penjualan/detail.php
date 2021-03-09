@@ -64,7 +64,6 @@
                                         <th>Product Name</th>
                                         <th>Category</th>
                                         <th>Quantity</th>
-                                        <th>Reserv</th>
                                         <th>Price/item</th>
                                         <th>Subtotal</th>
                                         <!-- <th>Aksi</th> -->
@@ -77,7 +76,6 @@
                                             <td><?php echo $transaksi->product_name;?></td>
                                             <td><?php echo $transaksi->category_name;?></td>
                                             <td><?php echo $transaksi->quantity;?></td>
-                                            <td><?php echo $transaksi->reserv;?></td>
                                             <td>Rp<?php echo number_format($transaksi->price_item);?></td>
                                             <td>Rp<?php echo number_format($transaksi->subtotal);?></td>
                                             <!-- <td>

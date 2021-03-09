@@ -64,6 +64,7 @@
                     <th>Code Akun</th>
                     <th>Nama</th>
                     <th>Keterangan</th>
+                    <th>Jumlah</th>
                     <th>Price</th>
                   </tr>
                 </thead>
@@ -75,6 +76,7 @@
                         <td><?php echo $pengeluaran->code;?></td>
                         <td><?php echo $pengeluaran->name;?></td>
                         <td><?php echo $pengeluaran->keterangan;?></td>
+                        <td><?php echo $pengeluaran->total;?></td>
                         <td>Rp. <?php echo number_format($pengeluaran->jumlah,2,',','.');?></td>
                       </tr>
                     <?php } ?>

@@ -38,7 +38,16 @@ class Home extends MY_Controller {
 		$data['sales_retur'] = $this->retur_penjualan_model->get_all_not_returned();
 
 		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
-
+		
+		if(!empty($_GET['value']) && $_GET['value'] != ''){
+			$filter = array(
+				'id' => $_GET['value'],
+				'product_name' => $_GET['value']
+			);
+			// $filter['product_name'] = "%" . $_GET['value'] . "%";
+			$data['produk'] = $this->produk_model->get_all_like($filter);
+		}
+		
 		$this->load->view('home/dashboard',$data);
 	}
 	

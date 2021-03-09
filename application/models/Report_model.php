@@ -26,8 +26,17 @@ class Report_model extends CI_Model {
 
 	public function get_detail_pengeluaran($filter)
 	{
-		$sql = "SELECT a.id, a.tanggal, a.jumlah, a.keterangan, b.code, b.name FROM pengeluaran a
-				Inner JOIN expense_account b ON a.akun_id = b.id WHERE (a.tanggal BETWEEN '".$filter['from']."' AND '".$filter['to']."') ";
+		$sql = "SELECT a.id, a.tanggal,'-' total , a.jumlah, a.keterangan, b.code, b.name 
+				FROM pengeluaran a
+				Inner JOIN expense_account b ON a.akun_id = b.id 
+				WHERE (a.tanggal BETWEEN '".$filter['from']."' AND '".$filter['to']."') 
+				UNION ALL
+				SELECT pt.id, pt.date,pd.quantity total, pd.subtotal jumlah, 'pembelian barang' keterangan, s.id code, s.supplier_name name 
+				FROM purchase_transaction pt
+				INNER JOIN purchase_data pd ON pt.id = pd.transaction_id 
+				INNER JOIN supplier s ON pt.supplier_id = s.id 
+				WHERE (pt.date BETWEEN '".$filter['from']."' AND '".$filter['to']."') 
+				ORDER BY UNIX_TIMESTAMP(tanggal) ASC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}

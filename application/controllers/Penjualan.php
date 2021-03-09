@@ -240,14 +240,13 @@ class Penjualan extends MY_Controller {
 				'sales_id' => $sales_id,
 				'product_id' => $cart['id'],
 				'category_id' => $cart['category_id'],
-				'quantity' => $cart['jumlah'],
-				'reserv' => $cart['reserv'],
+				'quantity' => $cart['qty'],
 				'price_item' => $cart['price'],
 				'subtotal' => $cart['subtotal']
 			);
 			$this->penjualan_model->insert_purchase_data($purchase_data);
 
-			$this->produk_model->update_qty_min($cart['id'],array('product_qty' => $cart['jumlah']));
+			$this->produk_model->update_qty_min($cart['id'],array('product_qty' => $cart['qty']));
 		}
 		$this->cart->destroy();
 	}

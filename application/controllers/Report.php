@@ -85,7 +85,7 @@ class Report extends MY_Controller {
 
 	public function pendapatan(){
 		if(isset($_GET['search'])){
-			$filter = '';
+			$filter = [];
 			if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
 				$filter['from'] = $_GET['date_from'];
 			}
@@ -117,7 +117,7 @@ class Report extends MY_Controller {
 
 	public function pengeluaran(){
 		if(isset($_GET['search'])){
-			$filter = '';
+			$filter = [];
 			if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
 				$filter['from'] = $_GET['date_from'];
 			}
@@ -141,7 +141,7 @@ class Report extends MY_Controller {
 	public function laba_rugi()
 	{
 		if(isset($_GET['search'])){
-			$filter = '';
+			$filter = [];
 			if(!empty($_GET['txtBulan_from']) && $_GET['txtBulan_from'] != ''){
 				$filter['txtBulan_from'] = $_GET['txtBulan_from'];
 			}
@@ -397,7 +397,7 @@ class Report extends MY_Controller {
 	// public function export_csv(){
 
 	// 	if(isset($_GET['search'])){
-	// 		$filter = '';
+	// 		$filter = [];
 	// 		if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
 	// 			$filter['DATE(sales_transaction.date) >='] = $_GET['date_from'];
 	// 			$filter['from'] = $_GET['date_from'];

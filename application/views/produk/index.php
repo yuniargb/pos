@@ -48,11 +48,11 @@
                                     <th>Nama Produk</th>
                                     <th>Deskripsi</th>
                                     <th>QTY</th>
+                                    <th>Kg Price</th>
                                     <th>Buy Price</th>
                                     <th>Price</th>
                                     <th>Price 1</th>
                                     <th>Price 2</th>
-                                    <th>Price 3</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -64,11 +64,11 @@
                                             <td><?php echo $produk->product_name;?></td>
                                             <td><?php echo $produk->product_desc;?></td>
                                             <td><?php echo $produk->product_qty;?></td>
+                                            <td><?php echo $produk->kilo_price;?></td>
                                             <td><?php echo $produk->buy_price;?></td>
                                             <td><?php echo $produk->sale_price;?></td>
                                             <td><?php echo $produk->sale_price_type1;?></td>
                                             <td><?php echo $produk->sale_price_type2;?></td>
-                                            <td><?php echo $produk->sale_price_type3;?></td>
                                             <td>
                                                 <a href="<?php echo site_url('produk/edit').'/'.$produk->id;?>" class="btn btn-xs btn-primary">Edit</a>
                                                 <a onclick="return confirm('Are you sure you want to delete this product?');" href="<?php echo site_url('produk/delete').'/'.$produk->id;?>" class="btn btn-xs btn-danger">Delete</a>

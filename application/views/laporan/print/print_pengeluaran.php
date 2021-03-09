@@ -84,6 +84,7 @@
                     <th style="width: 20%;">Code Akun</th>
                     <th style="width: 20%;">Nama Akun</th>
                     <th style="width: 20%;">Keterangan</th>
+                    <th style="width: 20%;">Jumlah</th>
                     <th style="width: 20%;">Price</th>
                 </tr>
             </thead>
@@ -95,6 +96,7 @@
                         <td style="width: 20%;"><?php echo $pengeluaran->code;?></td>
                         <td style="width: 20%;"><?php echo $pengeluaran->name;?></td>
                         <td style="width: 20%;"><?php echo $pengeluaran->keterangan;?></td>
+                        <td style="width: 20%;"><?php echo $pengeluaran->total;?></td>
                         <td style="width: 20%;">Rp. <?php echo number_format($pengeluaran->jumlah,2,',','.');?></td>
                       </tr>
                     <?php } ?>

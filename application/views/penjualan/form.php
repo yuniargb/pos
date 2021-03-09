@@ -79,19 +79,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-4 control-label" for="category_id">Status Barang</label>
-                    <div class="col-sm-8">
-                      <select class="form-control" id="status_product" name="status_product">
-                        <option value="1" <?php if(!empty($penjualan) && $penjualan[0]->status_product == true) echo 'selected="selected"';?>>
-                          Langsung di ambil
-                        </option>
-                        <option value="0" <?php if(!empty($penjualan) && $penjualan[0]->status_product == false) echo 'selected="selected"';?>>
-                          Nanti
-                        </option>
-                      </select>
-                    </div>
-                  </div>
+                  
                 </div>
                 <div class="col-md-11 col-md-offset-1">
                   <h3 class="content-title">Informasi Barang</h3>
@@ -103,7 +91,7 @@
                           <td>Nama Barang</td>
                           <td>Qty</td>
                           <td>Jumlah</td>
-                          <td>Reserv</td>
+                          <td>Harga Perkilo</td>
                           <td>Harga Beli Satuan</td>
                           <td>Input Barang</td>
                         </tr>
@@ -135,7 +123,7 @@
                             <input type="number" id="jumlah" class="form-control" name="jumlah" min="1" value="0"/>
                           </td>
                           <td>
-                            <input type="number" id="reserv" class="form-control" name="reserv" min="0" value="0" readonly/>
+                            <input type="number" id="kilo" class="form-control" name="kilo" min="0" value="0" readonly/>
                           </td>
                           <td>
                             <select class="form-control" id="sale_price" name="sale_price"></select>

@@ -8,15 +8,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in untuk memulai aplikasi Point of Sale</p>
 	
-	<?php if($this->session->flashdata('login_false')){?>
-		<div class="alert alert-danger alert-dismissible">
-			<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-			<h4>
-				<i class="icon fa fa-ban"></i>Alert!
-			</h4>
-			<?php echo $this->session->flashdata('login_false');?>
-		</div>
-	<?php } ?>
+
     
 	<form action="<?php echo site_url('auth/login_process');?>" method="post">
       <div class="form-group has-feedback">
@@ -51,4 +43,11 @@
   <!-- /.login-box-body -->
 </div>
 </body>
+<?php if($this->session->flashdata('login_false')){?>
+	
+    <script>
+    alertify.error('<?php echo $this->session->flashdata('login_false')?>');
+    </script>
+	<?php } ?>
+  
 <?php $this->load->view('element/footer');?>

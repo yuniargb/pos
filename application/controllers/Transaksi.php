@@ -124,7 +124,6 @@ class Transaksi extends MY_Controller {
 	public function add_item(){
 		$product_id = $this->input->post('product_id');
 		$quantity = $this->input->post('quantity');
-		$reserv = $this->input->post('reserv');
 		$sale_price = $this->input->post('sale_price');
 
 		$get_product_detail =  $this->produk_model->detail_by_id($product_id);
@@ -132,8 +131,6 @@ class Transaksi extends MY_Controller {
 			$data = array(
 				'id'      => $product_id,
 				'qty'     => $quantity,
-				'jumlah'     => $quantity - $reserv,
-				'reserv'     => $reserv,
 				'price'   => $sale_price,
 				'category_id' => $get_product_detail[0]['category_id'],
 				'category_name' => $get_product_detail[0]['category_name'],

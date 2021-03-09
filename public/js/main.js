@@ -83,20 +83,12 @@ var $el = $("body");
         });
         // 
         $("#jumlah").on("keyup",function(e){
-            const qty = $('#qty').val();
-            const jumlah = $('#jumlah').val();
-            const reserv = jumlah - qty;
-            // if(jumlah < qty){
-            //     $('#jumlah').val(0);
-            // }
-
-            if(reserv < 0){
-                $('#reserv').val(0);
-            }else{
-                if(qty < 0) $('#reserv').val(jumlah);
-                else $('#reserv').val(reserv);
-                
-            }
+            const qty = +$('#qty').val();
+            const jumlah = +$('#jumlah').val();
+            console.log(qty);
+            console.log(jumlah);
+            if(jumlah < 0) $('#jumlah').val(0);
+            if(jumlah > qty) $('#jumlah').val(qty);
         });
         $("#jumlah_kirim").on("keyup",function(e){
             const qty = +$('#qty').val();
@@ -115,9 +107,9 @@ var $el = $("body");
                     $("#sj_product_id").text("");
                     $("#sale_price").text("");
                     $('#qty').val(0);
+                    $('#kilo').val(0);
                     $('#jumlah').val(0);
                     $('#jumlah_kirim').val(0);
-                    $('#reserv').val(0);
                     $.each(arr, function(key,value){
                         var default_value = '';
                         if(key == 0){
@@ -142,15 +134,13 @@ var $el = $("body");
                     var value = $.parseJSON(data);
                     var val = value[0];
                     $('#qty').val(val.qtyData);
+                    $('#kilo').val(val.kilo_price);
                     var sale_value = '<option value="' + val.sale_price + '">' + price(parseInt(val.sale_price)) + ' Default</option>';
                     if(val.sale_price_type1 != "0"){
                         var type1 = '<option value="' + val.sale_price_type1 + '">' + price(parseInt(val.sale_price_type1)) + ' Type 1 </option>';
                     }
                     if(val.sale_price_type2 != "0"){
                         var type2 = '<option value="' + val.sale_price_type2 + '">' + price(parseInt(val.sale_price_type2)) + ' Type 2</option>';
-                    }
-                    if(val.sale_price_type3 != "0") {
-                        var type3 = '<option value="' + val.sale_price_type3 + '">' + price(parseInt(val.sale_price_type3)) + ' Type 3</option>';
                     }
                     $('#sale_price').append(sale_value+type1+type2+type3);
                 }
@@ -235,7 +225,6 @@ var $el = $("body");
 
         var product_id = $("#transaksi_product_id").val();
         var quantity = $("#jumlah").val();
-        var reserv = $("#reserv").val();
         var sale_price = $("#sale_price").val();
         if($('#harga_satuan_net').length){
             sale_price = $('#harga_satuan_net').unmask();
@@ -246,7 +235,6 @@ var $el = $("body");
                 data: {
                     'product_id' : product_id,
                     'quantity' : quantity,
-                    'reserv' : reserv,
                     'sale_price' : sale_price
                 },
                 type: 'POST',
@@ -264,9 +252,8 @@ var $el = $("body");
                         var display = '<tr class="cart-value" id="'+ key +'">' +
                                     '<td>'+ value.category_name +'</td>' +
                                     '<td>'+ value.name +'</td>' +
+                                    '<td></td>' +
                                     '<td>'+ value.qty +'</td>' +
-                                    '<td>'+ value.jumlah +'</td>' +
-                                    '<td>'+ value.reserv +'</td>' +
                                     '<th '+row_2+'>Rp'+ price(value.subtotal) +'</th>' +
                                     '<td><span class="btn btn-danger btn-sm transaksi-delete-item" data-cart="'+ key +'">x</span></td>' +
                                     '</tr>';
