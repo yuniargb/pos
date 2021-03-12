@@ -46,6 +46,10 @@ class Penjualan_model extends CI_Model {
 		$this->db->where($where);
 		$this->db->update($this->table, $data);
 	}
+	public function update_po($data,$where){
+		$this->db->where($where);
+		$this->db->update('purchase_transaction', $data);
+	}
 	public function update_qty($id,$qty,$item){
 		$this->db->query('update sales_data set quantity = quantity + '.$qty.' where sales_id="'.$id.'" and product_id = '. $item);
 	}
@@ -82,6 +86,49 @@ class Penjualan_model extends CI_Model {
 				JOIN customer ON customer.id = sales_transaction.customer_id 
 				JOIN category ON category.id = sales_data.category_id 
 				WHERE sales_data.sales_id = '".$id."'";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	public function get_detail_tunggakan($id){
+		$sql = "SELECT sales_transaction.id AS id, 
+		 		product.id as product_id, 
+		 		product.product_name, 
+		 		category.category_name, 
+		 		sales_data.quantity, 
+		 		sales_data.price_item, 
+		 		sales_data.subtotal, 
+		 		customer.customer_name, 
+				 sales_transaction.total_item,
+				 sales_transaction.total_price,
+				 sales_transaction.is_cash,
+				 sales_transaction.pay_deadline_date,
+				 sales_transaction.date as date
+				FROM sales_transaction 
+				JOIN sales_data ON sales_transaction.id = sales_data.sales_id 
+				JOIN product ON product.id = sales_data.product_id 
+				JOIN customer ON customer.id = sales_transaction.customer_id 
+				JOIN category ON category.id = sales_data.category_id 
+				WHERE sales_data.sales_id = '".$id."'
+				UNION
+				SELECT purchase_transaction.id AS id, 
+		 		product.id as product_id, 
+		 		product.product_name, 
+		 		category.category_name, 
+		 		purchase_data.quantity, 
+		 		purchase_data.price_item, 
+		 		purchase_data.subtotal, 
+		 		supplier.supplier_name, 
+				 purchase_transaction.total_item,
+				 purchase_transaction.total_price,
+				 purchase_transaction.is_cash,
+				 purchase_transaction.pay_deadline_date,
+				 purchase_transaction.date as date
+				FROM purchase_transaction 
+				JOIN purchase_data ON purchase_transaction.id = purchase_data.transaction_id 
+				JOIN product ON product.id = purchase_data.product_id 
+				JOIN supplier ON supplier.id = purchase_transaction.supplier_id 
+				JOIN category ON category.id = purchase_data.category_id 
+				WHERE purchase_data.transaction_id = '".$id."'";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -139,6 +186,7 @@ class Penjualan_model extends CI_Model {
 	public function insert_purchase_data($data){
 		$this->db->insert('sales_data', $data);
 	}
+	// 
 	public function delete_purchase_data_trx($transaction_id){
 		$this->db->delete('sales_data', array('sales_id' => $transaction_id));
 	}
@@ -153,14 +201,23 @@ class Penjualan_model extends CI_Model {
 	}
 	public function get_filter_tunggakan($filter = '',$limit_offset = array(),$is_array = false){
 		$filter['is_cash'] = 0;
-		$this->db->select($this->select_default);
-		$this->db->join('customer', 'customer.id = sales_transaction.customer_id', 'left');
-		$this->db->where($filter);
-		if($limit_offset){
-			$this->db->limit($limit_offset['limit'],$limit_offset['offset']);
-		}
-		$query = $this->db->order_by($this->table.".date", "desc")->get($this->table);
+		$filter['is_credit'] = 0;
+	
+		$query1 = $this->db
+					->select($this->select_default) 
+					->join('customer', 'customer.id = sales_transaction.customer_id', 'left')
+					->where($filter)
+					->from($this->table)
+					// ->order_by($this->table.".date", "desc")
+					->get_compiled_select(); 
 
+		$this->db->select('purchase_transaction.id AS id, supplier_name, supplier_phone, total_price, total_item,purchase_transaction.date AS date,purchase_transaction.pay_deadline_date,purchase_transaction.is_cash');
+		$this->db->join('supplier', 'supplier.id = purchase_transaction.supplier_id', 'left');
+		$this->db->where($filter);
+		$this->db->from('purchase_transaction');
+		$query2 = $this->db->get_compiled_select(); 
+
+		$query = $this->db->query($query1. " UNION " .$query2);
 		if($is_array){
 			$resopnse = $query->result_array();
 		}else{

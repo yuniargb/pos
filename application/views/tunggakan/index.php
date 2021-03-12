@@ -92,7 +92,7 @@
                       <td><?php echo $tunggakan->pay_deadline_date;?></td>
                       <td>
                         <a href="<?php echo site_url('tunggakan/detail').'/'.$tunggakan->id;?>" class="btn btn-xs btn-default">Detail</a>
-                        <a onclick="return confirm('Are you sure you want to delete this tunggakan?');" href="<?php echo site_url('tunggakan/delete').'/'.$tunggakan->id;?>" class="btn btn-xs btn-danger">Delete</a>
+                        <!-- <a onclick="return confirm('Are you sure you want to delete this tunggakan?');" href="<?php echo site_url('tunggakan/delete').'/'.$tunggakan->id;?>" class="btn btn-xs btn-danger">Delete</a> -->
                       </td>
                     </tr>
                   <?php } ?>

@@ -26,17 +26,17 @@ class Retur_purchase extends MY_Controller {
 	
 	function index(){
 		if(isset($_GET['search'])){
-			$filter = '';
+			$filter = [];
 			if(!empty($_GET['id']) && $_GET['id'] != ''){
-				$filter['purchase_transaction.id LIKE'] = "%".$_GET['id']."%";
+				$filter['purchase_retur.sales_retur_id LIKE'] = "%".$_GET['id']."%";
 			}
 
 			if(!empty($_GET['date_from']) && $_GET['date_from'] != ''){
-				$filter['DATE(purchase_transaction.date) >='] = $_GET['date_from'];
+				$filter['DATE(purchase_retur.date) >='] = $_GET['date_from'];
 			}
 
 			if(!empty($_GET['date_end']) && $_GET['date_end'] != ''){
-				$filter['DATE(purchase_transaction.date) <='] = $_GET['date_end'];
+				$filter['DATE(purchase_retur.date) <='] = $_GET['date_end'];
 			}
 
 			$total_row = $this->retur_purchase->count_total_filter($filter);
@@ -52,7 +52,7 @@ class Retur_purchase extends MY_Controller {
 	
 	function create(){
 		if(isset($_GET['search'])){
-			$filter = '';
+			$filter = [];
 			if(!empty($_GET['id']) && $_GET['id'] != ''){
 				$filter['purchase_transaction.id LIKE'] = "%".$_GET['id']."%";
 			}
@@ -244,6 +244,7 @@ class Retur_purchase extends MY_Controller {
 		$data['code_retur_penjualan'] = $details[0]->id;
 		$data['date'] = $details[0]->date;
 		$data['details'] = $details;
+		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
 		$this->load->view('retur_purchase/form',$data);
 	}
 

@@ -72,14 +72,14 @@ class Report extends MY_Controller {
 			$data['from'] = $filter['from'];
 			$data['to'] = $filter['to'];
 			
-			$data['produk'] = $this->produk_model->get_all();
+			
 			$data['penjualans'] = $this->Report_model->get_detail_penjualan($filter,url_param());
 			$total_row = count($data['penjualans']);
 			$data['paggination'] = get_paggination($total_row,get_search());
 		}
-		
+		$data['produk'] = $this->produk_model->get_all();
 		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
-		$data['title'] = 'Laporan Penjualan'; 
+		$data['title'] = 'Laporan Detail Penjualan'; 
 		$this->load->view('laporan/penjualan',$data);
 	}
 
@@ -96,18 +96,18 @@ class Report extends MY_Controller {
 
 			$data['from'] = $filter['from'];
 			$data['to'] = $filter['to'];
-			$data['penjualans'] = $this->Report_model->get_detail_penjualan($filter,url_param());
+			$data['penjualans'] = $this->Report_model->get_detail_penjualan_pendapatan($filter,url_param());
 			$total_row = count($data['penjualans']);
 			$data['paggination'] = get_paggination($total_row,get_search());
 
-			$count = 0;
-			if($total_row > 0){
-				for($i=0; $i < count($data['penjualans']); $i++){
-					$count = $count + $data['penjualans'][$i]->subtotal;
-				}
-			}
+			// $count = 0;
+			// if($total_row > 0){
+			// 	for($i=0; $i < count($data['penjualans']); $i++){
+			// 		$count = $count + $data['penjualans'][$i]->subtotal;
+			// 	}
+			// }
 
-			$data['jumlah_pendapatan'] = $count;
+			// $data['jumlah_pendapatan'] = $count;
 		}
 
 		$data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
@@ -329,19 +329,13 @@ class Report extends MY_Controller {
 			$filter['from'] = $from;
 			$filter['to'] = $to;
 
-			$details = $this->Report_model->get_detail_penjualan($filter,url_param());
+			$details = $this->Report_model->get_detail_penjualan_pendapatan($filter,url_param());
 			$total_row = count($details);
 			$data['paggination'] = get_paggination($total_row,get_search());
 
-			$count = 0;
-			if($total_row > 0){
-				for($i=0; $i < count($details); $i++){
-					$count = $count + $details[$i]->subtotal;
-				}
-			}
+			
 
 			if($details){
-				$data['jumlah_pendapatan'] = $count;
 				$data['from'] = $from;
 				$data['to'] = $to;
 				$data['details'] = $details;

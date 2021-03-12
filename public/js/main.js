@@ -513,6 +513,7 @@ var $el = $("body");
             thousandsSeparator: '.',
             centsLimit: 0
         });
+        // 
         $('.discount-trx').bind("keyup change", function(e){
             //e.preventDefault();
             var next = parseInt($(this).attr('data-attr')) + 1;

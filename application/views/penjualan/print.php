@@ -128,6 +128,22 @@
                 <td style="width:200px;">Total</td>
                 <td style="width:100px;text-align: right;">Rp<?php echo number_format($transaksi->total_price);?></td>
             </tr>
+            <tr>
+                <td style="width:160px;"></td>
+                <td style="width:100px;"></td>
+                <td style="width:100px;"></td>
+                <td style="width:100px;"></td>
+                <td style="width:200px;">Pajak</td>
+                <td style="width:100px;text-align: right;"><?= number_format(($transaksi->pajak/100) * $transaksi->total_price)  ."(".($transaksi->pajak) ."%)" ?></td>
+            </tr>
+            <tr>
+                <td style="width:160px;"></td>
+                <td style="width:100px;"></td>
+                <td style="width:100px;"></td>
+                <td style="width:100px;"></td>
+                <td style="width:200px;">Yang Harus Dibayar</td>
+                <td style="width:100px;text-align: right;">Rp<?= number_format((($transaksi->pajak/100) * $transaksi->total_price) + $transaksi->total_price) ?></td>
+            </tr>
             </thead>
         </table>
         <?php echo $line;?>

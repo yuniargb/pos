@@ -79,24 +79,32 @@
         <table style="width: 100%;" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th style="width: 14%;">Transaksi ID</th>
                     <th style="width: 14%;">Tanggal Transaksi</th>
-                    <th style="width: 14%;">Nama Produk</th>
-                    <th style="width: 14%;">Qty</th>
-                    <th style="width: 14%;">Price</th>
-                    <th style="width: 14%;">Total</th>
-                </tr>
+                    <th style="width: 14%;">Total Transaksi</th>
+                    <th style="width: 14%;">Total Piutang</th>
+                    <th style="width: 14%;">Total Penerimaan Piutang</th>
+                    <th style="width: 14%;">Total Hutang</th>
+                    <th style="width: 14%;">Total Penerimaan Hutang</th>
+                    <th style="width: 14%;">Keuntungan</th>
+                    <th style="width: 14%;">Pengeluaran</th>
+                  </tr>
             </thead>
             <tbody>
-                <?php if(isset($details) && is_array($details)){ ?>
-                    <?php foreach($details as $penjualan){?>
+                <?php if(isset($details) && is_array($details)){ 
+                    $total = 0;
+                    ?>
+                    <?php foreach($details as $penjualan){
+                        $total += $penjualan->total_keuntungan - $penjualan->total_pengeluaran;
+                    ?>
                       <tr>
-                        <td style="width: 14%;"><?php echo $penjualan->id;?></td>
-                        <td style="width: 14%;"><?php echo $penjualan->date;?></td>
-                        <td style="width: 14%;"><?php echo $penjualan->product_name;?></td>
-                        <td style="width: 14%;"><?php echo $penjualan->quantity;?></td>
-                        <td style="width: 14%;">Rp. <?php echo number_format($penjualan->price_item,2,',','.'); ?></td>
-                        <td style="width: 14%;">Rp. <?php echo number_format($penjualan->subtotal,2,',','.'); ?></td>
+                        <td><?php echo $penjualan->date;?></td>
+                        <td><?php echo $penjualan->jumlah_transaksi;?></td>
+                        <td><?php echo number_format($penjualan->total_piutang,2,',','.');?></td>
+                        <td><?php echo number_format($penjualan->total_penerimaan_piutang,2,',','.');?></td>
+                        <td><?php echo number_format($penjualan->total_hutang,2,',','.');?></td>
+                        <td><?php echo number_format($penjualan->total_pembayaran_hutang,2,',','.');?></td>
+                        <td><?php echo number_format($penjualan->total_keuntungan,2,',','.');?></td>
+                        <td><?php echo number_format($penjualan->total_pengeluaran,2,',','.');?></td>
                       </tr>
                     <?php } ?>
                   <?php } ?>
@@ -105,7 +113,7 @@
 
         <br>
         <div style="text-align: right; font-size: 20px;">
-            <b>Jumlah Pendapatan  : <span style="margin-left: 50px;">Rp. <?php echo number_format($jumlah_pendapatan,2,',','.'); ?></span></b>
+            <b>Jumlah Pendapatan  : <span style="margin-left: 50px;">Rp. <?php echo number_format($total,2,',','.'); ?></span></b>
         </div>
         <br>
     </div>

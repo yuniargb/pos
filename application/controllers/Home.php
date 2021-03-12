@@ -24,7 +24,7 @@ class Home extends MY_Controller {
 	
 	function dashboard(){
 		$date = date('Y-m-d', strtotime("+30 days"));
-		$filter['DATE(sales_transaction.pay_deadline_date) <='] = $date;
+		$filter['DATE(pay_deadline_date) <='] = $date;
 		$limit_offset['limit'] = 10;
 		$limit_offset['offset'] = 0;
         $data['tunggakans'] = $this->penjualan_model->get_filter_tunggakan($filter,$limit_offset);

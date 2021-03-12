@@ -43,15 +43,19 @@ class Tunggakan extends MY_Controller
     }
     public function detail($id){
         $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
-        $data['details'] = $this->penjualan_model->get_detail($id);
+        $data['details'] = $this->penjualan_model->get_detail_tunggakan($id);
         $this->load->view('tunggakan/detail',$data);
     }
     public function update_lunas($id){
-        $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
+        // $data['users'] = $this->user_model->get_by_id($this->session->userdata('id'));
         $details = $this->penjualan_model->get_detail($id);
+        $data['is_credit'] = 1;
+        $data['pay_lunas_date'] = date('Y-m-d');
+        $where['id'] = $id;
         if($details){
-            $data['is_cash'] = 1;
-            $this->penjualan_model->update($id,$data);
+            $this->penjualan_model->update(null,$data,$where);
+        }else{
+                $this->penjualan_model->update_po($data,$where);
         }
 
         redirect(site_url('tunggakan'));

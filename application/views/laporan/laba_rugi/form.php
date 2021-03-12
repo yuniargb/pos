@@ -97,8 +97,8 @@
                     <div class="form-group">
                       <label class="col-sm-8 " for="kode">HPP (Harga Pokok Penjualan)</label>
                       <div class="col-sm-4">
-                        <input type="number" minlength="0" name="hpp" id="hpp" value="" disabled class="form-control" />
-                        <input type="number" minlength="0" name="txtHPP" id="txtHPP" value="" class="form-control hidden"
+                        <input type="number" minlength="0" name="hpp" id="hpp" value="" disabled class="form-control form-price-format discount-trx" />
+                        <input type="number" minlength="0" name="txtHPP" id="txtHPP" value="" class="form-control form-price-format discount-trx hidden"
                         onchange="myFunction(this.value)" />
                       </div>
                     </div>

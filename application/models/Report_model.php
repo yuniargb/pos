@@ -9,16 +9,78 @@ class Report_model extends CI_Model {
 	}
 	
 	public function get_detail_penjualan($filter){
-		$sql = "SELECT sales_transaction.id, sales_transaction.date, product.product_name, sales_data.quantity, customer.customer_name, sales_data.subtotal, sales_data.price_item,  product.buy_price
+		$sql = "SELECT sales_transaction.id, DATE(sales_transaction.date) date, product.product_name, sales_data.quantity, customer.customer_name, sales_data.subtotal, sales_data.price_item,  product.buy_price
 		FROM sales_transaction 
 				JOIN sales_data ON sales_transaction.id = sales_data.sales_id 
 				JOIN product ON product.id = sales_data.product_id 
 				JOIN customer ON customer.id = sales_transaction.customer_id 
 				JOIN category ON category.id = sales_data.category_id 
-				WHERE (sales_transaction.date BETWEEN '".$filter['from']."' AND '".$filter['to']."')";
+				WHERE (DATE(sales_transaction.date) BETWEEN '".$filter['from']."' AND '".$filter['to']."')";
 		if(!empty($filter['item'])){
 			$sql .= ' AND product.id = "'.$filter['item'].'"';
 		}
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	public function get_detail_penjualan_pendapatan($filter){
+		// ada tanggal, total transaksi,total piutang,total penerimaan piutang,total hutang,total pembayaran hutang,keuntungan,pengeluaran biaya
+		$sql1 = "SELECT 
+		DATE(stx.date) date,
+		COUNT(stx.id) as jumlah_transaksi, 
+		IFNULL((
+			select SUM(st.total_price) 
+			from sales_transaction st 
+			where DATE(st.date) = DATE(stx.date)
+			and is_cash = 0
+		),0) as total_piutang,
+		IFNULL((
+			select SUM(st.total_price) 
+			from sales_transaction st 
+			where DATE(st.date) = DATE(stx.date)
+			and is_cash = 0
+			and is_credit = 1
+		),0) as total_penerimaan_piutang,
+		0 as total_hutang,
+		0 as total_pembayaran_hutang, 
+		0 as total_pengeluaran, 
+		SUM(total_price) as total_keuntungan 
+		FROM sales_transaction stx
+		WHERE (DATE(stx.date) BETWEEN '".$filter['from']."' AND '".$filter['to']."')
+		GROUP BY DATE(stx.date)";
+
+		$sql2 = "SELECT 
+		DATE(ptx.date) date,
+		COUNT(ptx.id) as jumlah_transaksi, 
+		0 as total_piutang,
+		0 as total_penerimaan_piutang,
+		IFNULL((
+			select SUM(st.total_price) 
+			from purchase_transaction st 
+			where DATE(st.date) = DATE(ptx.date)
+			and is_cash = 0
+		),0) as total_hutang,
+		IFNULL((
+			select SUM(st.total_price) 
+			from purchase_transaction st 
+			where DATE(st.date) = DATE(ptx.date)
+			and is_cash = 0
+			and is_credit = 1
+		),0) as total_pembayaran_hutang, 
+		SUM(total_price) as total_pengeluaran, 
+		0 as total_keuntungan 
+		FROM purchase_transaction ptx
+		WHERE (DATE(ptx.date) BETWEEN '".$filter['from']."' AND '".$filter['to']."')
+		GROUP BY DATE(ptx.date)";
+		$sql = 'SELECT 
+		DATE(date) date,
+		SUM(jumlah_transaksi) jumlah_transaksi,
+		SUM(total_piutang) total_piutang,
+		SUM(total_penerimaan_piutang) total_penerimaan_piutang,
+		SUM(total_hutang) total_hutang,
+		SUM(total_pembayaran_hutang) total_pembayaran_hutang,
+		SUM(total_pengeluaran) total_pengeluaran,
+		SUM(total_keuntungan) total_keuntungan
+		FROM (' . $sql1 . ' UNION ' . $sql2 . ') abc GROUP BY DATE(date)';
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -26,16 +88,16 @@ class Report_model extends CI_Model {
 
 	public function get_detail_pengeluaran($filter)
 	{
-		$sql = "SELECT a.id, a.tanggal,'-' total , a.jumlah, a.keterangan, b.code, b.name 
+		$sql = "SELECT a.id, DATE(a.tanggal) tanggal,'-' total , a.jumlah, a.keterangan, b.code, b.name 
 				FROM pengeluaran a
 				Inner JOIN expense_account b ON a.akun_id = b.id 
-				WHERE (a.tanggal BETWEEN '".$filter['from']."' AND '".$filter['to']."') 
+				WHERE (DATE(a.tanggal) BETWEEN '".$filter['from']."' AND '".$filter['to']."') 
 				UNION ALL
-				SELECT pt.id, pt.date,pd.quantity total, pd.subtotal jumlah, 'pembelian barang' keterangan, s.id code, s.supplier_name name 
+				SELECT pt.id, DATE(pt.date) date,pd.quantity total, pd.subtotal jumlah, 'pembelian barang' keterangan, s.id code, s.supplier_name name 
 				FROM purchase_transaction pt
 				INNER JOIN purchase_data pd ON pt.id = pd.transaction_id 
 				INNER JOIN supplier s ON pt.supplier_id = s.id 
-				WHERE (pt.date BETWEEN '".$filter['from']."' AND '".$filter['to']."') 
+				WHERE (DATE(pt.date) BETWEEN '".$filter['from']."' AND '".$filter['to']."') 
 				ORDER BY UNIX_TIMESTAMP(tanggal) ASC";
 		$query = $this->db->query($sql);
 		return $query->result();

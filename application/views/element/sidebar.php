@@ -224,7 +224,7 @@
                       <ul class="treeview-menu">
                         <li class="<?php echo is_menu('report', 'perincian_stok');?>"><a href="<?php echo site_url('report/stok');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Perincian Stok</span></a></li>
                         <li class="<?php echo is_menu('report', 'pendapatan');?>"><a href="<?php echo site_url('report/pendapatan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Pendapatan</span></a></li>
-                        <li class="<?php echo is_menu('report','penjualan');?>"><a href="<?php echo site_url('report/penjualan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Penjualan</span></a></li>
+                        <li class="<?php echo is_menu('report','detail penjualan');?>"><a href="<?php echo site_url('report/penjualan');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Detail Penjualan</span></a></li>
                         <li class="<?php echo is_menu('report','pengeluaran');?>"><a href="<?php echo site_url('report/pengeluaran');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Laporan Pengeluaran</span></a></li>
                         <li class="<?php echo is_menu('report','laba_rugi');?>"><a href="<?php echo site_url('report/laba_rugi');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Proyeksi Laba dan Rugi</span></a></li>
                       </ul>

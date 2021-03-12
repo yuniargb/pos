@@ -81,6 +81,7 @@
                 <tr>
                     <th style="width: 14%;">Transaksi ID</th>
                     <th style="width: 14%;">Tanggal Transaksi</th>
+                    <th style="width: 14%;">Customer</th>
                     <th style="width: 14%;">Nama Produk</th>
                     <th style="width: 14%;">Qty</th>
                     <th  style="width: 14%;">Buy Price</th>
@@ -95,6 +96,7 @@
                       <tr>
                         <td style="width: 14%;"><?php echo $penjualan->id;?></td>
                         <td style="width: 14%;"><?php echo $penjualan->date;?></td>
+                        <td style="width: 14%;"><?php echo $penjualan->customer_name;?></td>
                         <td style="width: 14%;"><?php echo $penjualan->product_name;?></td>
                         <td style="width: 14%;"><?php echo $penjualan->quantity;?></td>
                         <td style="width: 14%;">Rp. <?php echo number_format($penjualan->buy_price,2,',','.'); ?></td>

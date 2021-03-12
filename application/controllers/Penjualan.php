@@ -252,12 +252,11 @@ class Penjualan extends MY_Controller {
 		}
 		$this->cart->destroy();
 	}
+	
 	public function delete($transaction_id){
 		$transaksi = $this->penjualan_model->get_detail($transaction_id);
 		foreach($transaksi as $trans){
-			$product = $this->produk_model->get_by_id($trans->product_id);
-			$total = $product[0]['product_qty'] - $trans->quantity;
-			$this->produk_model->update_qty($product[0]['id'] ,array('product_qty' => $total));
+			$this->produk_model->update_qty_add($trans->product_id,array('product_qty' =>$trans->quantity));
 		}
 		$this->penjualan_model->delete($transaction_id);
 		$this->penjualan_model->delete_purchase_data_trx($transaction_id);

@@ -173,27 +173,33 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-4">
-				  <div class="info-box bg-yellow">
-					<span class="info-box-icon"><i class="fa fa-shopping-bag"></i></span>
-					<div class="info-box-content">
-					  <span class="info-box-text">TRX Penjualan Harian</span>
-					  <span class="info-box-number"><?php echo count($penjualan_harian);?></span>
-					</div>
-				  </div>
-				  <div class="info-box bg-yellow">
-					<span class="info-box-icon"><i class="fa fa-shopping-basket"></i></span>
-					<div class="info-box-content">
-					  <span class="info-box-text">TRX Penjualan Bulanan</span>
-					  <span class="info-box-number"><?php echo count($penjualan_bulanan);?></span>
-					</div>
-				  </div>
-				  <div class="info-box bg-yellow">
-					<span class="info-box-icon"><i class="fa fa-exchange"></i></span>
-					<div class="info-box-content">
-					  <span class="info-box-text">Retur Penjualan</span>
-					  <span class="info-box-number"><?php echo count($sales_retur);?></span>
-					</div>
-				  </div>
+                <a class="stretched-link" href="<?php echo site_url('penjualan');?>">
+              <div class="info-box bg-yellow">
+              <span class="info-box-icon"><i class="fa fa-shopping-bag"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">TRX Penjualan Harian</span>
+                <span class="info-box-number"><?php echo count($penjualan_harian);?></span>
+              </div>
+              </div>
+              </a>
+              <a class="stretched-link" href="<?php echo site_url('penjualan');?>">
+              <div class="info-box bg-yellow">
+                <span class="info-box-icon"><i class="fa fa-shopping-basket"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">TRX Penjualan Bulanan</span>
+                  <span class="info-box-number"><?php echo count($penjualan_bulanan);?></span>
+                </div>
+              </div>
+              </a>
+              <a class="stretched-link" href="<?php echo site_url('retur_penjualan');?>">
+              <div class="info-box bg-yellow">
+                <span class="info-box-icon"><i class="fa fa-exchange"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Retur Penjualan</span>
+                  <span class="info-box-number"><?php echo count($sales_retur);?></span>
+                </div>
+              </div>
+              </a>
                 </div>
                 <!-- /.col -->
               </div>
